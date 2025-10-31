@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import "../Profile.css"
+import "../profile.css"
 
 
 function HaunterProfile() {
