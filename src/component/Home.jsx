@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import Nav from './Nav';
 import './Home.css'
@@ -13,6 +13,8 @@ function Home() {
 
     const [index, setIndex] = useState(0);
     const [openNav, setOpenNav] = useState(false) //OPENS MOBILE NAV
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -48,7 +50,12 @@ function Home() {
 
                     <div className="home-signup-text">
                         <p>Linking you up to direct owners. No outrageous agent fee</p>
-                        <Link to= "/Signup" ><button className='button signup-button' >Signup as a house owner</button></Link>
+                        <button
+                        className='button home-signup-button'
+                        onClick={() => navigate('/Signup', {state: {role: 'agent'}})}
+                        >
+                            Signup as an Agent
+                        </button>
                     </div>
                 </div>
                 <div className="home-signup haunter-signup">
@@ -56,7 +63,12 @@ function Home() {
 
                     <div className="home-signup-text">
                         <p>Linking you up to direct owners. No outrageous agent fee</p>
-                        <Link to="/Signup" ><button className='button signup-button' >Signup as a house owner</button></Link>
+                        <button
+                        className='button home-signup-button'
+                        onClick={() => navigate('/Signup', {state: {role: 'haunter'}})}
+                        >
+                            Signup as a House haunter
+                        </button>
                     </div>
                 </div>
             </section>

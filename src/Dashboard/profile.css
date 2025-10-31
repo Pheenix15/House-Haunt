@@ -1,0 +1,7 @@
+.profile-box {
+    background-color: var(--mainBlack);
+    width: 500px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    color: var(--mainWhite);
+}

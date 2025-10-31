@@ -28,6 +28,10 @@ h2 {
   font-family: var(--headingFont);
 }
 
+h3 {
+  font-family: var(--headingFont);
+}
+
 p {
   font-family: var(--headingFont);
 }
@@ -40,13 +44,6 @@ button {
   font-weight: bold;
   border: none;
   cursor: pointer;
-}
-button:hover {
-  
-}
-button:focus,
-button:focus-visible {
-  
 }
 
 img {

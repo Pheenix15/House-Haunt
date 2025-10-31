@@ -1,5 +1,5 @@
-import '../Dashboard-sidebar.css'
 import { Logout } from '../Logout';
+import '../Dashboard-sidebar.css'
 
 function DashboardSidebar({section, setSection}) {
     const handleLogout = Logout()
@@ -12,15 +12,15 @@ function DashboardSidebar({section, setSection}) {
 
                 <div className="sidebar-sections">
                     <div className="sidebar-option"
-                    onClick={() => setSection("Posts")}
+                    onClick={() => setSection("Feeds")}
                     style={{
-                        color: section === "Posts" ? "black" : "white",
-                        backgroundColor: section === "Posts" ? "white" : "transparent",
+                        color: section === "Feeds" ? "black" : "white",
+                        backgroundColor: section === "Feeds" ? "white" : "transparent",
                         transition: "background-color 0.3s ease-in, color 0.3s ease-in"
                     }}
                     >
                         <div className="sidebar-icon"><i className="fa-solid fa-square-rss"  ></i></div>
-                        <p>Posts</p>
+                        <p>Feeds</p>
                     </div>
 
                     <div className="sidebar-option"

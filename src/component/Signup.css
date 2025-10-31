@@ -4,6 +4,12 @@
     justify-content: center;
     width: 100%;
     height: 100vh;
+    background-color: var(--transparentBlack);
+    background-image: url('../img/House-1.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    background-blend-mode: overlay;
 }
 
 .signup-box {
@@ -31,7 +37,7 @@
 .signup-box-right {
     display: flex;
     flex-direction: column;
-    background-color: var(--backgroundGray);
+    background-color: var(--mainWhite);
     width: 100%;
     border-radius: 0 20px 20px 0;
 }

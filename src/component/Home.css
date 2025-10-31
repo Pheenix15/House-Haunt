@@ -129,6 +129,12 @@
 
 /* RESPONSIVE CSS */
 
+@media (max-width: 767px) {
+    .hero-text {
+        width: 100%;
+    }
+}
+
 @media (max-width: 426px) {
     .hero-text {
         width: 100%;

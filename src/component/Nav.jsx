@@ -12,12 +12,12 @@ function Nav() {
                 <div className="nav-logo"><img src="img/logo-black.png" alt="" /></div>
                 <div className="nav">
                     <ul className='nav-links-list' >
-                        <li className='nav-link' > <Link to= '/#' >About Us</Link> </li>
-                        <li className='nav-link' > <Link to= '/#' >Properties</Link></li>
+                        <li className='nav-link' > <Link to= '/About-us' >About Us</Link> </li>
+                        <li className='nav-link' > <Link to= '/Properties' >Properties</Link></li>
                         <li className='nav-link' > <Link to= '/Signup' >Sign up</Link> </li>
                         <li className='nav-link' > <Link to= '/Login' >Login</Link> </li>
-                        <li className='nav-link' > <Link to= '/#' >Become a partner</Link> </li> 
-                        <li className='nav-link' > <Link to= '/#' >Newsletters</Link> </li>
+                        <li className='nav-link' > <Link to= '/Become-a-partner' >Become a partner</Link> </li> 
+                        <li className='nav-link' > <Link to= '/Newsletters' >Newsletters</Link> </li>
                     </ul>
                 </div>
 
@@ -53,12 +53,12 @@ function Nav() {
 
                 <div className={`nav mobial-nav-list ${openNav ? 'open-nav-list' : ''}`} role="menu" >
                     <ul className='nav-links-list' >
-                        <li className='nav-link' > <Link to= '/#' >About Us</Link> </li>
-                        <li className='nav-link' > <Link to= '/#' >Properties</Link></li>
+                        <li className='nav-link' > <Link to= '/About-us' >About Us</Link> </li>
+                        <li className='nav-link' > <Link to= '/Properties' >Properties</Link></li>
                         <li className='nav-link' > <Link to= '/Signup' >Sign up</Link> </li>
                         <li className='nav-link' > <Link to= '/Login' >Login</Link> </li>
-                        <li className='nav-link' > <Link to= '/#' >Become a partner</Link> </li> 
-                        <li className='nav-link' > <Link to= '/#' >Newsletters</Link> </li>
+                        <li className='nav-link' > <Link to= '/Become-a-partner' >Become a partner</Link> </li> 
+                        <li className='nav-link' > <Link to= '/Newsletters' >Newsletters</Link> </li>
                     </ul>
                 </div>
             </nav>

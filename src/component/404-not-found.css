@@ -1,0 +1,21 @@
+.empty-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100%;
+}
+
+.center-logo {
+    max-width: 300px;
+}
+
+.center-text {
+    text-align: center;
+    font-size: 1.1em;
+}
+
+.empty-page-link {
+    text-decoration: underline;
+}

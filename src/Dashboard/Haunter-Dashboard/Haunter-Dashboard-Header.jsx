@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
-import './Agent-Dashboard-Header.css'
+import './Haunter-Dashboard-Header.css'
 
 
-function AgentDashboardHeader() {
+function HaunterDashboardHeader() {
     const [name, setName] = useState(null) // USERS NAME FROM LOCALSTORAGE
     
     useEffect(() => {
@@ -33,4 +33,4 @@ function AgentDashboardHeader() {
     );
 }
 
-export default AgentDashboardHeader;
+export default HaunterDashboardHeader;

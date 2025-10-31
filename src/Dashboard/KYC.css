@@ -1,0 +1,16 @@
+.KYC-steps-container {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    background-color: var(--mainBlack);
+    width: 100%;
+    height: 100px;
+    padding: 0 25px;
+    border-radius: 20px;
+}
+
+.steps-icon i {
+    font-size: 2em;
+}

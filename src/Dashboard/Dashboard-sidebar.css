@@ -4,12 +4,13 @@
     flex-direction: column;
     gap: 50px;
     background-color: var(--mainBlack);
-    padding: 20px;
+    padding: 20px 0;
     height: 100%;
 }
 
 .sidebar-image {
     width: 150px;
+    margin: 0 auto;
 }
 
 .sidebar-sections {
@@ -24,11 +25,11 @@
     flex-direction: row;
     align-items: center;
     gap: 20px;
+    padding: 0 20px;
     cursor: pointer;
 }
 
 .sidebar-option p {
-    color: var(--mainWhite);
     font-weight: bold;
 }
 

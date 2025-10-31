@@ -1,5 +1,8 @@
+import KYC from '../KYC';
 import AgentDashboardHeader from './Agent-Dashboard-Header';
 import './Agent-Dashboard-Content.css'
+import Posts from './Agent-Posts';
+import AgentProfile from './Agent-Profile';
 
 function AgentDashboardContent({section}) {
     return ( 
@@ -9,22 +12,16 @@ function AgentDashboardContent({section}) {
                 <AgentDashboardHeader />
                 
                 <div className="dashboard-content">
-                    {section === "Feeds" &&
-                        <div className="admin-feeds">
-                            <div className="wallet">
-                                <div className="wallet-hading">
-                                    <h4>Wallet</h4>
-                                </div>
-
-
-                            </div>
-                        </div>
+                    {section === "Posts" &&
+                        <Posts />
                     }
 
-                    {section === "Properties" &&
-                        <div className="properties">
-                            PROPERTIES
-                        </div>
+                    {section === "Profile" &&
+                        <AgentProfile />
+                    }
+
+                    {section === "KYC" &&
+                        <KYC />
                     }
                 </div>
             </div>

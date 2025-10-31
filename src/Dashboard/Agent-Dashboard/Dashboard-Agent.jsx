@@ -4,7 +4,7 @@ import './Dashboard-Agent.css'
 import AgentDashboardContent from './Agent-Dashboard-Content';
 
 function DashboardAgent() {
-    const [section, setSection] = useState("Feeds")
+    const [section, setSection] = useState("Posts")
 
     return ( 
         <div className="agent-dashboard">

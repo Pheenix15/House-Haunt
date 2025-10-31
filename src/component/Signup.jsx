@@ -1,19 +1,57 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import "./Signup.css"
-import { testConnection } from "../api";
+import { registerHaunter } from "../Api/Haunter-Signup";
 
 function Signup() {
-    const [userRole, setUserRole] = useState("Agent") //Role of the user signingup
+    const [userRole, setUserRole] = useState("agent") //Role of the user signingup
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false); //STATE TO REVIEAL PASSWORD
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
-    const [phoneNumber, setPhoneNumber] = useState('');
+    const [loading, setLoading] = useState(false) //LOADING STATE
+    
+    const navigate = useNavigate();
+    const location = useLocation();
 
-    return ( 
+    // RETRIVE userRole FROM HOMEPAGE SIGNUP BUTTON
+    useEffect(() => {
+        if (location.state?.role) {
+        setUserRole(location.state.role);
+        }
+    }, [location.state]);
+
+    const formData = {
+        username: `${firstName} ${lastName}`,
+        email,
+        password,
+        role: userRole
+    }
+    
+    const submitSignupForm = async (e) => {
+        e.preventDefault();
+        setLoading(true)
+        try {
+            console.log(formData)
+            const result = await registerHaunter(formData);
+            console.log("Registration response:", result);
+
+            navigate('/Login')
+            setLoading(false)
+        } catch (err) {
+            if (err.response) {
+                console.error("Backend returned an error:", err.response.status, err.response.data);
+            } else {
+                console.error("Request failed:", err.message);
+            } 
+        }
+        
+    };
+
+
+    return (
         <div className="signup-page">
             <div className="signup-container">
                 <div className="signup-box">
@@ -26,10 +64,10 @@ function Signup() {
                         <div className="signup-box-button">
                             <button 
                                 className="signup-button agent-signup"
-                                onClick={() => setUserRole("Agent")}
+                                onClick={() => setUserRole("agent")}
                                 style={{
-                                    backgroundColor: userRole === "Agent" ? "var(--backgroundGray)" : "var(--mainBlack)",
-                                    color: userRole === "Agent" ? "var(--mainBlack)" : "var(--mainWhite)"
+                                    backgroundColor: userRole === "agent" ? "var(--backgroundGray)" : "var(--mainBlack)",
+                                    color: userRole === "agent" ? "var(--mainBlack)" : "var(--mainWhite)"
                                 }} 
                             >
                                 Agents
@@ -37,10 +75,10 @@ function Signup() {
 
                             <button 
                                 className="signup-button haunter-signup"
-                                onClick={() => setUserRole("House Haunter")}
+                                onClick={() => setUserRole("haunter")}
                                 style={{
-                                    backgroundColor: userRole === "House Haunter" ? "var(--backgroundGray)" : "var(--mainBlack)",
-                                    color: userRole === "House Haunter" ? "var(--mainBlack)" : "var(--mainWhite)",
+                                    backgroundColor: userRole === "haunter" ? "var(--backgroundGray)" : "var(--mainBlack)",
+                                    color: userRole === "haunter" ? "var(--mainBlack)" : "var(--mainWhite)",
                                 }} 
                             >
                                 House Haunter
@@ -48,11 +86,11 @@ function Signup() {
                         </div>
 
                         <div className="signup-form">
-                            <h2>Signup</h2>
-                            {userRole === "House Haunter" ? (
+                            
+                            {userRole === "haunter" ? (
                                 // Haunters Signup Form
-                                <form className='form' >
-                                    
+                                <form className='form' onSubmit={submitSignupForm} >
+                                    <h2>Signup as a haunter</h2>
                                     <div className="fullname">
                                         <input 
                                         type="text"
@@ -80,13 +118,6 @@ function Signup() {
                                     required 
                                     />
 
-                                    <input
-                                    type="tel"
-                                    placeholder='Phone Number'
-                                    value={phoneNumber}
-                                    onChange={(e) => setPhoneNumber(e.target.value)}
-                                    required 
-                                    />
                                     
                                     <div className="password">
                                         <input 
@@ -104,14 +135,14 @@ function Signup() {
                                     
 
                                     <div className="form-button-container">
-                                        <button type="submit" className='button primary-form-button' >Signup</button>
+                                        <button type="submit" className='button primary-form-button' >{loading ? "Processing" : "Signup"}</button>
                                     </div>
 
                                 </form>
                             ) : (
                                 // Agent Signup Form
-                                <form className='form' >
-                                    
+                                <form className='form' onSubmit={submitSignupForm} >
+                                    <h2>Signup as an agent</h2>
                                     <div className="fullname">
                                         <input 
                                         type="text"
@@ -139,13 +170,6 @@ function Signup() {
                                     required 
                                     />
 
-                                    <input
-                                    type="tel"
-                                    placeholder='Phone Number'
-                                    value={phoneNumber}
-                                    onChange={(e) => setPhoneNumber(e.target.value)}
-                                    required 
-                                    />
                                     
                                     <div className="password">
                                         <input 
@@ -163,7 +187,7 @@ function Signup() {
                                     
 
                                     <div className="form-button-container">
-                                        <Link to='/Dashboard-Agent' ><button type="submit" className='button primary-form-button' >Signup</button></Link>
+                                        <button type="submit" className='button primary-form-button' >{loading ? "Processing" : "Signup"}</button>
                                         {/* <button type="submit" className='button primary-form-button' onClick={() => testConnection()} >Signup</button> */}
                                     </div>
 
