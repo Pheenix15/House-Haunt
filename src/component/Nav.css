@@ -79,6 +79,7 @@
 
     .sticky-nav {
         background-color: var(--mainWhite);
+        padding: 10px 20px;
     }
 
     .nav-logo {
