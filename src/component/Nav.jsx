@@ -1,15 +1,25 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import './Nav.css'
 
 function Nav() {
     const [openNav, setOpenNav] = useState(false)
+    const [isSticky, setIsSticky] = useState(false);// FOR STICKE NAV
+
+    // KEEPS NAV AT THE TOP OF THE PAGE
+    useEffect(() => {
+        const handleScroll = () => setIsSticky(window.scrollY > 150);
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, []);
 
     return ( 
         <>
             {/* DESKTOP NAV */}
-            <nav className= "navbar desktop-nav">
-                <div className="nav-logo"><img src="img/logo-black.png" alt="" /></div>
+            <nav className= {`${isSticky ? 'sticky-nav' : 'navbar'} desktop-nav slide`} >
+                <div className={isSticky ? "logo-invinsible" : "nav-logo"}><img src="img/logo-black.png" alt="house haunt logo" /></div>
+                {/* Sticky Logo */}
+                <div className={isSticky ? "nav-logo" : "logo-invinsible"}><img src="img/logo.png" alt="house haunt logo" /></div>
                 <div className="nav">
                     <ul className='nav-links-list' >
                         <li className='nav-link' > <Link to= '/About-us' >About Us</Link> </li>
@@ -27,7 +37,7 @@ function Nav() {
             </nav>
 
             {/* MOBIAL NAV */}
-            <nav className= "navbar mobial-nav">
+            <nav className= {isSticky ? 'sticky-nav mobial-nav' : 'navbar mobial-nav'}>
                 <div className="nav-logo"><img src="img/logo-black-100.png" alt="" /></div>
 
                 <div className="search-bar">

@@ -8,7 +8,42 @@
     width: 100%;
 }
 
+.desktop-nav {
+    transition: animation 2s ease-in;
+}
+
+.sticky-nav {
+    position: fixed;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    color: var(--mainWhite);
+    background-color: var(--mainBlack);
+    padding: 10px 60px;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    animation: slideDown 1s ease 1;
+}
+
+@keyframes slideDown {
+    from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0%);
+  }
+}
+
+
 .mobial-nav {
+    display: none;
+}
+
+.logo-invinsible {
     display: none;
 }
 

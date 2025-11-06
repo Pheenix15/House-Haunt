@@ -24,7 +24,7 @@ function HaunterFeed() {
     useEffect(() => {
         const fetchFavorites = async () => {
             try {
-                const favoritesResponse = await axios.get('/api/haunter/favorites')
+                const favoritesResponse = await axios.get('/api/haunter/favorites', {withCredentials: true})
 
                 const data = favoritesResponse.data
 

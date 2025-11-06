@@ -20,7 +20,7 @@ function Login() {
 
         try {
             const response = await axios.post("/api/auth/login", { email, password },
-                // { withCredentials: true }
+                { withCredentials: true }
             );
             
 
@@ -33,11 +33,11 @@ function Login() {
             localStorage.setItem("name", user.username);
             localStorage.setItem("role", user.role);
 
-            // Refresh auth state from backend
-            await refreshAuth(); // ← This updates context with fresh data
+            // Rerun auth check
+            await refreshAuth();
 
             // Redirect based on role
-            const role = user.role; // Use directly from response instead of localStorage
+            const role = user.role; // Used directly from response instead of localStorage
             
             if (role === "agent") {
                 navigate('/Dashboard-Agent');
@@ -89,7 +89,7 @@ function Login() {
                                     placeholder='Password'
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    required 
+                                    required
                                     />
 
                                     <span className='password-eye' onClick={() => setShowPassword(!showPassword)}>

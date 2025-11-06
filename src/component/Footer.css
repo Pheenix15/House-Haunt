@@ -1,0 +1,21 @@
+.footer {
+    box-sizing: border-box;
+    background-color: var(--mainBlack);
+    
+    width: 100%;
+    padding: 20px 60px;
+}
+
+.footer-logo {
+    width: 150px;
+}
+
+hr {
+    border: 2px solid transparent;
+    border-image: linear-gradient(to right, var(--mainBlack), var(--mainWhite), var(--mainBlack)) 1;
+}
+
+.copyright {
+    color: var(--mainWhite);
+    text-align: center;
+}
