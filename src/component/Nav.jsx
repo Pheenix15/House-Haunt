@@ -16,7 +16,7 @@ function Nav() {
     return ( 
         <>
             {/* DESKTOP NAV */}
-            <nav className= {`${isSticky ? 'sticky-nav' : 'navbar'} desktop-nav slide`} >
+            <nav className= {`${isSticky ? 'sticky-nav' : 'navbar'} desktop-nav`} >
                 <div className={isSticky ? "logo-invinsible" : "nav-logo"}><img src="img/logo-black.png" alt="house haunt logo" /></div>
                 {/* Sticky Logo */}
                 <div className={isSticky ? "nav-logo" : "logo-invinsible"}><img src="img/logo.png" alt="house haunt logo" /></div>
@@ -37,8 +37,13 @@ function Nav() {
             </nav>
 
             {/* MOBIAL NAV */}
-            <nav className= {isSticky ? 'sticky-nav mobial-nav' : 'navbar mobial-nav'}>
-                <div className="nav-logo"><img src="img/logo-black-100.png" alt="" /></div>
+            <nav 
+                className= {`${isSticky ? 'sticky-nav' : 'navbar'} mobial-nav`}
+                style={{
+                    position: isSticky ? 'fixed' : 'relative'
+                }}
+            >
+                <div className="nav-logo"><img src="img/logo-black-100.png" alt="house haunt logo" /></div>
 
                 <div className="search-bar">
                     <input type="search" name="Search" id="" />
