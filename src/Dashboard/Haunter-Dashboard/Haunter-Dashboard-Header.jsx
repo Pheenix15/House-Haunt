@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-import './Haunter-Dashboard-Header.css'
+import '../Dashboard-Header.css'
 
 
 function HaunterDashboardHeader() {
     const [name, setName] = useState(null) // USERS NAME FROM LOCALSTORAGE
     
+    // GET THE USERS NAME FROM LOCALSTORAGE
     useEffect(() => {
         const usersName = localStorage.getItem("name");
         if (usersName) {
@@ -14,17 +15,18 @@ function HaunterDashboardHeader() {
 
 
     return ( 
-        <div className="agent-dashboard-header">
+        <div className="dashboard-header">
             <div className="dashboard-header-content">
+                <div className="header-title">
+                    <h2>Hunter Dashboard</h2>
+                </div>
                 <div className="greeting">
-                    <div className="greating-icon">
+                    <div className="greeting-icon">
                         <img src="../img/icons/user-profile.png" alt="user profile icon" />
                     </div>
 
                     <div className="user-info">
-                        <p className='welcome' >Welcome</p>
-
-                        <p className='username' >{name}</p>                        
+                        <p className='username' >Welcome {name}</p>                        
                     </div>
                 </div>
 

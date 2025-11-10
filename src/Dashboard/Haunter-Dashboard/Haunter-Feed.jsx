@@ -123,7 +123,7 @@ function HaunterFeed() {
                                     type="search"
                                     id="location"
                                     name="location"
-                                    placeholder="search by location"
+                                    placeholder= {filters.location || "type a location"}
                                     value={filters.location}
                                     onChange={e => handleFilterChange("location", e.target.value)}
                                     className="filter-input"
@@ -134,13 +134,13 @@ function HaunterFeed() {
                                     type="search"
                                     id="search"
                                     name="search"
-                                    placeholder="Search houses..."
+                                    placeholder={filters.search || "Search for houses..."}
                                     value={filters.search}
                                     onChange={e => handleFilterChange("search", e.target.value)}
                                     className="filter-input"
                                 />
-                            <small>Showing: {filters.search || "all"}</small>
-                            <small>Sort: {filters.location || "default"}</small>
+                            {/* <small>Showing: {filters.search || "all"}</small>
+                            <small>Sort: {filters.location || "default"}</small> */}
                             </div>
                         )}
                     </div>

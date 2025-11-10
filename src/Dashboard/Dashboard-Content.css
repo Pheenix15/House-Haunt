@@ -1,9 +1,9 @@
-.haunter-dashboard-content {
+.dashboard-content {
     box-sizing: border-box;
     background-color: var(--backgroundGray);
     width: 100%;
 }
 
-.dashboard-content {
+.dashboard-section-content {
     padding: 20px;
 }

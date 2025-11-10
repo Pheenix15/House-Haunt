@@ -68,7 +68,7 @@ function Home() {
                         className='button home-signup-button'
                         onClick={() => navigate('/Signup', {state: {role: 'haunter'}})}
                         >
-                            Signup as a House haunter
+                            Signup as a House hunter
                         </button>
                     </div>
                 </div>

@@ -12,7 +12,7 @@ const ProtectedRoute = ({ children, allowedRole }) => {
     }
 
     if (allowedRole && user.role !== allowedRole) {
-        console.log('Wrong role - redirecting...');
+        console.log('redirecting to dashboard');
         return <Navigate to={user.role === "agent" ? "/Dashboard-Agent" : "/Dashboard-Haunter"} replace />;
     }
 

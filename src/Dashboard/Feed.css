@@ -47,6 +47,12 @@
     align-items: center;
 }
 
+.price-filter {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
 .filter-dropdown {
     display: flex;
     align-items: center;

@@ -28,6 +28,7 @@ function Nav() {
                         <li className='nav-link' > <Link to= '/Login' >Login</Link> </li>
                         <li className='nav-link' > <Link to= '/Become-a-partner' >Become a partner</Link> </li> 
                         <li className='nav-link' > <Link to= '/Newsletters' >Newsletters</Link> </li>
+                        <li className='nav-link' > <Link to= '/Dashboard-Haunter' >Dashboard</Link> </li>
                     </ul>
                 </div>
 
@@ -74,6 +75,7 @@ function Nav() {
                         <li className='nav-link' > <Link to= '/Login' >Login</Link> </li>
                         <li className='nav-link' > <Link to= '/Become-a-partner' >Become a partner</Link> </li> 
                         <li className='nav-link' > <Link to= '/Newsletters' >Newsletters</Link> </li>
+                        <li className='nav-link' > <Link to= '/Dashboard-Haunter' >Dashboard</Link> </li>
                     </ul>
                 </div>
             </nav>

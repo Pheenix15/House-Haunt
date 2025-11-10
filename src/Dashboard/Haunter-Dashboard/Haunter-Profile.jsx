@@ -19,8 +19,8 @@ function HaunterProfile() {
     }, [])
 
     return ( 
-        <div className="agent-profile-container">
-            <div className="profile">
+        <div className="user-profile-container">
+            <div className="user-profile">
                 <div className="profile-box">
                     <div className="profile-details">
                         <h2>{profile.username}</h2>

@@ -1,18 +1,19 @@
 import KYC from '../KYC';
 import HaunterDashboardHeader from './Haunter-Dashboard-Header';
 import HaunterFeed from './Haunter-Feed';
-import './Haunter-Dashboard-Content.css'
 import HaunterProfile from './Haunter-Profile';
 import Wallet from './Haunter-Wallet';
+import '../Dashboard-Content.css'
+
 
 function HaunterDashboardContent({section}) {
     return ( 
-        <div className="agent-dashboard-content">
-            <div className="agent-content-container">
+        <div className="dashboard-content">
+            <div className="dashbord-content-container">
         
                 <HaunterDashboardHeader />
                 
-                <div className="dashboard-content">
+                <div className="dashboard-section-content">
                     {section === "Feeds" &&
                         <div className="feeds-container">
                             <div className="feeds">
@@ -22,7 +23,7 @@ function HaunterDashboardContent({section}) {
                     }
 
                     {section === "Profile" &&
-                        <div className="properties">
+                        <div className="profile">
                             <HaunterProfile />
                         </div>
                     }
