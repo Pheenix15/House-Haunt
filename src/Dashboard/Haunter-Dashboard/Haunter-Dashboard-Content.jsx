@@ -6,12 +6,12 @@ import Wallet from './Haunter-Wallet';
 import '../Dashboard-Content.css'
 
 
-function HaunterDashboardContent({section}) {
+function HaunterDashboardContent({section, setSidebarVisible}) {
     return ( 
         <div className="dashboard-content">
             <div className="dashbord-content-container">
         
-                <HaunterDashboardHeader />
+                <HaunterDashboardHeader setSidebarVisible={setSidebarVisible} />
                 
                 <div className="dashboard-section-content">
                     {section === "Feeds" &&

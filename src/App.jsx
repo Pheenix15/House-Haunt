@@ -28,26 +28,26 @@ function App() {
         <Route path="/Login" element={<Login />} />
 
         {/* Protected routes - Agent only */}
-        <Route 
+        {/* <Route 
           path="/Dashboard-Agent" 
           element={
             <ProtectedRoute allowedRole="agent">
               <DashboardAgent />
             </ProtectedRoute>
           } 
-        />
+        /> */}
 
         {/* Protected routes - Haunter only */}
-        <Route 
+        {/* <Route 
           path="/Dashboard-Haunter" 
           element={
             <ProtectedRoute allowedRole="haunter">
               <DashboardHaunter />
             </ProtectedRoute>
           } 
-        />
-        {/* <Route path='/Dashboard-Agent' element={<DashboardAgent />} />
-        <Route path='/Dashboard-Haunter' element={<DashboardHaunter />} /> */}
+        /> */}
+        <Route path='/Dashboard-Agent' element={<DashboardAgent />} />
+        <Route path='/Dashboard-Haunter' element={<DashboardHaunter />} />
 
         <Route path='*' element={<EmptyPage />} />
       </Routes>

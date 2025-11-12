@@ -2,19 +2,17 @@ import { useState } from 'react';
 import { Logout } from '../Logout';
 import '../Dashboard-sidebar.css'
 
-function DashboardSidebar({section, setSection}) {
+function DashboardSidebar({section, setSection, sidebarVisible, setSidebarVisible}) {
     const [openSidebar, setOpenSidebar] = useState(true) //OPENS SIDEBAR
+    
 
     const handleLogout = Logout()
     return ( 
-        <div className="sidebar">
+        <div className={sidebarVisible ? "sidebar sidebar-visible" : "sidebar-hidden"}>
             <div className="sidebar-container">
                 <div className="sidebar-top">
                     <div 
-                        className="sidebar-image"
-                        style={{
-                            width: openSidebar ? "150px" : "unset"
-                        }}
+                        className={openSidebar ? "sidebar-image" : "sidebar-image sidebar-closed"}
                     >
                         {openSidebar ? (
                             <img src="../img/House-haunt-white.png" alt="House Haunt logo" />
@@ -25,8 +23,9 @@ function DashboardSidebar({section, setSection}) {
                     </div>
 
                     <div className="close-arrow"
-                        onClick={() => setOpenSidebar(prev => !prev)}
+                        onClick={ () => sidebarVisible ? setSidebarVisible(false) : setOpenSidebar(prev => !prev)}
                     >
+                        {sidebarVisible ? "Sidebar Visible" : "Sidebar not Visible"}
                         <i className= {openSidebar ? "fa-solid fa-arrow-left" : "fa-solid fa-arrow-right" }></i>
                     </div>
                 </div>

@@ -11,10 +11,7 @@ function DashboardSidebar({section, setSection}) {
             <div className="sidebar-container">
                 <div className="sidebar-top">
                     <div 
-                        className="sidebar-image"
-                        style={{
-                            width: openSidebar ? "150px" : "unset"
-                        }}
+                        className= {openSidebar ? "sidebar-image" : "sidebar-image sidebar-closed"}
                     >
                         {openSidebar ? (
                             <img src="../img/House-haunt-white.png" alt="House Haunt logo" />
@@ -141,10 +138,10 @@ function DashboardSidebar({section, setSection}) {
 
                             {/* FEEDS */}
                             <div className="sidebar-option"
-                            onClick={() => setSection("Feeds")}
+                            onClick={() => setSection("Posts")}
                             style={{
-                                color: section === "Feeds" ? "black" : "white",
-                                backgroundColor: section === "Feeds" ? "white" : "transparent",
+                                color: section === "Posts" ? "black" : "white",
+                                backgroundColor: section === "Posts" ? "white" : "transparent",
                                 transition: "background-color 0.3s ease-in, color 0.3s ease-in"
                             }}
                             >

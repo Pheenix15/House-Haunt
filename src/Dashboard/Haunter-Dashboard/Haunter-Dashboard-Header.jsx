@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
+import { HiBars3BottomRight } from "react-icons/hi2";
 import '../Dashboard-Header.css'
 
 
-function HaunterDashboardHeader() {
+function HaunterDashboardHeader({setSidebarVisible}) {
     const [name, setName] = useState(null) // USERS NAME FROM LOCALSTORAGE
     
     // GET THE USERS NAME FROM LOCALSTORAGE
@@ -17,6 +18,9 @@ function HaunterDashboardHeader() {
     return ( 
         <div className="dashboard-header">
             <div className="dashboard-header-content">
+                <div className="sidebar-menu-icon">
+                    <HiBars3BottomRight onClick={() => setSidebarVisible(true)} />
+                </div>
                 <div className="header-title">
                     <h2>Hunter Dashboard</h2>
                 </div>

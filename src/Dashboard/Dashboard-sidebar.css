@@ -1,4 +1,9 @@
+.sidebar {
+    height: 100vh;
+}
+
 .sidebar-container {
+    position: static;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -16,9 +21,13 @@
 }
 
 .sidebar-image {
-    /* width: 150px; Property set in JSX */
+    width: 150px;
     height: 115px;
     margin: 0 auto;
+}
+
+.sidebar-image.sidebar-closed {
+    width: 110px;
 }
 
 .close-arrow {
@@ -36,8 +45,13 @@
 .sidebar-sections {
     display: flex;
     flex-direction: column;
+    align-items: center;
     justify-content: space-between;
     height: 100%;
+}
+
+.close {
+    width: 100%;
 }
 
 .sidebar-option {
@@ -50,10 +64,31 @@
 }
 
 .sidebar-option p {
-    font-weight: bold;
     margin: 0;
 }
 
 .sidebar-icon {
     width: 30px;
+}
+
+/* MOBILE VIEW */
+@media (max-width: 426px) {
+    .sidebar-image {
+        width: 100px;
+        height: 90px;
+        margin: 0 auto;
+    }
+
+    .sidebar-image.sidebar-closed {
+        width: unset;
+    }
+
+    .sidebar-option {
+        padding: 20px 15px;
+        font-size: 0.7em;
+    }
+
+    .sidebar-icon {
+        width: unset;
+    }
 }

@@ -5,6 +5,7 @@
 .dashboard-header-content {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     padding: 20px;
@@ -29,4 +30,25 @@
 
 .user-info p {
     margin: 0;
+}
+
+/* MOBILE RESPONSIVE */
+@media (max-width: 426px) {
+    .header-title h2 {
+        margin: 0;
+        font-size: 1em;
+    }
+
+    .greeting {
+        gap: 10px;
+    }
+
+    .greating-icon {
+        width: 30px;
+    }
+
+    .user-info {
+        display: none;
+    }
+
 }
