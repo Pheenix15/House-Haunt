@@ -66,7 +66,7 @@ function Signup() {
                                 className="signup-button agent-signup"
                                 onClick={() => setUserRole("agent")}
                                 style={{
-                                    backgroundColor: userRole === "agent" ? "var(--backgroundGray)" : "var(--mainBlack)",
+                                    backgroundColor: userRole === "agent" ? "var(--backgroundGray)" : "var(--mainBlue)",
                                     color: userRole === "agent" ? "var(--mainBlack)" : "var(--mainWhite)"
                                 }} 
                             >
@@ -77,7 +77,7 @@ function Signup() {
                                 className="signup-button haunter-signup"
                                 onClick={() => setUserRole("haunter")}
                                 style={{
-                                    backgroundColor: userRole === "haunter" ? "var(--backgroundGray)" : "var(--mainBlack)",
+                                    backgroundColor: userRole === "haunter" ? "var(--backgroundGray)" : "var(--mainBlue)",
                                     color: userRole === "haunter" ? "var(--mainBlack)" : "var(--mainWhite)",
                                 }} 
                             >

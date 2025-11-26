@@ -1,16 +1,16 @@
 import axios from "axios";
 
-export const sendAgentPost = async (formData) => {
-  console.log("Received formData in registerHaunter:", formData);
+export const sendAgentPost = async (form) => {
+  console.log("Received formData in Agent Dashboard posts:", Object.fromEntries(form.entries()));
+  console.log("FormData image:", form.get("image"));
 
   try {
-    const response = await axios.post('/api/agent/houses',
-      formData,
-      { headers: { "Content-Type": "application/json" }}
+    const response = await axios.post('/api/agent/create-house',
+      form,
+      // { headers: { "Content-Type": "multipart/form-data", }}
     );
     const houseData = response.data
 
-    console.log("Sending:", JSON.stringify(formData));
 
 
     console.log("House data sent successfully:", houseData);

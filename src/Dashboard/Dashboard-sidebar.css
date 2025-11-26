@@ -1,5 +1,6 @@
 .sidebar {
     height: 100vh;
+    transition: ease-in;
 }
 
 .sidebar-container {
@@ -8,10 +9,10 @@
     display: flex;
     flex-direction: column;
     gap: 50px;
-    background-color: var(--mainBlack);
+    background-color: var(--mainBlue);
     padding: 20px 0;
     height: 100%;
-    transition: ease-in;
+    
 }
 
 .sidebar-top {
@@ -31,6 +32,7 @@
 }
 
 .close-arrow {
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -73,6 +75,15 @@
 
 /* MOBILE VIEW */
 @media (max-width: 426px) {
+    .sidebar-visible {
+        position: fixed;
+    }
+
+    .sidebar-hidden {
+        position: fixed;
+        transform: translateX(-100%);
+    }
+
     .sidebar-image {
         width: 100px;
         height: 90px;

@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import './Nav.css'
 
 function Nav() {
     const [openNav, setOpenNav] = useState(false)
     const [isSticky, setIsSticky] = useState(false);// FOR STICKE NAV
+
+    const navigate = useNavigate()
 
     // KEEPS NAV AT THE TOP OF THE PAGE
     useEffect(() => {
@@ -24,16 +26,15 @@ function Nav() {
                     <ul className='nav-links-list' >
                         <li className='nav-link' > <Link to= '/About-us' >About Us</Link> </li>
                         <li className='nav-link' > <Link to= '/Properties' >Properties</Link></li>
-                        <li className='nav-link' > <Link to= '/Signup' >Sign up</Link> </li>
-                        <li className='nav-link' > <Link to= '/Login' >Login</Link> </li>
                         <li className='nav-link' > <Link to= '/Become-a-partner' >Become a partner</Link> </li> 
                         <li className='nav-link' > <Link to= '/Newsletters' >Newsletters</Link> </li>
+                        <li className='nav-link' > <Link to= '/Login' >Login</Link> </li>
                         {/* <li className='nav-link' > <Link to= '/Dashboard-Haunter' >Dashboard</Link> </li> */}
                     </ul>
                 </div>
 
-                <div className="search-button">
-                    <button className="button" >Search</button>
+                <div className="nav-button">
+                    <button className="button nav-search-button" onClick={() => navigate('/Signup', {state: {role: 'haunter'}})} >Find A House</button>
                 </div>
             </nav>
 
@@ -48,7 +49,7 @@ function Nav() {
 
                 <div className="search-bar">
                     <input type="search" name="Search" id="" />
-                    <button className="button search-button mobile-search-button" ><i className="fa-solid fa-magnifying-glass" style={{color: 'black'}} ></i></button>
+                    <button className="button search-button mobile-search-button" ><i className="fa-solid fa-magnifying-glass" style={{color: '#1a73e8'}} ></i></button>
                 </div>
 
                 <div className="menu-button" 
@@ -61,7 +62,7 @@ function Nav() {
                         <i 
                             className={`${openNav? 'fa-solid fa-times rotate' : 'fa-solid fa-bars'}`}
                             style={{
-                                color: "black"
+                                color: "#1a73e8"
                             }}
                         ></i>
                     </button>
@@ -71,10 +72,9 @@ function Nav() {
                     <ul className='nav-links-list' >
                         <li className='nav-link' > <Link to= '/About-us' >About Us</Link> </li>
                         <li className='nav-link' > <Link to= '/Properties' >Properties</Link></li>
-                        <li className='nav-link' > <Link to= '/Signup' >Sign up</Link> </li>
-                        <li className='nav-link' > <Link to= '/Login' >Login</Link> </li>
                         <li className='nav-link' > <Link to= '/Become-a-partner' >Become a partner</Link> </li> 
                         <li className='nav-link' > <Link to= '/Newsletters' >Newsletters</Link> </li>
+                        <li className='nav-link' > <Link to= '/Login' >Login</Link> </li>
                         {/* <li className='nav-link' > <Link to= '/Dashboard-Haunter' >Dashboard</Link> </li> */}
                     </ul>
                 </div>

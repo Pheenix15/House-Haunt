@@ -1,7 +1,9 @@
 :root {
-  --mainWhite: #fff;
-  --mainBlack: #000;
-  --backgroundGray: #EFEFEF;
+  --mainWhite: #f5f7fa;
+  --mainBlack: #1f1f1f;
+  --mainBlue: #0d47a1;
+  --secondBlue: #1a73e8;
+  --backgroundGray: #E1e5eb;
   --transparentWhite: rgb(255, 255, 255, 0.5 );
   --transparentBlack: rgb(0, 0, 0, 0.5);
   --headingFont: "Inter", sans-serif;
@@ -9,6 +11,7 @@
 
 body {
   margin: 0;
+  background-color: var(--mainWhite);
 }
 
 a {
@@ -34,25 +37,48 @@ h3 {
 
 p {
   font-family: var(--headingFont);
+  color: var(--textBlack);
+}
+
+ul {
+  list-style: none;
+  font-family: var(--headingFont);
 }
 
 button {
-  padding: 10px 20px;
-  border-radius: 20px;
-  background-color: var(--mainBlack);
+  padding: 15px 20px;
+  background-color: var(--mainBlue);
   color: var(--mainWhite);
   font-weight: bold;
   border: none;
   cursor: pointer;
+  transition: background0-color 0.5s ease, color 0.5s ease;
 }
+
+@media (hover: hover) {
+  button:hover {
+    background-color: var(--secondBlue);
+  }
+}
+
 
 img {
   width: 100%;
   height: auto;
 }
 
+.bold {
+  font-weight: bold;
+}
+
 section {
-  margin-top: 40px;
+  margin-top: 70px;
+  padding: 0 4%;
+}
+
+section h2 {
+  font-size: 2em;
+  font-weight: 900;
 }
 
 form {
@@ -61,10 +87,17 @@ form {
   gap: 20px;
 }
 
+.card {
+  padding: 15px 10px;
+  border-radius: 10px;
+  max-width: 500px;
+  height: 220px;
+}
+
 input {
   padding: 10px;
   border-radius: 10px;
-  border: 2px solid black;
+  border: 2px solid var(--mainBlue);
   background: transparent;
 }
 

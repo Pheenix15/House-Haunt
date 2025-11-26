@@ -1,17 +1,27 @@
 import { useState } from 'react';
 import { Logout } from '../Logout';
+import { HiOutlineSquare3Stack3D } from "react-icons/hi2";
+import { HiOutlineChevronDoubleLeft } from "react-icons/hi2";
+import { HiOutlineChevronDoubleRight } from "react-icons/hi2";
+import { HiOutlineArrowLeftStartOnRectangle } from "react-icons/hi2";
+import { HiOutlineBanknotes } from "react-icons/hi2";
+import { HiOutlineWallet } from "react-icons/hi2";
+import { HiOutlineNewspaper } from "react-icons/hi2";
+import { HiOutlineIdentification } from "react-icons/hi2";
+import { HiOutlineUser } from "react-icons/hi2";
 import '../Dashboard-sidebar.css'
 
-function DashboardSidebar({section, setSection}) {
+function DashboardSidebar({section, setSection, sidebarVisible, setSidebarVisible}) {
     const [openSidebar, setOpenSidebar] = useState(true) //OPENS SIDEBAR
+    
 
     const handleLogout = Logout()
     return ( 
-        <div className="sidebar">
+        <div className={sidebarVisible ? "sidebar sidebar-visible" : "sidebar-hidden"}>
             <div className="sidebar-container">
                 <div className="sidebar-top">
                     <div 
-                        className= {openSidebar ? "sidebar-image" : "sidebar-image sidebar-closed"}
+                        className={openSidebar ? "sidebar-image" : "sidebar-image sidebar-closed"}
                     >
                         {openSidebar ? (
                             <img src="../img/House-haunt-white.png" alt="House Haunt logo" />
@@ -22,9 +32,9 @@ function DashboardSidebar({section, setSection}) {
                     </div>
 
                     <div className="close-arrow"
-                        onClick={() => setOpenSidebar(prev => !prev)}
+                        onClick={ () => sidebarVisible ? setSidebarVisible(false) : setOpenSidebar(prev => !prev)}
                     >
-                        <i className= {openSidebar ? "fa-solid fa-arrow-left" : "fa-solid fa-arrow-right" }></i>
+                        {openSidebar ? <HiOutlineChevronDoubleLeft /> : <HiOutlineChevronDoubleRight />}
                     </div>
                 </div>
                 
@@ -41,11 +51,11 @@ function DashboardSidebar({section, setSection}) {
                                 transition: "background-color 0.3s ease-in, color 0.3s ease-in"
                             }}
                             >
-                                <div className="sidebar-icon"><i className="fa-solid fa-user" ></i></div>
+                                <div className="sidebar-icon"><HiOutlineUser /></div>
                                 <p>Profile</p>
                             </div>
 
-                            {/* POSTS */}
+                            {/* FEEDS */}
                             <div className="sidebar-option"
                             onClick={() => setSection("Posts")}
                             style={{
@@ -54,7 +64,7 @@ function DashboardSidebar({section, setSection}) {
                                 transition: "background-color 0.3s ease-in, color 0.3s ease-in"
                             }}
                             >
-                                <div className="sidebar-icon"><i className="fa-solid fa-square-rss"  ></i></div>
+                                <div className="sidebar-icon"><HiOutlineSquare3Stack3D /></div>
                                 <p>Posts</p>
                             </div>
 
@@ -67,7 +77,7 @@ function DashboardSidebar({section, setSection}) {
                                 transition: "background-color 0.3s ease-in, color 0.3s ease-in"
                             }}
                             >
-                                <div className="sidebar-icon"><i className="fa-solid fa-wallet" ></i></div>
+                                <div className="sidebar-icon"><HiOutlineWallet /></div>
                                 <p>Wallet</p>
                             </div>
 
@@ -76,28 +86,26 @@ function DashboardSidebar({section, setSection}) {
                             onClick={() => setSection("Transactions")}
                             style={{
                                 color: section === "Transactions" ? "black" : "white",
-                                backgroundColor: section === "Transactions" ? "white" : "black",
+                                backgroundColor: section === "Transactions" ? "white" : "transparent",
                                 transition: "background-color 0.3s ease-in, color 0.3s ease-in"
                             }}
                             >
-                                <div className="sidebar-icon"><i className="fa-solid fa-money-bill" ></i></div>
+                                <div className="sidebar-icon"><HiOutlineBanknotes /></div>
                                 <p>Transactions</p>
                             </div>
 
-                            {/* HISTORY */}
                             <div className="sidebar-option"
                             onClick={() => setSection("History")}
                             style={{
                                 color: section === "History" ? "black" : "white",
-                                backgroundColor: section === "History" ? "white" : "black",
+                                backgroundColor: section === "History" ? "white" : "transparent",
                                 transition: "background-color 0.3s ease-in, color 0.3s ease-in"
                             }}
                             >
-                                <div className="sidebar-icon"><i className="fa-solid fa-clock-rotate-left" ></i></div>
+                                <div className="sidebar-icon"><HiOutlineNewspaper /></div>
                                 <p>History</p>
                             </div>
 
-                            {/* KYC */}
                             <div className="sidebar-option"
                             onClick={() => setSection("KYC")}
                             style={{
@@ -106,11 +114,10 @@ function DashboardSidebar({section, setSection}) {
                                 transition: "background-color 0.3s ease-in, color 0.3s ease-in"
                             }}
                             >
-                                <div className="sidebar-icon"><i className="fa-solid fa-user-check" ></i></div>
+                                <div className="sidebar-icon"><HiOutlineIdentification /></div>
                                 <p>KYC</p>
                             </div>
 
-                            {/* LOGOUT */}
                             <div className="sidebar-option"
                             role='button'
                             onClick={handleLogout}
@@ -118,7 +125,7 @@ function DashboardSidebar({section, setSection}) {
                                 color: "white"
                             }}
                             >
-                                <div className="sidebar-icon" ><i className="fa-solid fa-arrow-right-from-bracket" ></i></div>
+                                <div className="sidebar-icon" ><HiOutlineArrowLeftStartOnRectangle /></div>
                                 <p>Logout</p>
                             </div>
                         </div>
@@ -133,19 +140,19 @@ function DashboardSidebar({section, setSection}) {
                                 transition: "background-color 0.3s ease-in, color 0.3s ease-in"
                             }}
                             >
-                                <div className="sidebar-icon"><i className="fa-solid fa-user" ></i></div>
+                                <div className="sidebar-icon"><HiOutlineUser /></div>
                             </div>
 
                             {/* FEEDS */}
                             <div className="sidebar-option"
-                            onClick={() => setSection("Posts")}
+                            onClick={() => setSection("Feeds")}
                             style={{
-                                color: section === "Posts" ? "black" : "white",
-                                backgroundColor: section === "Posts" ? "white" : "transparent",
+                                color: section === "Feeds" ? "black" : "white",
+                                backgroundColor: section === "Feeds" ? "white" : "transparent",
                                 transition: "background-color 0.3s ease-in, color 0.3s ease-in"
                             }}
                             >
-                                <div className="sidebar-icon"><i className="fa-solid fa-square-rss"  ></i></div>
+                                <div className="sidebar-icon"><HiOutlineSquare3Stack3D /></div>
                             </div>
 
                             {/* WALLET */}
@@ -157,7 +164,7 @@ function DashboardSidebar({section, setSection}) {
                                 transition: "background-color 0.3s ease-in, color 0.3s ease-in"
                             }}
                             >
-                                <div className="sidebar-icon"><i className="fa-solid fa-wallet" ></i></div>
+                                <div className="sidebar-icon"><HiOutlineWallet /></div>
                             </div>
 
                             {/* TRANSACTION */}
@@ -165,11 +172,11 @@ function DashboardSidebar({section, setSection}) {
                             onClick={() => setSection("Transactions")}
                             style={{
                                 color: section === "Transactions" ? "black" : "white",
-                                backgroundColor: section === "Transactions" ? "white" : "black",
+                                backgroundColor: section === "Transactions" ? "white" : "transparent",
                                 transition: "background-color 0.3s ease-in, color 0.3s ease-in"
                             }}
                             >
-                                <div className="sidebar-icon"><i className="fa-solid fa-money-bill" ></i></div>
+                                <div className="sidebar-icon"><HiOutlineBanknotes /></div>
                             </div>
 
                             {/* HISTORY */}
@@ -177,11 +184,11 @@ function DashboardSidebar({section, setSection}) {
                             onClick={() => setSection("History")}
                             style={{
                                 color: section === "History" ? "black" : "white",
-                                backgroundColor: section === "History" ? "white" : "black",
+                                backgroundColor: section === "History" ? "white" : "transparent",
                                 transition: "background-color 0.3s ease-in, color 0.3s ease-in"
                             }}
                             >
-                                <div className="sidebar-icon"><i className="fa-solid fa-clock-rotate-left" ></i></div>
+                                <div className="sidebar-icon"><HiOutlineNewspaper /></div>
                             </div>
 
                             {/* KYC */}
@@ -193,7 +200,7 @@ function DashboardSidebar({section, setSection}) {
                                 transition: "background-color 0.3s ease-in, color 0.3s ease-in"
                             }}
                             >
-                                <div className="sidebar-icon"><i className="fa-solid fa-user-check" ></i></div>
+                                <div className="sidebar-icon"><HiOutlineIdentification /></div>
                             </div>
 
                             {/* LOGOUT */}
@@ -204,7 +211,7 @@ function DashboardSidebar({section, setSection}) {
                                 color: "white"
                             }}
                             >
-                                <div className="sidebar-icon" ><i className="fa-solid fa-arrow-right-from-bracket" ></i></div>
+                                <div className="sidebar-icon" ><HiOutlineArrowLeftStartOnRectangle /></div>
                             </div>
                         </div>
                     )}

@@ -20,7 +20,7 @@
     align-items: center;
     justify-content: space-between;
     color: var(--mainWhite);
-    background-color: var(--mainBlack);
+    background-color: var(--mainBlue);
     padding: 10px 60px;
     width: 100%;
     top: 0;
@@ -38,6 +38,27 @@
   }
 }
 
+.nav-search-button {
+    background-color: var(--mainBlue);
+    color: var(--mainWhite);
+}
+
+.nav-search-button:hover {
+    background-color: var(--secondBlue);
+    color: var(--mainWhite);
+}
+
+.sticky-nav .nav-search-button {
+    background-color: transparent;
+    color: var(--mainWhite);
+    border: 2px solid var(--mainWhite);
+}
+
+.sticky-nav .nav-search-button:hover {
+    background-color: var(--mainWhite);
+    color: var(--mainBlue);
+}
+
 
 .mobial-nav {
     display: none;
@@ -48,7 +69,7 @@
 }
 
 .nav-logo {
-    width: 70px;
+    width: 50px;
 }
 
 .nav-links-list {
@@ -61,14 +82,13 @@
 .nav-link {
     font-family: var(--headingFont);
     font-size: 1.1em;
-    font-weight: bold;
 }
 
 
 /* RESPONSIVE CSS */
 
 /* NAVBAR */
-@media (max-width: 769px) {
+@media (max-width: 959px) {
     .mobial-nav {
         display: flex;
         /* position: relative; */
@@ -112,19 +132,20 @@
     .open-nav-list {
         position: absolute;
         display: flex;
-        justify-content: center;
+        justify-content: flex-start;
         width: 100%;
-        background-color: var(--transparentBlack);
+        background-color: var(--mainWhite);
         top: 100%;
         left: 0;
+        z-index: 1000;
     }
 
     .nav-links-list {
         display: flex;
         flex-direction: column;
-        align-items: center;
+        align-items: flex-start;
         gap: 20px;
         list-style: none;
-        color: var(--backgroundGray);
+        color: var(--mainBlue);
     }
 }

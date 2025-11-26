@@ -3,66 +3,119 @@ import { useEffect, useState } from "react";
 import "../profile.css"
 
 function AgentProfile() {
-    const [profile, setProfile] = useState([]) //AGENTS PROFILE
+    const [details, setDetails] = useState([]) //AGENT PROFILE DETAILS
+    const [kyc, setKyc] = useState([])
+    const [reviews, setReviews] = useState([]) //AGENT PROFILE REVIEWS
+    const [wallet, setWallet] = useState([])
+    const [contactRequests, setContactRequests] = useState([])
+    const [agentRating, setAgentRating] = useState(0)
 
     // RETRIVE USER PROFILE
     useEffect(() => {
         const fetchProfile = async () => {
-            const profileResponse = await axios.get('/api/agent/profile')
-
+            const profileResponse = await axios.get('/api/dashboard/agent')
             console.log(profileResponse.data)
 
-            setProfile(profileResponse.data)
+            const profile = profileResponse.data
+
+            setDetails(profile.agent)
+            setKyc(profile.kyc)
+            setWallet(profile.wallet)
+            setReviews(profile.reviews)
+            setContactRequests(profile.contact_requests)
+            setAgentRating(profile.average_rating)
+    
         }
 
         fetchProfile()
     }, [])
 
     return ( 
-        <div className="user-profile-container">
-            <div className="user-info">
-                
-            </div>
-            <div className="user-profile">
-                <div className="profile-box">
+        <div className="profile-container">
+            <div className="profile-user-info">
+                <div className="profile-user-info-left profile-box">
                     <div className="profile-details">
-                        <h2>{profile.username}</h2>
-
-                        <p>{profile.created_at}</p>
+                        <h2>{details.name}</h2>
                     </div>
 
                     <div className="profile-contact">
                         <h3>Email:</h3>
-                        <p>{profile.email}</p>
+                        <p>{details.email}</p>
                     </div>
 
-                    <div className="profile-role">
-                        <h3>Role:</h3>
-                        <p>{profile.role}</p>
+                    <div className="profile-contact">
+                        <h3>Agent Rating:</h3>
+                        <p>{agentRating}</p>
                     </div>
 
-                    <div className="profile-credit">
-                        <h3>Credit</h3>
-                        <p>{profile.credits}</p>
-                    </div>
                 </div>
 
-                {/* KYC BOX */}
-                <div className="kyc-box">
-                    <div className="kyc-box-heading">
-                        <h2>KYC Status</h2>
+                <div className="profile-user-info-right user-profile">
+                    <div className="profile-wallet">
+                        <div className="profile-wallet-heading">
+                            <h2>Wallet</h2>
+                        </div>
+
+                        <div className="profile-wallet-body">
+                            <div className="profile-wallet-balance">
+                                <p className="bold" >balance:</p>
+                                <p>{wallet.balance}</p>
+                            </div>
+                            <div className="profile-wallet-credits">
+                                <p className="bold" >Credits Spent:</p>
+                                <p>{wallet.credits_spent}</p>
+                            </div>
+                        </div>
+                        
                     </div>
 
-                    <div className="kyc-status">
-                        <div className="status">
-                            <h3>kyc status</h3>
-                            <p>{profile.kyc_status}</p>
+                    {/* KYC BOX */}
+                    <div className="profile-kyc-box">
+                        <div className="profile-kyc-box-heading">
+                            <h2>KYC Status</h2>
                         </div>
-                        <div className="verified">
-                            <h3>kyc verification:</h3>
-                            <p>{profile.kyc_verified === false ? 'False' : 'True' }</p>
+
+                        <div className="profile-kyc-status">
+                            <div className="status">
+                                <p className="bold" >kyc status:</p>
+                                <p>{kyc.status}</p>
+                            </div>
+                            <div className="verified">
+                                <p className="bold" >Reviewed at:</p>
+                                <p>{kyc.reviewed_at}</p>
+                            </div>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            {/* CONTACT REQUESTS */}
+            <div className="profile-reviews">
+                <div className="profile-reviews-heading">
+                    <h2>Contact Requests</h2>
+                </div>
+
+                <div className="profile-reviews-body">
+                    {contactRequests.map((cr) => (
+                        <div key={cr.id} className="contact-requests">
+
+                        </div>
+                    ))}
+                </div>
+            </div>
+            
+            {/* PROFILE REVIEWS */}
+            <div className="profile-reviews">
+                <div className="profile-reviews-heading">
+                    <h2>Reviews</h2>
+                </div>
+
+                <div className="profile-reviews-body">
+                    {reviews.map((review) => (
+                        <div key={review.id} className="review">
+
+                        </div>
+                    ))}
                 </div>
             </div>
         </div>

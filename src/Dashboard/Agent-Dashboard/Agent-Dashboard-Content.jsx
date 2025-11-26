@@ -5,12 +5,12 @@ import AgentProfile from './Agent-Profile';
 import '../Dashboard-Content.css'
 
 
-function AgentDashboardContent({section}) {
+function AgentDashboardContent({section, setSidebarVisible}) {
     return ( 
         <div className="dashboard-content">
             <div className="dashboard-content-container">
         
-                <AgentDashboardHeader />
+                <AgentDashboardHeader setSidebarVisible={setSidebarVisible} />
                 
                 <div className="dashboard-section-content">
                     {section === "Posts" &&
