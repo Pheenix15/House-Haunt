@@ -2,6 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { useAuth } from './AuthContext';
 import Nav from './Nav';
+import Loading from './Loading';
 import './Home.css'
 import Footer from './Footer';
 
@@ -83,9 +84,9 @@ function Home() {
 
     // LOADING PAGE
     if (loading) return (
-        <div className="loading">
-            LOADING AUTH LOADING
-        </div>
+        <>
+            <Loading />
+        </>
     )
 
     return ( 

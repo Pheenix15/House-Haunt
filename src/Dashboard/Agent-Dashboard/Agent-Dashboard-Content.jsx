@@ -6,6 +6,7 @@ import AgentProfile from './Agent-Profile';
 import '../Dashboard-Content.css'
 import Transaction from './Agent-Transaction';
 import AgentWallet from './Agent-Wallet';
+import Loading from '../../component/Loading';
 
 
 function AgentDashboardContent({section, setSidebarVisible}) {
@@ -36,6 +37,12 @@ function AgentDashboardContent({section, setSidebarVisible}) {
                     <KYC />
                 }
             </div>
+
+            {loading && (
+                <>
+                    <Loading />
+                </>
+            )}
         </div>
     );
 }
