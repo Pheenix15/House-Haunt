@@ -27,7 +27,8 @@ function Nav() {
                         <li className='nav-link' > <Link to= '/About-us' >About Us</Link> </li>
                         <li className='nav-link' > <Link to= '/Properties' >Properties</Link></li>
                         <li className='nav-link' > <Link to= '/Become-a-partner' >Become a partner</Link> </li> 
-                        <li className='nav-link' > <Link to= '/Newsletters' >Newsletters</Link> </li>
+                        {/* <li className='nav-link' > <Link to= '/Newsletters' >Newsletters</Link> </li> */}
+                        <li className='nav-link' > <Link to= '/Signup' >Signup</Link> </li>
                         <li className='nav-link' > <Link to= '/Login' >Login</Link> </li>
                         {/* <li className='nav-link' > <Link to= '/Dashboard-Haunter' >Dashboard</Link> </li> */}
                     </ul>
@@ -73,7 +74,8 @@ function Nav() {
                         <li className='nav-link' > <Link to= '/About-us' >About Us</Link> </li>
                         <li className='nav-link' > <Link to= '/Properties' >Properties</Link></li>
                         <li className='nav-link' > <Link to= '/Become-a-partner' >Become a partner</Link> </li> 
-                        <li className='nav-link' > <Link to= '/Newsletters' >Newsletters</Link> </li>
+                        {/* <li className='nav-link' > <Link to= '/Newsletters' >Newsletters</Link> </li> */}
+                        <li className='nav-link' > <Link to= '/Signup' >Signup</Link> </li>
                         <li className='nav-link' > <Link to= '/Login' >Login</Link> </li>
                         {/* <li className='nav-link' > <Link to= '/Dashboard-Haunter' >Dashboard</Link> </li> */}
                     </ul>
