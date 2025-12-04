@@ -352,7 +352,7 @@ function Home() {
             </section>
 
             {/* CTA SECTION OR FEATURED HOUSES SECTION */}
-            {/* <section className="cta-section">
+            <section className="cta-section">
                 <div className="cta">
                     <div className="cta-text">
                         <h3>Verified Listings Available Now</h3>
@@ -365,7 +365,7 @@ function Home() {
                         </button>
                     </div>
                 </div>
-            </section> */}
+            </section>
 
             {/* SIGN UP */}
             {/* <section className="sign-up-section">
