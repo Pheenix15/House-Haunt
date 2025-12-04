@@ -1,6 +1,7 @@
 .sidebar {
     height: 100vh;
     transition: ease-in;
+    z-index: 1000;
 }
 
 .sidebar-container {

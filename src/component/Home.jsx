@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { useAuth } from './AuthContext';
 import Nav from './Nav';
 import './Home.css'
 import Footer from './Footer';
@@ -9,6 +10,21 @@ function Home() {
     const[activeTestimonialIndex, setActiveTestimonialIndex] = useState(0)
     const [howItWorksState, setHowItWorksState] = useState("hunter") //STATE FOR HOW IT WORKS SECTION
 
+
+    // CHECK IF USER IS LOGGED IN
+    const {user, loading} = useAuth();
+
+    // useEffect(() => {
+    //     if (loading) return;          // Wait until auth check finishes.
+    //     if (!user) return;
+
+        //    If user exists redirect to their dashboard
+    //     if (!loading && user.role === "agent") {
+    //         navigate('/Dashboard-Agent');
+    //     } else if (!loading && user.role === "haunter") {
+    //         navigate('/Dashboard-Haunter')
+    //     }
+    // }, [loading, user]);
 
     // BACKGROUND IMAGES
     const backgroundImages = [
@@ -65,6 +81,12 @@ function Home() {
 
     const activeReview = testimonials[activeTestimonialIndex]
 
+    // LOADING PAGE
+    if (loading) return (
+        <div className="loading">
+            LOADING AUTH LOADING
+        </div>
+    )
 
     return ( 
         <div className="home-page">

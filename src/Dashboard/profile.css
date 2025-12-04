@@ -19,6 +19,16 @@
 .profile-contact {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    font-size: 0.8em;
+}
+
+.profile-details h2 {
+    margin-bottom: 20px;
+}
+
+.profile-contact .bold {
+    margin-bottom: 15px;
 }
 
 .profile-user-info-right {
@@ -38,11 +48,21 @@
 .profile-wallet-heading {
     border-bottom: 1px solid transparent;
     border-image: linear-gradient(to right, var(--mainWhite), transparent) 1;
+    margin-bottom: 20px;
+    padding: 10px 0;
 }
 
 .profile-wallet-heading h2 {
     margin: 0;
     font-size: 1.3em;
+}
+
+.profile-wallet-body {
+    font-size: 0.8em;
+}
+
+.profile-wallet-body .bold {
+    margin-bottom: 15px;
 }
 
 .profile-wallet-balance {

@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
 import { HiBars3BottomRight } from "react-icons/hi2";
+import { HiBellAlert } from "react-icons/hi2";
+import { HiMiniUser } from "react-icons/hi2";
 import '../Dashboard-Header.css'
 
 
@@ -21,12 +23,15 @@ function HaunterDashboardHeader({setSidebarVisible}) {
                 <div className="sidebar-menu-icon">
                     <HiBars3BottomRight onClick={() => setSidebarVisible(true)} />
                 </div>
+
                 <div className="header-title">
                     <h2>Hunter Dashboard</h2>
                 </div>
+
                 <div className="greeting">
+                    {/* Notification Bell(Figure out where to put it) <HiBellAlert /> */}
                     <div className="greeting-icon">
-                        <img src="../img/icons/user-profile.png" alt="user profile icon" />
+                        <HiMiniUser />
                     </div>
 
                     <div className="user-info">

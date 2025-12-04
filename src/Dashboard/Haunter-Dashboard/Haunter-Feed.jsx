@@ -2,9 +2,8 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../Feed.css'
 
-function HaunterFeed() {
+function HaunterFeed({setLoading}) {
 
-    const [loading, setLoading] = useState(false); //LOADING STATE
     // FAVORITES
     const [favorites, setFavorites] = useState([])
     const [totalFavorites, setTotalFavorites] = useState(0)
@@ -23,6 +22,7 @@ function HaunterFeed() {
     // RETRIEVE FAVORITES FROM DB
     useEffect(() => {
         const fetchFavorites = async () => {
+            setLoading(true)
             try {
                 const favoritesResponse = await axios.get('/api/haunter/favorites', {withCredentials: true})
 
@@ -31,8 +31,11 @@ function HaunterFeed() {
                 setFavorites(Array.isArray(data.favorites) ? data.favorites : [])
                 setTotalFavorites(Number(data.total_favorites ?? 0))
                 console.log(totalFavorites)
+                setLoading(false)
             } catch (error) {
                 console.error('Error fetching favorites:', err);
+            } finally {
+                setLoading(false)
             }
         }
 
@@ -87,10 +90,7 @@ function HaunterFeed() {
 
     return ( 
         <div className="haunter-feed">
-            {loading && (
-                <p>Loading</p>
-            )}
-
+           
             <section className="favorite-section">
                 <div className="favorites-container">
                     <div className="favorites-header">

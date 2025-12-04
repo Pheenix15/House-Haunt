@@ -1,0 +1,47 @@
+.wallet-section {
+    width: 500px;
+    background-color: var(--mainBlack);
+    color: var(--mainWhite);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.wallet-heading {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-bottom: 1px solid transparent;
+    border-image: linear-gradient(to right, var(--mainBlue), transparent) 1;
+    margin-bottom: 20px;
+}
+
+.top-up-button {
+    font-size: 0.6em;
+    padding: 10px 15px !important;
+}
+
+.wallet-body {
+    margin-bottom: 20px;
+}
+
+.top-up-form {
+    gap: unset;
+}
+.top-up-form label {
+    font-size: 0.7em;
+}
+
+.top-up-form input {
+    color: var(--mainWhite);
+    margin-top: 5px;
+    margin-bottom: 20px;
+}
+
+/* RESPONSIVE CSS */
+
+/* Mobile View */
+@media (max-width: 426px) {
+    .wallet-section {
+        width: unset;
+    }
+}

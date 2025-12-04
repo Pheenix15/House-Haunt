@@ -1,16 +1,206 @@
+.KYC {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    flex: 1; /*Takes up remaining height from dashboard-section-content*/
+}
+
+.KYC-body {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    height: 100%;
+    border-top: 1px solid var(--mainBlue);
+}
+
 .KYC-steps-container {
     box-sizing: border-box;
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-around;
-    background-color: var(--mainBlack);
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10%;
     width: 100%;
-    height: 50px;
-    padding: 0 25px;
-    border-radius: 20px;
+    height: 100%;
+    padding: 20px 30px;
+    border-right: 1px solid var(--mainBlue);
+}
+
+.steps-icon {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .steps-icon i {
     font-size: 1em;
+}
+
+.KYC-board {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    width: 55%;
+    margin: 0 auto;
+    padding: 20px 30px;
+}
+
+.KYC-board h3 {
+    margin: 0;
+}
+
+.step-counter {
+    font-size: 0.8em;
+    color: var(--mainBlue);
+    margin-bottom: 20px;
+}
+
+/* Personal Informatio */
+
+.KYC-form {
+    gap: unset !important;
+}
+
+.KYC-form label {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    font-size: 0.8em;
+}
+
+.KYC-buttons {
+    display: flex;
+    gap: 20px;
+    margin: 10% 0;
+    align-self: flex-end;
+}
+
+/* Id Uppload */
+.id-verification {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--mainBlue);
+    padding: 20px;
+}
+
+.upload-box {
+    margin: 10px auto;
+    width: 100%;
+}
+
+.upload-box-icon {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 200px;
+    border: 1px solid var(--secondBlue);
+    padding: 10px 15px;
+}
+
+.uploaded-file {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.uploaded-file-data {
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 5px var(--mainBlue);
+    padding: 10px 10px;
+    font-size: 0.8em;
+    min-width: 120px;
+    gap: 5px;
+}
+
+.upload-file-size {
+    font-size: 0.7em;
+}
+
+.upload-file-size span {
+    color: var(--transparentBlack);
+}
+
+.upload-buttons {
+    display: flex;
+    gap: 20px;
+    margin-top: 15px;
+}
+
+
+/* RESPONSIVE CSS */
+
+/* Tablet View */
+@media (max-width: 769px) {
+    .KYC-body {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .KYC-steps-container {
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        padding: 10px;
+    }
+
+    .steps-icon {
+        flex-direction: column-reverse;
+        font-size: 0.6em;
+    }
+
+    .steps-icon i {
+        font-size: 1.4em;
+    }
+
+    .KYC-board {
+        width: 100%;
+        padding: unset;
+    }
+
+    .upload-buttons button {
+        font-size: 0.6em;
+        padding: 10px 20px !important;
+    }
+
+    .KYC-buttons {
+        margin: 4% 0;
+    }
+}
+
+/* Mobile View */
+@media (max-width: 426px) {
+    .KYC-body {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .KYC-steps-container {
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        padding: 10px;
+    }
+
+    .steps-icon {
+        flex-direction: column-reverse;
+        font-size: 0.6em;
+    }
+
+    .steps-icon i {
+        font-size: 1.4em;
+    }
+
+    .KYC-board {
+        width: 100%;
+        padding: unset;
+    }
+
+    .upload-buttons button {
+        font-size: 0.6em;
+        padding: 10px 20px !important;
+    }
+
+    .KYC-buttons {
+        margin: 4% 0;
+    }
+
 }

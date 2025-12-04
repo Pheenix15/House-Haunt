@@ -171,7 +171,7 @@ function DashboardSidebar({section, setSection, sidebarVisible, setSidebarVisibl
                             onClick={() => setSection("Transactions")}
                             style={{
                                 color: section === "Transactions" ? "black" : "white",
-                                backgroundColor: section === "Transactions" ? "white" : "black",
+                                backgroundColor: section === "Transactions" ? "white" : "transparent",
                                 transition: "background-color 0.3s ease-in, color 0.3s ease-in"
                             }}
                             >
@@ -183,7 +183,7 @@ function DashboardSidebar({section, setSection, sidebarVisible, setSidebarVisibl
                             onClick={() => setSection("History")}
                             style={{
                                 color: section === "History" ? "black" : "white",
-                                backgroundColor: section === "History" ? "white" : "black",
+                                backgroundColor: section === "History" ? "white" : "transparent",
                                 transition: "background-color 0.3s ease-in, color 0.3s ease-in"
                             }}
                             >

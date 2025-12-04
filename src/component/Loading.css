@@ -1,0 +1,33 @@
+.blur-layer {
+  position: fixed;
+  inset: 0;
+  background-color: var(--transparentBlue);
+  backdrop-filter: blur(8px);
+  transition: backdrop-filter 0.5s ease;
+  z-index: 20;
+}
+
+.loading-screen {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    /* height: 100vh; */
+    z-index: 30;
+    pointer-events: none;
+}
+
+.loading-logo {
+    width: 100px;
+    transition: ease;
+    animation: pulse 0.8s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%   { transform: scale(0.85); opacity: 0.6; }
+  50%  { transform: scale(1); opacity: 1; }
+  100% { transform: scale(0.85); opacity: 0.6; }
+}

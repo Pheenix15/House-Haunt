@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import "../profile.css"
 
-function AgentProfile() {
+function AgentProfile({setLoading}) {
     const [details, setDetails] = useState([]) //AGENT PROFILE DETAILS
     const [kyc, setKyc] = useState([])
     const [reviews, setReviews] = useState([]) //AGENT PROFILE REVIEWS
@@ -12,6 +12,7 @@ function AgentProfile() {
 
     // RETRIVE USER PROFILE
     useEffect(() => {
+        setLoading(true)
         const fetchProfile = async () => {
             const profileResponse = await axios.get('/api/dashboard/agent')
             console.log(profileResponse.data)
@@ -28,6 +29,7 @@ function AgentProfile() {
         }
 
         fetchProfile()
+        setLoading(false)
     }, [])
 
     return ( 
