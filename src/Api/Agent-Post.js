@@ -7,7 +7,7 @@ export const sendAgentPost = async (form) => {
   try {
     const response = await axios.post('/api/agent/create-house',
       form,
-      // { headers: { "Content-Type": "multipart/form-data", }}
+      { headers: { "Content-Type": "multipart/form-data" }}
     );
     const houseData = response.data
 

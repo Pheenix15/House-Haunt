@@ -18,14 +18,14 @@ function Posts({setLoading, loading}) {
 
     const form = new FormData()
 
-    form.append("agent_id", agentId)
+    // form.append("agent_id", agentId)
     form.append("title", houseName)
     form.append("image", houseImage)
     form.append("location", location)
     form.append("price", price)
     form.append("description", description,)
-    form.append("status", "pending") //initial status of house
-    form.append("created_at", new Date().toLocaleString())
+    // form.append("status", "pending") //initial status of house
+    // form.append("created_at", new Date().toLocaleString())
 
 
     // SEND POSTS TO DATABASE
@@ -49,7 +49,7 @@ function Posts({setLoading, loading}) {
         setLoading(true)
         const fetchPost = async () => {
             try {
-                const housesResponse = await axios.get('/api/agent/houses')
+                const housesResponse = await axios.get('/api/dashboard/agent')
 
                 console.log(housesResponse.data)
             } catch (error) {
@@ -100,10 +100,12 @@ function Posts({setLoading, loading}) {
                             <input type="address" name="location" placeholder="house address" onChange={(e) => setLocation(e.target.value)} />
                             <input type="number" name="price" placeholder="price" onChange={(e) => setPrice(e.target.value)} />
                             <input type="text" name="description" placeholder="Describe the house" onChange={(e) => setDescription(e.target.value)} />
+                            {/* Image Input */}
                             <input type="file" name="image" accept="image/png, image/jpeg" onChange={(e) => {
                                 const file = e.target.files[0];
                                 // console.log(file)
                                 setHouseImage(file)}} />
+
                             <button type="submit" >{loading ? "Posting..." : "Post"}</button>
                         </form>
                     </div>

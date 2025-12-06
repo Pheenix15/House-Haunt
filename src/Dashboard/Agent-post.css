@@ -44,6 +44,11 @@
         font-size: 0.8em;
     }
 
+    .add-house-modal {
+        width: unset;
+        place-self: anchor-center;
+    }
+
     .add-house-button button {
         font-size: 0.8em;
     }
