@@ -18,7 +18,7 @@ function AgentDashboardContent({section, setSidebarVisible}) {
             
             <div className="dashboard-section-content">
                 {section === "Posts" &&
-                    <Posts setLoading={setLoading} />
+                    <Posts setLoading={setLoading} loading={loading} />
                 }
 
                 {section === "Profile" &&

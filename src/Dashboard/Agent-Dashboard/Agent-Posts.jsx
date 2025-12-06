@@ -3,7 +3,7 @@ import { sendAgentPost } from "../../Api/Agent-Post";
 import { useState, useEffect } from "react";
 import "../Agent-post.css"
 
-function Posts({setLoading}) {
+function Posts({setLoading, loading}) {
     const [posts, setPosts] = useState(null) //AGENTS POSTS
     const [openPostModal, setOpenPostModal] = useState(false) //SET MODAL TO SEND POST
     const [houseImage, setHouseImage] = useState(null) //IMAGE of HOUSE
@@ -50,12 +50,16 @@ function Posts({setLoading}) {
         const fetchPost = async () => {
             try {
                 const housesResponse = await axios.get('/api/agent/houses')
+
+                console.log(housesResponse.data)
             } catch (error) {
 
             } finally {
                 setLoading(false)
             }
         }
+
+        fetchPost();
     }, [])
 
     return ( 
