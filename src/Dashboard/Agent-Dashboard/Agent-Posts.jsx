@@ -18,14 +18,14 @@ function Posts({setLoading, loading}) {
 
     const form = new FormData()
 
-    // form.append("agent_id", agentId)
+    form.append("agent_id", agentId)
     form.append("title", houseName)
     form.append("image", houseImage)
     form.append("location", location)
     form.append("price", price)
     form.append("description", description,)
-    // form.append("status", "pending") //initial status of house
-    // form.append("created_at", new Date().toLocaleString())
+    form.append("status", "pending") //initial status of house
+    form.append("created_at", new Date().toLocaleString())
 
 
     // SEND POSTS TO DATABASE
