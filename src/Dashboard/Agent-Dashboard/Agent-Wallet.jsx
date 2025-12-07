@@ -12,10 +12,10 @@ function AgentWallet({setLoading}) {
     setLoading(true)
     const fetchBalance = async () => {
         try {
-        const response = await axios.get("/api/wallet");
+        const response = await axios.get("/api/dashboard/agent");
         console.log(response.data)
 
-        const wallet = response.data
+        const wallet = response.data.wallet
         setBalance(wallet.balance);
         console.log("wallet:", wallet.balance)
         } catch (error) {

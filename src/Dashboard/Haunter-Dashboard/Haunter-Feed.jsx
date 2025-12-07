@@ -25,7 +25,7 @@ function HaunterFeed({setLoading}) {
             setLoading(true)
             try {
                 const favoritesResponse = await axios.get('/api/haunter/favorites', {withCredentials: true})
-
+                
                 const data = favoritesResponse.data
 
                 setFavorites(Array.isArray(data.favorites) ? data.favorites : [])

@@ -1,20 +1,24 @@
-.admin-posts {
+.agent-posts {
     position: relative;
     display: flex;
     flex-direction: column;
-    background-color: var(--mainWhite);
-    border-radius: 10px;
 }
 
-.admin-posts-heading {
+.agent-posts-heading {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 10px 20px;
+    background-color: var(--mainWhite);
+    border-radius: 10px;
 }
 
-.admin-posts-heading h2 {
+.agent-posts-heading h2 {
     margin: 0;
+}
+
+.agent-house-image {
+    width: 50px;
 }
 
 .add-house-modal {
@@ -40,7 +44,7 @@
 }
 
 @media (max-width: 426px) {
-    .admin-posts-heading {
+    .agent-posts-heading {
         font-size: 0.8em;
     }
 

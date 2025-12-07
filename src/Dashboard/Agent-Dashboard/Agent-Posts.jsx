@@ -12,6 +12,8 @@ function Posts({setLoading, loading}) {
     const [location, setLocation] = useState("") //HOUSE ADDRESS
     const [price, setPrice] = useState(0)
     const [description, setDescription] = useState("")
+    const [successAlert, setSuccessAlert] = useState("")
+    const [failAlert, setFailAlert] = useState("")
 
     // RETRIEVE AGENT ID FROM LOCALSTORAGE
     const agentId = localStorage.getItem("id");
@@ -36,11 +38,11 @@ function Posts({setLoading, loading}) {
             // 
             const postResponse = await sendAgentPost(form);
 
-            console.log(postResponse)
         } catch (error) {
             console.log(error)
         } finally {
             setLoading(false)
+            setOpenPostModal(false)
         }
     }
 
@@ -51,6 +53,9 @@ function Posts({setLoading, loading}) {
             try {
                 const housesResponse = await axios.get('/api/dashboard/agent')
 
+                const houseData = housesResponse.data.houses
+
+                setHouses(houseData)
                 console.log(housesResponse.data)
             } catch (error) {
 
@@ -64,8 +69,8 @@ function Posts({setLoading, loading}) {
 
     return ( 
         <div className="posts">
-            <div className="admin-posts">
-                <div className="admin-posts-heading">
+            <div className="agent-posts">
+                <div className="agent-posts-heading">
                     <h2>Your Listings</h2>
 
                     <div className="add-house">
@@ -75,9 +80,33 @@ function Posts({setLoading, loading}) {
                         >Add new Listing</button>
                     </div>
                 </div>
+
+                <div className="agent-posts">
+                    {houses.map((house) => (
+                        <div
+                         key={house._id}
+                         className="agent-houses"
+                        >
+                            <div className="agent-house-image">
+                                <img src={`https://house-haunt-flask.onrender.com${house.image_path}`} alt={house.title} />
+                            </div>
+
+                            <div className="agent-house-details">
+                                <div className="top">
+                                    <h3>{house.title}</h3>
+
+                                </div>
+
+                                <div className="bottom">
+
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                </div>
             </div>
 
-            {/* ADD HOUSE TO DATABASE */}
+            {/* MODAL TO ADD HOUSE TO DATABASE */}
             {openPostModal && (
                 <div className="add-house-modal">
                     <div className="modal-heading">
