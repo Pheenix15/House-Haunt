@@ -12,10 +12,10 @@ const Wallet = ({setLoading}) => {
     setLoading(true)
     const fetchBalance = async () => {
       try {
-        const response = await axios.get("/api/wallet");
+        const response = await axios.get("/api/dashboard/haunter");
         console.log(response.data)
 
-        const wallet = response.data
+        const wallet = response.data.wallet
         setBalance(wallet.balance);
         console.log("wallet:", wallet.balance)
       } catch (error) {
