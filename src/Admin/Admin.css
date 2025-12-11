@@ -1,0 +1,17 @@
+.admin {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100vh;
+}
+
+.admin-top {
+    width: 100%;
+}
+
+.admin-bottom {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+}

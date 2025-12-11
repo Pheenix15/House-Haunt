@@ -1,0 +1,39 @@
+.admin-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 30px;
+    background-color: var(--mainBlack);
+}
+
+.admin-header-logo {
+    width: 150px;
+}
+
+.admin-header-left {
+    display: flex;
+    align-items: center;
+}
+
+/* .notification-bell {
+    color: var(--mainWhite);
+} */
+
+.admin-profile-details {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+
+.admin-profile-details img {
+    width: 30px;
+    border: 1px solid var(--mainWhite);
+    border-radius: 50px;
+}
+
+.admin-profile-info p {
+    color: var(--mainWhite);
+    font-size: 0.6em;
+}

@@ -38,8 +38,10 @@ function Login() {
 
             // Redirect based on role
             const role = user.role; // Used directly from response instead of localStorage
-            
-            if (role === "agent") {
+            if (role === 'admin') {
+                navigate('/Admin');
+                
+            } else if (role === "agent") {
                 navigate('/Dashboard-Agent');
                 
                 // console.log('Redirected to agent dashboard');
@@ -48,6 +50,7 @@ function Login() {
                 
                 // console.log('Redirected to haunter dashboard');
             }
+             
 
         } catch (error) {
             console.error('Login failed:', error.response?.data || error.message);

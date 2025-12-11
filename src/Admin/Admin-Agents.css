@@ -1,0 +1,31 @@
+.admin-agent-table {
+    background-color: var(--mainWhite);
+    box-shadow: 0 0 5px var(--mainBlack);
+    border-radius: 10px;
+    padding: 10px 15px;
+}
+
+table {
+    text-align: left;
+    vertical-align: middle;
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    padding: 10px 5px;
+}
+
+th h2 {
+    font-size: 0.7em;
+}
+
+td p {
+    font-size: 0.6em;
+}
+
+.table-body-data img {
+    width: 30px;
+    border-radius: 50%;
+    background-color: var(--secondBlue);
+}

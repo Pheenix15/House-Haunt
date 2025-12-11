@@ -56,7 +56,7 @@ function Posts({setLoading, loading}) {
                 const houseData = housesResponse.data.houses
 
                 setHouses(houseData)
-                console.log(housesResponse.data)
+                console.log(houses[0].image_path)
             } catch (error) {
 
             } finally {

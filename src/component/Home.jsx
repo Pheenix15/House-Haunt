@@ -55,28 +55,28 @@ function Home() {
             id: 0,
             name: 'Anthony Nnadi',
             review: 'Listed my property here and got genuine inquiries within days.',
-            image: "./img/users/user-1.jpg"
+            image: "./img/users/profile-1.png"
         },
 
         {
             id: 1,
             name: 'Morenike Boluwatife',
             review: 'Clean interface, verified listings, and I actually saved enough on fees to buy furniture for my new place. Worth every minute spent browsing.',
-            image: "./img/users/user-2.jpg"
+            image: "./img/users/profile-2.png"
         },
 
         {
             id: 3,
             name: 'Justin Onwadi',
             review: 'As an agent, I appreciate the fair fee structure. It attracts serious buyers and sellers, making my job easier and more profitable.',
-            image: "./img/users/user-1.jpg"
+            image: "./img/users/profile-1.png"
         },
 
         {
             id: 4,
             name: 'Chisom Nnebedum',
             review: 'Transparent, straightforward, and cost-effective. Finally, a platform that puts buyers and renters first instead of squeezing them dry.',
-            image: "./img/users/user-3.jpg"
+            image: "./img/users/profile-3.png"
         },
     ]
 

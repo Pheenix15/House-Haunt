@@ -6,6 +6,7 @@ import Login from './component/Login'
 import ProtectedRoute from './component/ProtectedRoute'
 import DashboardAgent from './Dashboard/Agent-Dashboard/Dashboard-Agent'
 import DashboardHaunter from './Dashboard/Haunter-Dashboard/Dashboard-Haunter'
+import Admin from './Admin/Admin'
 import axios from 'axios'
 import EmptyPage from './component/404-not-found'
 
@@ -26,6 +27,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/Signup" element={<Signup />} />
         <Route path="/Login" element={<Login />} />
+        <Route path='/Admin' element={<Admin />} />
 
         {/* Protected routes - Agent only */}
         {/* <Route 

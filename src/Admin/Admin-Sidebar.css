@@ -1,0 +1,17 @@
+.admin-sidebar {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--mainBlack);
+}
+
+.admin-sidebar-top {
+    margin-bottom: 20px;
+}
+
+.admin-sidebar-top .close-arrow {
+    margin-top: 0;
+}
+
+.admin-sidebar-top .sidebar-option {
+    padding: 20px 10px;
+}
