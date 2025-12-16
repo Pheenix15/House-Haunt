@@ -1,62 +1,55 @@
 import { useState, useEffect } from "react";
 import "./Admin-Agents.css"
+import axios from "axios";
 
 function AdminAgents() {
-    // /api/admin/agents
+    const [agentList, setAgentList] = useState([]) //List if agents
 
-    // Dummy Agent Data
-    const agents = [
-        {
-            name: "Anthony Nnadi",
-            email: "nnaditony@gmail.com",
-            phoneNumber: "+2348012345678",
-            image: "../img/users/profile-1.png",
-            kyc: "complete"
-        },
+    useEffect(() => {
+        const fetchAgentList = async () => {
+            try {
+                const agentListResponse = await axios.get('/api/admin/agents')
 
-        {
-            name: "Justin Shodeke",
-            email: "jshodeke@gmail.com",
-            phoneNumber: "+2348012345678",
-            image: "../img/users/profile-2.png",
-            kyc: "pending"
-        },
+                const agentListData = agentListResponse.data
 
-        {
-            name: "Chioma Adugo",
-            email: "adaoma@gmail.com",
-            phoneNumber: "+2348012345678",
-            image: "../img/users/profile-3.png",
-            kyc: "pending"
+                setAgentList(agentListData.agents)
+
+                console.log('List of Agents:', agentList)
+                
+
+            } catch (error) {
+                
+            }
         }
-    ]
+
+        fetchAgentList()
+    }, [])
+
 
     return (
         <div className="admin-agents">
             <div className="admin-agents-heading">
-
+                <h2>Agent List</h2>
             </div>
 
             <div className="admin-agent-table">
                 <table>
                     <thead className="table-heading" >
                         <tr className="table-heading-row" >
-                            <th className="table-heading-data" ><h2>Image</h2></th>
-                            <th className="table-heading-data" ><h2>Name</h2></th>
-                            <th className="table-heading-data" ><h2>Email</h2></th>
-                            <th className="table-heading-data" ><h2>Phone Number</h2></th>
-                            <th className="table-heading-data" ><h2>KYC Status</h2></th>
+                            <th className="table-heading-data" ><h3>Id</h3></th>
+                            <th className="table-heading-data" ><h3>Name</h3></th>
+                            <th className="table-heading-data" ><h3>Email</h3></th>
+                            <th className="table-heading-data" ><h3>KYC Status</h3></th>
                         </tr>
                     </thead>
 
                     <tbody className="table-body" >
-                        {agents.map((agent, index) => (
+                        {agentList.map((agent, index) => (
                             <tr key={index} className="table-body-row" >
-                                <td className="table-body-data" ><img src={agent.image} alt={agent.name} width="50" /></td>
-                                <td className="table-body-data" ><p>{agent.name}</p></td>
+                                <td className="table-body-data" ><p>{agent.id}</p></td>
+                                <td className="table-body-data" ><p>{agent.username}</p></td>
                                 <td className="table-body-data" ><p>{agent.email}</p></td>
-                                <td className="table-body-data" ><p>{agent.phoneNumber}</p></td>
-                                <td className="table-body-data" ><p>{agent.kyc}</p></td>
+                                <td className="table-body-data" ><p>{agent.is_verified ? 'Verified' : 'Not Verified'}</p></td>
                             </tr>
 
                         ))}
