@@ -56,7 +56,7 @@ function Posts({setLoading, loading}) {
                 const houseData = housesResponse.data.houses
 
                 setHouses(houseData)
-                console.log(houses[0].image_path)
+                console.log(houses.image_path)
             } catch (error) {
 
             } finally {
@@ -88,7 +88,7 @@ function Posts({setLoading, loading}) {
                          className="agent-houses"
                         >
                             <div className="agent-house-image">
-                                <img src={`https://house-haunt-flask.onrender.com${house.image_path}`} alt={house.title} />
+                                <img src={`https://house-haunt-flask.onrender.com/${house.image_path}`} alt={house.title} />
                             </div>
 
                             <div className="agent-house-details">

@@ -1,0 +1,16 @@
+.house-list-selector {
+    display: flex;
+    gap: 20px;
+    padding: 10px 0;
+}
+
+.house-list-selector button {
+    background-color: transparent;
+    color: var(--textGray);
+    padding: 0;
+}
+
+.active-list {
+    color: var(--mainBlack) !important;
+    border-bottom: 2px solid var(--mainBlue);
+}

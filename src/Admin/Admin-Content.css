@@ -2,4 +2,6 @@
     box-sizing: border-box;
     padding: 10px 20px;
     flex: 1;
+    min-height: 0; /*Allows it to take up full remaining height*/
+    overflow-y: scroll;
 }

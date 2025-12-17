@@ -3,10 +3,11 @@
   --mainBlack: #1f1f1f;
   --mainBlue: #0d47a1;
   --secondBlue: #1a73e8;
+  --textGray: #a2a3a4;
   --backgroundGray: #E1e5eb;
   --transparentWhite: rgb(255, 255, 255, 0.5 );
   --transparentBlack: rgb(0, 0, 0, 0.5);
-  --transparentBlue: #0d48a180;
+  --transparentBlue: #0d48a1a3;
   --headingFont: "Inter", sans-serif;
 }
 
@@ -119,4 +120,53 @@ input {
   position: absolute;
   right: 3%;
   top: 30%;
+}
+
+/* TABLE CSS */
+table {
+    text-align: left;
+    vertical-align: middle;
+    width: 100%;
+    /* border-collapse: collapse; */
+    border-spacing: 0 25px;
+}
+
+.table-heading-row {
+  background-color: var(--mainBlue);
+  color: var(--mainWhite);
+}
+
+th {
+    padding: 10px;
+}
+
+td {
+  padding: 0 10px;
+}
+
+th h3 {
+    font-size: 0.7em;
+}
+
+tbody tr 
+
+td p {
+    font-size: 0.6em;
+}
+
+.table-body-data img {
+    width: 30px;
+    /* border-radius: 50%; */
+    /* background-color: var(--secondBlue); */
+}
+
+.table-body-data .action-buttons {
+  display: flex;
+  gap: 20px;
+}
+
+.action-buttons button {
+  padding: 5px 10px;
+  font-size: 0.6em;
+  border-radius: 10px;
 }

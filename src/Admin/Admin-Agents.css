@@ -8,30 +8,3 @@
     border-radius: 10px;
     padding: 10px 15px;
 }
-
-table {
-    text-align: left;
-    vertical-align: middle;
-    width: 100%;
-    border-collapse: collapse;
-}
-
-th {
-    padding: 10px 5px;
-}
-
-th h3 {
-    font-size: 0.7em;
-}
-
-tbody tr 
-
-td p {
-    font-size: 0.6em;
-}
-
-.table-body-data img {
-    width: 30px;
-    /* border-radius: 50%; */
-    /* background-color: var(--secondBlue); */
-}

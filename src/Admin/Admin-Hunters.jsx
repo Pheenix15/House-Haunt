@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react"
 import axios from "axios"
 
-function AdminHunters() {
+function AdminHunters({setLoading}) {
     const [huntersList, setHuntersList] = useState([]) //List of Hunters
 
     useEffect(() => {
         const fetchHunterList = async () => {
+            setLoading(true)
             try {
                 const huntersListResponse = await axios.get('/api/admin/haunters')
 
@@ -18,6 +19,8 @@ function AdminHunters() {
 
             } catch (error) {
                 console.log('hunter list error:', error)
+            } finally {
+                setLoading(false)
             }
         }
 

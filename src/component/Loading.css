@@ -4,7 +4,7 @@
   background-color: var(--transparentBlue);
   backdrop-filter: blur(8px);
   transition: backdrop-filter 0.5s ease;
-  z-index: 20;
+  z-index: 1000;
 }
 
 .loading-screen {
@@ -16,7 +16,7 @@
     justify-content: center;
     width: 100%;
     /* height: 100vh; */
-    z-index: 30;
+    z-index: 1010;
     pointer-events: none;
 }
 

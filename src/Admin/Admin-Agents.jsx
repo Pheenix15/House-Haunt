@@ -2,11 +2,12 @@ import { useState, useEffect } from "react";
 import "./Admin-Agents.css"
 import axios from "axios";
 
-function AdminAgents() {
+function AdminAgents({setLoading}) {
     const [agentList, setAgentList] = useState([]) //List if agents
 
     useEffect(() => {
         const fetchAgentList = async () => {
+            setLoading(true)
             try {
                 const agentListResponse = await axios.get('/api/admin/agents')
 
@@ -18,7 +19,9 @@ function AdminAgents() {
                 
 
             } catch (error) {
-                
+                console.log(error)
+            } finally {
+                setLoading(false)
             }
         }
 
