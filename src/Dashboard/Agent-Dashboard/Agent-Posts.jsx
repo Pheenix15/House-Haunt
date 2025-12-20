@@ -88,7 +88,7 @@ function Posts({setLoading, loading}) {
                          className="agent-houses"
                         >
                             <div className="agent-house-image">
-                                <img src={`https://house-haunt-flask.onrender.com/${house.image_path}`} alt={house.title} />
+                                <img src={house.image_url} alt={house.title} />
                             </div>
 
                             <div className="agent-house-details">

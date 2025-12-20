@@ -1,10 +1,14 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import '../Feed.css'
+import { formatDate } from '../../utilities/formatDate';
+import { HiOutlineHeart } from "react-icons/hi2";
+import { HiMiniHeart } from "react-icons/hi2";
 
 function HaunterFeed({setLoading}) {
 
     // FAVORITES
+    const [isFavourite, setIsFavourite] = useState(false) // ADDS HOUSE TO FAVOURITE
     const [favorites, setFavorites] = useState([])
     const [totalFavorites, setTotalFavorites] = useState(0)
     // FEEDS
@@ -41,6 +45,8 @@ function HaunterFeed({setLoading}) {
 
         fetchFavorites()
     }, [])
+
+    // ADD TO FAVOURITE GOES HERE
     
     //RETRIEVE HAUNTERS FEED FROM DATABASE
     useEffect(() => {
@@ -91,7 +97,8 @@ function HaunterFeed({setLoading}) {
     return ( 
         <div className="haunter-feed">
            
-            <section className="favorite-section">
+           {/* FAVOURITE SECTION */}
+            {/* <section className="favorite-section">
                 <div className="favorites-container">
                     <div className="favorites-header">
                         <h3>Favorites ({totalFavorites})</h3>
@@ -111,11 +118,12 @@ function HaunterFeed({setLoading}) {
                         
                     </div>
                 </div>
-            </section>
-
+            </section> */}
+            
+            {/* feed section */}
             <section className="feeds-section">
                 <div className="feeds-container">
-                    {/* SEARCH BAR FILTERS */}
+                    {/* Search bar Filters */}
                     <div className="filters-container">
                         {filters && (
                             <div className="feed-filters">
@@ -145,7 +153,7 @@ function HaunterFeed({setLoading}) {
                         )}
                     </div>
                     
-                    {/* PRICE FILTER */}
+                    {/* Price Filters */}
                     <div className="price-filter">
                         {/* Max-price */}
                         <label htmlFor="max_price" className="price-filter-label">Max Price:</label>
@@ -172,11 +180,17 @@ function HaunterFeed({setLoading}) {
                             className="filter-input"
                         /> */}
                     </div>
-
+                    
+                    {/* House Feeds */}
                     <div className="house-feed-container">
                         <div className="house-feed-header">
                             <div className="no-of-houses">
-                                <p>{totalResults} houses available</p>
+                                {houses.length === 0 ? (
+                                    <p>0 houses available</p>
+                                ) : (
+                                    <p>{houses.length} houses available</p>
+                                )}
+                                
                             </div>
 
                             <div className="filter-dropdown">
@@ -199,12 +213,36 @@ function HaunterFeed({setLoading}) {
                                 <p>No houses available</p>
                             ) : (
                                 houses.map((house) => (
-                                <div key={house.id} className="house-item">
-                                    <img src={house.image_url} alt={house.title} className="house-image" />
-                                    <div className="house-details">
-                                    <h3 className="house-title">{house.title}</h3>
-                                    <p className="house-location">{house.location}</p>
-                                    <p className="house-price">${house.price}</p>
+                                <div key={house.id} className="house-list-item">
+                                    <div className="house-feed-list-image">
+                                        <img src={house.image_url} alt={house.title} className="house-image" />
+                                    </div>
+                                    
+                                    <div className="house-feed-list-details">
+                                        <div className="feed-details-top">
+                                            <p className="date-added">
+                                                {formatDate(house.created_at)}
+                                            </p>
+                                        </div>
+
+                                        <div className="feed-details-heading">
+                                            <h3 className="house-feed-title">{house.title}</h3>
+                                        </div>
+                                        
+                                        <div className="feed-details-description">
+                                            <p className="house-feed-details">{house.description}</p>
+                                            <p className="house-feed-location">{house.location}</p>
+                                            <p className="house-feed-price">₦ {house.price}</p>
+                                        </div>
+
+                                        <div className="feed-details-buttom">
+                                            <button 
+                                                className="add-to-favourite"
+                                                onClick={() => setIsFavourite(prev => !prev)}
+                                            >
+                                                {isFavourite ? <HiMiniHeart className='heart' /> : <HiOutlineHeart className='heart' />}
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                                 ))

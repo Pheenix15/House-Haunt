@@ -118,7 +118,7 @@ function AdminHouses({setLoading}) {
                                             key={index} 
                                             className="house table-body-row"
                                         >
-                                            <td className="table-body-data table-body-image"><img src={`https://house-haunt-flask.onrender.com/api/files/${allHouse.image_url}`} alt={allHouse.title} /></td>
+                                            <td className="table-body-data table-body-image"><img src={allHouse.image_url} alt={allHouse.title} /></td>
                                             <td className="table-body-data"><p>{allHouse.title}</p></td>
                                             <td className="table-body-data"><p>{allHouse.price}</p></td>
                                             <td className="table-body-data"><p>{allHouse.location}</p></td>

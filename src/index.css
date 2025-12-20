@@ -60,6 +60,7 @@ button {
   transition: background0-color 0.5s ease, color 0.5s ease;
 }
 
+
 @media (hover: hover) {
   button:hover {
     background-color: var(--secondBlue);
