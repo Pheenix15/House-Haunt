@@ -3,6 +3,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthContext";
+import { useAlert } from "../Context/AlertContext";
 import './Login.css'
 
 function Login() {
@@ -11,6 +12,7 @@ function Login() {
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false) //LOADING STATE
     const {refreshAuth} = useAuth()
+    const { showSuccess, showFail } = useAlert()
 
     const navigate = useNavigate();
 
@@ -36,6 +38,8 @@ function Login() {
             // Rerun auth check
             await refreshAuth();
 
+            showSuccess("Login successful!");
+
             // Redirect based on role
             const role = user.role; // Used directly from response instead of localStorage
             if (role === 'admin') {
@@ -53,9 +57,35 @@ function Login() {
              
 
         } catch (error) {
+
+            if (error.response) {
+            // Server responded with status code outside 2xx
+            switch (error.response.status) {
+                case 400:
+                showFail("Invalid email or password.");
+                break;
+                case 401:
+                showFail("Unauthorized. Please check your credentials.");
+                break;
+                case 403:
+                showFail("Your account is blocked.");
+                break;
+                case 500:
+                showFail("Server error. Please try again later.");
+                break;
+                default:
+                showFail("Login failed. Please try again.");
+            }
+            } else if (error.request) {
+            // Request was made but no response received
+            showFail("Network error. Please check your connection.");
+            } else {
+            // Something else went wrong
+            showFail("An unexpected error occurred.");
+            }
+
             console.error('Login failed:', error.response?.data || error.message);
-            // Show error message to user
-            alert(error.response?.data?.message || 'Login failed. Please try again.');
+
         } finally {
             setLoading(false);
         }

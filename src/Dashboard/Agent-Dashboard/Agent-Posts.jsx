@@ -2,6 +2,7 @@ import axios from "axios";
 import { sendAgentPost } from "../../Api/Agent-Post";
 import { useState, useEffect } from "react";
 import "../Agent-post.css"
+import { useAlert } from "../../Context/AlertContext";
 
 function Posts({setLoading, loading}) {
     const [posts, setPosts] = useState(null) //AGENTS POSTS
@@ -12,8 +13,7 @@ function Posts({setLoading, loading}) {
     const [location, setLocation] = useState("") //HOUSE ADDRESS
     const [price, setPrice] = useState(0)
     const [description, setDescription] = useState("")
-    const [successAlert, setSuccessAlert] = useState("")
-    const [failAlert, setFailAlert] = useState("")
+    const {showSuccess, showFail} = useAlert()
 
     // RETRIEVE AGENT ID FROM LOCALSTORAGE
     const agentId = localStorage.getItem("id");
@@ -37,9 +37,11 @@ function Posts({setLoading, loading}) {
         try {
             // 
             const postResponse = await sendAgentPost(form);
+            showSuccess("Your new listing has been sent")
 
         } catch (error) {
             console.log(error)
+            showFail("An error occured please try again")
         } finally {
             setLoading(false)
             setOpenPostModal(false)
@@ -125,10 +127,10 @@ function Posts({setLoading, loading}) {
                     
                     <div className="modal">
                         <form onSubmit={sendPost} className="add-house-form">
-                            <input type="text" name="title" placeholder="Building Name" onChange={(e) => setHouseName(e.target.value)} />
-                            <input type="address" name="location" placeholder="house address" onChange={(e) => setLocation(e.target.value)} />
-                            <input type="number" name="price" placeholder="price" onChange={(e) => setPrice(e.target.value)} />
-                            <input type="text" name="description" placeholder="Describe the house" onChange={(e) => setDescription(e.target.value)} />
+                            <input type="text" name="title" placeholder="Building Name" onChange={(e) => setHouseName(e.target.value)} required />
+                            <input type="address" name="location" placeholder="house address" onChange={(e) => setLocation(e.target.value)} required />
+                            <input type="number" name="price" placeholder="price" onChange={(e) => setPrice(e.target.value)} required />
+                            <input type="text" name="description" placeholder="Describe the house" onChange={(e) => setDescription(e.target.value)} required />
                             {/* Image Input */}
                             <input type="file" name="image" accept="image/png, image/jpeg" onChange={(e) => {
                                 const file = e.target.files[0];

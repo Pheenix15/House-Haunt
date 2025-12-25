@@ -1,13 +1,14 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 import "./Admin-Houses.css"
+import { useAlert } from "../Context/AlertContext";
 
 
 function AdminHouses({setLoading}) {
     const [allHouses, setAllHouses] = useState([]) 
     const [pendingHouses, setPendingHouses] = useState([])
     const [currentHouseList, setCurrentHouseList] = useState("All houses")
-
+    const {showSuccess, showFail} = useAlert()
 
     // RETRIEVE HOUSES
 
@@ -32,21 +33,36 @@ function AdminHouses({setLoading}) {
 
     // Approve House
     const approveHouse = async (houseId) => {
-        console.log(houseId)
-        await axios.post(`/api/admin/review-house/${houseId}`, {
-            decision: "approved"
-        },);
+        try {
+            console.log(houseId)
+            await axios.post(`/api/admin/review-house/${houseId}`, {
+                decision: "approved"
+            },);
+            console.log("House Approved")
+            showSuccess("House Approved")
+        } catch(error) {
+            console.log(error)
+            showFail("Failed to approve House")
+        }
+        
 
-        console.log("House Approved")
+        
     };
 
     const rejectHouse = async (houseId) => {
-        console.log(houseId)
-        await axios.post(`/api/admin/review-house/${houseId}`, {
-            decision: "rejected"
-        },);
+        try {
+            console.log(houseId)
+            await axios.post(`/api/admin/review-house/${houseId}`, {
+                decision: "rejected"
+            },);
 
-        console.log("House Rejected")
+            console.log("House Rejected")
+            showSuccess("House has been rejected")
+        } catch(error) {
+            console.log("Rejection Failed", error)
+            showFail("Unable to reject house")
+        }
+        
     };
 
     // All Houses
@@ -170,7 +186,7 @@ function AdminHouses({setLoading}) {
                                             key={index} 
                                             className="house table-body-row"
                                         >
-                                            <td className="table-body-data table-body-image"><img src={`https://house-haunt-flask.onrender.com/api/files/${pendingHouse.image_url}`} alt={pendingHouse.title} /></td>
+                                            <td className="table-body-data table-body-image"><img src={pendingHouse.image_url} alt={pendingHouse.title} /></td>
                                             <td className="table-body-data"><p>{pendingHouse.title}</p></td>
                                             <td className="table-body-data"><p>{pendingHouse.price}</p></td>
                                             <td className="table-body-data"><p>{pendingHouse.location}</p></td>

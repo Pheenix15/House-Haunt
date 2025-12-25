@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import axios from "axios"
+import './Admin-Hunters.css'
 
 function AdminHunters({setLoading}) {
     const [huntersList, setHuntersList] = useState([]) //List of Hunters

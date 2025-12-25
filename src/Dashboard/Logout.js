@@ -1,30 +1,32 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../component/AuthContext";
 import axios from "axios";
 
-
-export const Logout = () => {
+export const useLogout = () => {
+    const [isLogginOut, setIsLoggingOut] = useState(false)
+    const { setUser } = useAuth();
     const navigate = useNavigate();
-    // const { setUser } = useAuth();
-    
-    const handleLogout = async () => {
+
+    const logout = async () => {
+        setIsLoggingOut(true)
         try {
-            await axios.post(`/api/auth/logout`);
+            await axios.post("/api/auth/logout");
+            // Clean user for authContext
+            setUser(null);
 
-            // Clears user in AuthContext
-            // setUser(null);
-
-            // Clears LocalStorage
             localStorage.removeItem("id");
             localStorage.removeItem("name");
             localStorage.removeItem("role");
 
-            navigate('/login');
-            console.log('Logged out successfully');
+            navigate("/login");
         } catch (error) {
-            console.error('Logout failed:', error);
+            console.log("Logout failed:", error)
+        } finally {
+            setIsLoggingOut(false)
         }
+        
     };
-    
-    return handleLogout;
+
+    return { logout, isLogginOut };
 };

@@ -1,5 +1,6 @@
 .dashboard-header {
     background-color: var(--mainWhite);
+    margin-bottom: 25px;
 }
 
 .header-title h2 {

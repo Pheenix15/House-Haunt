@@ -12,24 +12,31 @@ function AgentProfile({setLoading}) {
 
     // RETRIVE USER PROFILE
     useEffect(() => {
-        setLoading(true)
+        
         const fetchProfile = async () => {
-            const profileResponse = await axios.get('/api/dashboard/agent')
-            console.log(profileResponse.data)
+            setLoading(true)
+            try {
+                const profileResponse = await axios.get('/api/dashboard/agent')
+                console.log(profileResponse.data)
 
-            const profile = profileResponse.data
+                const profile = profileResponse.data
 
-            setDetails(profile.agent)
-            setKyc(profile.kyc)
-            setWallet(profile.wallet)
-            setReviews(profile.reviews)
-            setContactRequests(profile.contact_requests)
-            setAgentRating(profile.average_rating)
+                setDetails(profile.agent)
+                setKyc(profile.kyc)
+                setWallet(profile.wallet)
+                setReviews(profile.reviews)
+                setContactRequests(profile.contact_requests)
+                setAgentRating(profile.average_rating)
+            } catch (error) {
+                console.log("Failed to fetch profile:", error);
+            } finally {
+                setLoading(false)
+            }
     
         }
 
         fetchProfile()
-        setLoading(false)
+        
     }, [])
 
     return ( 

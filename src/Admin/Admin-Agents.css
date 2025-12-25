@@ -7,4 +7,5 @@
     box-shadow: 0 0 5px var(--mainBlack);
     border-radius: 10px;
     padding: 10px 15px;
+    overflow-x: scroll;
 }

@@ -3,11 +3,14 @@
   --mainBlack: #1f1f1f;
   --mainBlue: #0d47a1;
   --secondBlue: #1a73e8;
+  --mainRed: #bc0808;
   --textGray: #a2a3a4;
   --backgroundGray: #E1e5eb;
+  --backgroundBlue: #e5efff;
   --transparentWhite: rgb(255, 255, 255, 0.5 );
   --transparentBlack: rgb(0, 0, 0, 0.5);
   --transparentBlue: #0d48a1a3;
+  --transparentRed: #bc0808e3;
   --headingFont: "Inter", sans-serif;
 }
 

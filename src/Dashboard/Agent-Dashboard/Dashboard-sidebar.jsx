@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Logout } from '../Logout';
+import { useLogout } from '../Logout';
 import { HiOutlineSquare3Stack3D } from "react-icons/hi2";
 import { HiOutlineChevronDoubleLeft } from "react-icons/hi2";
 import { HiOutlineChevronDoubleRight } from "react-icons/hi2";
@@ -15,7 +15,11 @@ function DashboardSidebar({section, setSection, sidebarVisible, setSidebarVisibl
     const [openSidebar, setOpenSidebar] = useState(true) //OPENS SIDEBAR
     
 
-    const handleLogout = Logout()
+    // Handle Logout
+    const {logout, isLogginOut} = useLogout();
+    const handleLogout = async () => {
+        await logout();
+    };
     return ( 
         <div className={sidebarVisible ? "sidebar sidebar-visible" : "sidebar-hidden"}>
             <div className="sidebar-container">
@@ -94,6 +98,7 @@ function DashboardSidebar({section, setSection, sidebarVisible, setSidebarVisibl
                                 <p>Transactions</p>
                             </div>
 
+                            {/* HISTORY */}
                             <div className="sidebar-option"
                             onClick={() => setSection("History")}
                             style={{
@@ -106,6 +111,7 @@ function DashboardSidebar({section, setSection, sidebarVisible, setSidebarVisibl
                                 <p>History</p>
                             </div>
 
+                            {/* KYC */}
                             <div className="sidebar-option"
                             onClick={() => setSection("KYC")}
                             style={{
@@ -118,6 +124,7 @@ function DashboardSidebar({section, setSection, sidebarVisible, setSidebarVisibl
                                 <p>KYC</p>
                             </div>
 
+                            {/* LOGOUT */}
                             <div className="sidebar-option"
                             role='button'
                             onClick={handleLogout}
@@ -126,7 +133,7 @@ function DashboardSidebar({section, setSection, sidebarVisible, setSidebarVisibl
                             }}
                             >
                                 <div className="sidebar-icon" ><HiOutlineArrowLeftStartOnRectangle /></div>
-                                <p>Logout</p>
+                                <p>{isLogginOut ? "Logging Out" : "Logout"}</p>
                             </div>
                         </div>
                     ) : (

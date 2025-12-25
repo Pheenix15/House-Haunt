@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Logout } from '../Dashboard/Logout';
+import { useLogout } from '../Dashboard/Logout';
 import { HiOutlineSquare3Stack3D } from "react-icons/hi2";
 import { HiOutlineChevronDoubleLeft } from "react-icons/hi2";
 import { HiOutlineChevronDoubleRight } from "react-icons/hi2";
@@ -12,7 +12,11 @@ import "./Admin-Sidebar.css"
 function AdminSidebar({sidebarSection, setSidebarSection, sidebarVisible, setSidebarVisible}) {
     const [openSidebar, setOpenSidebar] = useState(true) //OPENS SIDEBAR
 
-    const handleLogout = Logout()
+    // Handle Logout
+    const {logout, isLogginOut} = useLogout();
+    const handleLogout = async () => {
+        await logout();
+    };
 
     return (
         <div className="admin-sidebar">
@@ -77,7 +81,7 @@ function AdminSidebar({sidebarSection, setSidebarSection, sidebarVisible, setSid
                         <p>KYC</p>
                     </div>
 
-                    
+                    {/* LOGOUT */}
                     <div className="sidebar-option"
                     role='button'
                     onClick={handleLogout}
@@ -86,7 +90,7 @@ function AdminSidebar({sidebarSection, setSidebarSection, sidebarVisible, setSid
                     }}
                     >
                         <div className="sidebar-icon" ><HiOutlineArrowLeftStartOnRectangle /></div>
-                        <p>Logout</p>
+                        <p>{isLogginOut ? "Logging Out" : "Logout"}</p>
                     </div>
                 </div>
             ) : (

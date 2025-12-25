@@ -30,6 +30,9 @@
     width: 50%;
     max-width: 750px;
     padding: 30px 20px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .modal-heading {
@@ -43,14 +46,20 @@
     margin: 0;
 }
 
+@media (max-width: 769px) {
+    .add-house-modal {
+        width: 70%;
+    }
+    
+}
+
 @media (max-width: 426px) {
     .agent-posts-heading {
         font-size: 0.8em;
     }
 
     .add-house-modal {
-        width: unset;
-        place-self: anchor-center;
+        width: 90%;
     }
 
     .add-house-button button {

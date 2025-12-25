@@ -1,12 +1,18 @@
+.haunter-feed {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.feeds-section {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
 .favorites-container {
     background-color: var(--mainWhite);
     padding: 10px 20px;
     border-radius: 10px;
-}
-
-.favorites-header {
-    border-bottom: 2px solid transparent;
-    border-image: linear-gradient(to right, transparent, var(--mainBlack), transparent) 1;
 }
 
 .favorites-header h3 {
@@ -14,31 +20,50 @@
 }
 
 .filters-container {
-    background-color: var(--mainWhite);
-    padding: 10px 20px;
-    border-radius: 10px;
+    margin-bottom: 25px;
 }
 
 .feed-filters {
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: space-between;
+    gap: 30px;
 }
 
 .feed-filters input {
     width: 100%;
-    border-radius: 0;
-    border-top: none;
-    border-right: 1px solid var(--mainBlack);
-    border-bottom: none;
-    border-left: 1px solid var(--mainBlack);
+    border: none;
     outline: none;
+    background-color: var(--mainWhite);
+}
+
+.price-filter-input {
+    max-width: 300px;
 }
 
 .house-feed-container {
-    background-color: var(--mainWhite);
-    padding: 10px 20px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
     border-radius: 10px;
+}
+
+.feed-selector {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.feed-selector-button {
+    background-color: transparent !important;
+    color: var(--textGray);
+    padding: 0;
+}
+
+.active-feed {
+    border-bottom: 2px solid var(--mainBlue);
+    color: var(--mainBlack);
 }
 
 .house-feed-header {
@@ -47,11 +72,6 @@
     align-items: center;
 }
 
-.price-filter {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-}
 
 .filter-dropdown {
     display: flex;
@@ -67,18 +87,51 @@
 }
 
 /* House Feed List */
+.house-feed {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.house-feed-list {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow-y: scroll;
+    scrollbar-width: none; /* For Firefox */
+    scroll-behavior: smooth;
+}
+
+.house-feed-list::-webkit-scrollbar {
+    display: none; /* For Chrome, Safari, Opera */
+}
+
 .house-feed-list .house-list-item {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     box-shadow: 0 0 1px 0 var(--mainBlue);
-    padding: 10px 15px;
-    margin-top: 20px;
+    margin-top: 10px;
     border-radius: 10px;
+    background-color: var(--mainWhite);
+}
+
+.house-feed-list .house-list-content {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    padding: 10px 15px;
 }
 
 .house-feed-list .house-feed-list-image {
-    width: 100px;
-    height: 100px;
+    min-width: 150px;
+    max-width: 200px;
+    height: auto;
+    max-height: 200px;
+    overflow: hidden;
+}
+
+.house-feed-list-image img {
+    object-fit: cover;
 }
 
 .house-feed-list .house-feed-list-details {
@@ -88,24 +141,28 @@
 .house-feed-list .feed-details-top {
     justify-self: flex-end;
     font-size: 0.7em;
-    color: var(--textGray);
+    color: var(--mainBlack);
 }
 
 .house-feed-list .feed-details-heading {
-    /* display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center; */
+    color: var(--mainBlue);
+    margin-bottom: 15px;
 }
 
 .feed-details-heading h3 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     margin: 0;
 }
 
 .feed-details-description p {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     font-size: 0.95em;
     margin-top: 5px;
-    color: var(--textGray);
+    color: var(--mainBlack);
 }
 
 .house-feed-list .feed-details-buttom {
@@ -117,4 +174,29 @@
     color: var(--mainBlue);
     font-size: 1.3em;
     padding: 0;
+}
+
+.house-list-agent {
+    border-top: 1px solid var(--mainBlue);
+    padding: 5px 10px;
+    font-size: 0.76em;
+    text-align: right;
+    color: var(--textGray);
+}
+
+
+/* RESPONSIVE CSS */
+
+/* Mobile */
+@media (max-width: 426px) {
+    .house-feed-list .house-list-content {
+        flex-direction: column;
+    }
+
+    .house-feed-list .house-feed-list-image {
+        width: unset;
+        height: auto;
+        max-height: 200px;
+        overflow: hidden;
+    }
 }

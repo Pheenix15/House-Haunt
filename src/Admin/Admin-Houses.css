@@ -14,3 +14,7 @@
     color: var(--mainBlack) !important;
     border-bottom: 2px solid var(--mainBlue);
 }
+
+.reject-button {
+    background-color: var(--mainRed);
+}

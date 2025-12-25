@@ -9,6 +9,8 @@ import DashboardHaunter from './Dashboard/Haunter-Dashboard/Dashboard-Haunter'
 import Admin from './Admin/Admin'
 import axios from 'axios'
 import EmptyPage from './component/404-not-found'
+import { AlertProvider } from './Context/AlertContext'
+import Alert from './component/Alert'
 
 
 axios.defaults.baseURL = import.meta.env.VITE_API_URL;
@@ -23,36 +25,40 @@ axios.defaults.withCredentials = true;
 function App() {
   return (
     <>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/Signup" element={<Signup />} />
-        <Route path="/Login" element={<Login />} />
-        <Route path='/Admin' element={<Admin />} />
+      <AlertProvider>
+        <Alert /> {/*Global Component for Alerts*/}
 
-        {/* Protected routes - Agent only */}
-        {/* <Route 
-          path="/Dashboard-Agent" 
-          element={
-            <ProtectedRoute allowedRole="agent">
-              <DashboardAgent />
-            </ProtectedRoute>
-          } 
-        /> */}
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/Signup" element={<Signup />} />
+          <Route path="/Login" element={<Login />} />
+          <Route path='/Admin' element={<Admin />} />
 
-        {/* Protected routes - Haunter only */}
-        {/* <Route 
-          path="/Dashboard-Haunter" 
-          element={
-            <ProtectedRoute allowedRole="haunter">
-              <DashboardHaunter />
-            </ProtectedRoute>
-          } 
-        /> */}
-        <Route path='/Dashboard-Agent' element={<DashboardAgent />} />
-        <Route path='/Dashboard-Haunter' element={<DashboardHaunter />} />
+          {/* Protected routes - Agent only */}
+          {/* <Route 
+            path="/Dashboard-Agent" 
+            element={
+              <ProtectedRoute allowedRole="agent">
+                <DashboardAgent />
+              </ProtectedRoute>
+            } 
+          /> */}
 
-        <Route path='*' element={<EmptyPage />} />
-      </Routes>
+          {/* Protected routes - Haunter only */}
+          {/* <Route 
+            path="/Dashboard-Haunter" 
+            element={
+              <ProtectedRoute allowedRole="haunter">
+                <DashboardHaunter />
+              </ProtectedRoute>
+            } 
+          /> */}
+          <Route path='/Dashboard-Agent' element={<DashboardAgent />} />
+          <Route path='/Dashboard-Haunter' element={<DashboardHaunter />} />
+
+          <Route path='*' element={<EmptyPage />} />
+        </Routes>
+      </AlertProvider>
     </>
   )
 }

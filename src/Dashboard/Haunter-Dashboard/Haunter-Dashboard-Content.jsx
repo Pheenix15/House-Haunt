@@ -17,11 +17,7 @@ function HaunterDashboardContent({section, setSidebarVisible}) {
             
             <div className="dashboard-section-content">
                 {section === "Feeds" &&
-                    <div className="feeds-container">
-                        <div className="feeds">
-                            <HaunterFeed setLoading={setLoading} />
-                        </div>
-                    </div>
+                    <HaunterFeed setLoading={setLoading} />
                 }
 
                 {section === "Profile" &&
