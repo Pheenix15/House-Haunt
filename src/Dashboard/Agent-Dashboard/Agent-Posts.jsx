@@ -1,6 +1,9 @@
 import axios from "axios";
 import { sendAgentPost } from "../../Api/Agent-Post";
 import { useState, useEffect } from "react";
+import { formatDate } from '../../utilities/formatDate';
+import { IoCheckmarkCircleSharp } from "react-icons/io5";
+import { IoAlertCircle } from "react-icons/io5";
 import "../Agent-post.css"
 import { useAlert } from "../../Context/AlertContext";
 
@@ -83,25 +86,57 @@ function Posts({setLoading, loading}) {
                     </div>
                 </div>
 
-                <div className="agent-posts">
+                <div className="agents-houses">
                     {houses.map((house) => (
                         <div
                          key={house._id}
-                         className="agent-houses"
+                         className="agent-house"
                         >
-                            <div className="agent-house-image">
-                                <img src={house.image_url} alt={house.title} />
+                            <div className="agent-house-top">
+                                <p className="added-at">
+                                    {formatDate(house.created_at)}
+                                </p>
+                            </div>
+                            <div className="agent-house-body">
+                                <div className="agent-house-image">
+                                    <img src={house.image_url} alt={house.title} />
+                                </div>
+
+                                <div className="agent-house-details">
+                                    <div className="agent-house-title">
+                                        <h3>{house.title}</h3>
+                                    </div>
+
+                                    <div className="agent-house-info">
+                                        <p className="agent-house-description">{house.description}</p>
+                                        <p className="agent-house-location"><span className="bold">Location:</span> {house.location}</p>
+                                    </div>
+
+                                    <div className="agent-house-price">
+                                        <p><span className="bold">Price:</span> ₦{house.price}</p>
+                                    </div>
+                                </div>
                             </div>
 
-                            <div className="agent-house-details">
-                                <div className="top">
-                                    <h3>{house.title}</h3>
+                            <div className="agent-house-bottom">
+                                <p className="reviewed-at">
+                                    Reviewed: {formatDate(house.reviewed_at)}
+                                </p>
 
+                                <div className="house-status" 
+                                    style={{
+                                        color: house.status === 'rejected' ? "#bc0808" : house.status === 'approved' ? "#0d47a1" : "#1f1f1f"
+                                    }}
+                                >
+                                    <div className="review-circle">
+                                        {house.status === "approved" ? <IoCheckmarkCircleSharp /> : <IoAlertCircle />}
+                                    </div>
+                                    <p className="agent-house-status">
+                                        {house.status}
+                                    </p>
                                 </div>
 
-                                <div className="bottom">
-
-                                </div>
+                                
                             </div>
                         </div>
                     ))}

@@ -1,24 +1,130 @@
+.posts {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+}
+
 .agent-posts {
     position: relative;
     display: flex;
     flex-direction: column;
+    gap: 25px;
+    min-height: 0;
+    flex: 1;
 }
 
 .agent-posts-heading {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 20px;
-    background-color: var(--mainWhite);
-    border-radius: 10px;
 }
 
 .agent-posts-heading h2 {
     margin: 0;
+    font-size: 1.2em;
+}
+
+.add-house button {
+    padding: 10px;
+}
+
+.agents-houses {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-height: 0;
+    flex: 1;
+    overflow-y: auto;
+    padding: 10px 20px;
+}
+
+.agent-house {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    background-color: var(--mainWhite);
+    border-radius: 10px;
+    box-shadow: 0 0 5px var(--mainBlue);
+}
+
+.agent-house-top {
+    align-self: flex-end;
+    padding: 10px 15px;
 }
 
 .agent-house-image {
-    width: 50px;
+    width: 150px;
+    height: 160px;
+    flex-shrink: 0;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.agent-house-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.agent-house-body {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    padding: 0 15px;
+}
+
+.agent-house-details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    flex: 1;
+    min-width: 0;
+}
+
+.agent-house-title, .agent-house-info, .agent-house-price {
+    max-width: 100%;
+}
+
+.agent-house-details p {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.agent-house-title {
+    color: var(--mainBlue);
+}
+
+.agent-house-title h3 {
+    margin: 0;
+}
+
+.agent-house-bottom {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px 15px;
+    border-top: 2px solid var(--mainBlue);
+}
+
+.agent-house-top, .agent-house-bottom {
+    font-size: 0.7em;
+}
+
+.house-status {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+}
+
+.review-circle {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
 }
 
 .add-house-modal {
@@ -64,5 +170,18 @@
 
     .add-house-button button {
         font-size: 0.8em;
+    }
+
+    .agent-house-body {
+        flex-direction: column;
+    }
+
+    .agent-house-image {
+        width: unset;
+        height: 150px;
+    }
+
+    .agent-house-details p {
+        font-size: 0.85em;
     }
 }

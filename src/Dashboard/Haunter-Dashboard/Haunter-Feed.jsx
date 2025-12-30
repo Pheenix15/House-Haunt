@@ -1,31 +1,28 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import '../Feed.css'
 import { formatDate } from '../../utilities/formatDate';
 import { HiOutlineHeart } from "react-icons/hi2";
 import { HiMiniHeart } from "react-icons/hi2";
 import { IoLogoUsd } from "react-icons/io5";
 import { IoMap } from "react-icons/io5";
 import { useAlert } from '../../Context/AlertContext';
+import HouseFilter from '../../Api/House-Filter';
+import '../Feed.css'
 
 function HaunterFeed({setLoading}) {
 
     // FAVORITES
-    const [isFavourite, setIsFavourite] = useState({}) // ADDS HOUSE TO FAVOURITE
+    const [isFavourite, setIsFavourite] = useState({}) // Stores Houses That Are in Favorite
+    const [favouriteIds, setFavouriteIds] = useState({}) //Stores Id of Houses that are in Favorite
     const [favorites, setFavorites] = useState([])
     const [totalFavorites, setTotalFavorites] = useState(0)
     // FEEDS
     const [feeds, setFeeds] = useState("houses")
-    const [houses, setHouses] = useState([]); //HOLDS ALL APPROVED HOUSES
-    const [filters, setFilters] = useState({
-        location: "",
-        max_price: "",
-        min_price: "",
-        search: "",
-        sort_by: "newest",
-    }); //FILTERS HOUSES BY OPTIONS
+    const [houses, setHouses] = useState([]); //Holds All Approved Houses
+
     const [totalResults, setTotalResults] = useState(0); //HOLDS THE NUMBER OF HOUSES IN FEED
     const {showSuccess, showFail} = useAlert()
+
 
 
     // ADD/REMOVE TO FAVOURITE
@@ -41,7 +38,8 @@ function HaunterFeed({setLoading}) {
         try {
             if (isFav) {
             // Remove from favourites
-            await axios.post(`/api/favorites/remove/${houseId}`);
+            const favouriteId = favouriteIds[houseId]
+            await axios.delete(`/api/favorites/remove/${favouriteId}`);
             showSuccess("House removed from favourites.")
             } else {
             // Add to favourites
@@ -50,11 +48,8 @@ function HaunterFeed({setLoading}) {
             }
 
             // Refetch the favorites list after success
-            const response = await axios.get('/api/haunter/favorites');
-            setFavorites(response.data.favorites);
-            setTotalFavorites(response.data.total_favorites);
+            await fetchFavorites()
 
-            
         } catch (error) {
             // rollback on failure
             setIsFavourite(prev => ({
@@ -66,38 +61,61 @@ function HaunterFeed({setLoading}) {
         }
     };
 
-    // RETRIEVE FAVORITES FROM DB
-    useEffect(() => {
-        const fetchFavorites = async () => {
-            setLoading(true)
-            try {
-                const favoritesResponse = await axios.get('/api/favorites', {withCredentials: true})
-                
-                const data = favoritesResponse.data
+    //Remove Favourite
+    const removeFav = async (favId) => {
+        try {
+            await axios.delete(`/api/favorites/remove/${favId}`);
+            showSuccess("House removed from favourites.")
 
-                setFavorites(Array.isArray(data.favorites) ? data.favorites : [])
-                setTotalFavorites(Number(data.total_favorites ?? 0))
-
-                // Initialize isFavourite (for the heart buttons)
-                const favMap = {};
-                data.favorites.forEach(fav => {
-                    favMap[fav.id] = true;
-                });
-                setIsFavourite(favMap);
-
-                console.log(totalFavorites)
-                setLoading(false)
-            } catch (error) {
-                console.error('Error fetching favorites:', error);
-
-                showFail("'Error fetching favorites:", error)
-            } finally {
-                setLoading(false)
-            }
+            // Refetch the favorites list after success
+            const response = await axios.get('/api/favorites');
+            setFavorites(response.data.favorites);
+            setTotalFavorites(response.data.total_favorites);
+        } catch (error) {
+            console.log("Failed to remove house:", error);
+            showFail("Failed to remove house, please try again")
         }
+        
+    }
 
-        fetchFavorites()
+    // RETRIEVE FAVORITES FROM DB
+    const fetchFavorites = async () => {
+        // setLoading(true) (Causing the page to reload everytime a favorite is added)
+        try {
+            const favoritesResponse = await axios.get('/api/favorites', {withCredentials: true})
+            
+            const data = favoritesResponse.data
+
+            setFavorites(Array.isArray(data.favorites) ? data.favorites : [])
+            setTotalFavorites(Number(data.total_favorites ?? 0))
+
+            // Initialize isFavourite (for the heart buttons)
+            const favMap = {};
+            const favMapId = {} // Maps the favs id because of id difference in house and favorites
+            
+            data.favorites.forEach(fav => {
+                //key the id returned by favorite api to id returned by house feed api (favourite:house_id = houses:id in backend, they have the same value but favorite:favorite_id used for fav removal has different value )
+                favMap[fav.house_id] = true;
+                favMapId[fav.house_id] = fav.favorite_id
+            });
+            setIsFavourite(favMap);
+            setFavouriteIds(favMapId)
+
+            console.log(favMap)
+            setLoading(false)
+        } catch (error) {
+            console.error('Error fetching favorites:', error);
+
+            showFail("'Error fetching favorites:", error)
+        } finally {
+            // setLoading(false)
+        }
+    }
+    // fetch favorites on app startup
+    useEffect(() => {
+        fetchFavorites();
     }, [])
+    
 
 
     //RETRIEVE HAUNTERS FEED FROM DATABASE
@@ -106,21 +124,13 @@ function HaunterFeed({setLoading}) {
         const fetchFeed = async () => {
             setLoading(true)
             try {
-                const feedResponse = await axios.get(`/api/haunter/houses`, {
-                    params: {
-                        location: filters.location || "",
-                        max_price: filters.max_price || "",
-                        min_price: filters.min_price || "",
-                        search: filters.search || "",
-                        sort_by: filters.sort_by || "newest",
-                    }
-                });
+                const feedResponse = await axios.get(`/api/haunter/houses`,);
                 console.log(feedResponse.data)
 
                 // assign feedResponse to feeds
                 const feedData = feedResponse.data
                 // assigns feedData to their states if data is present else leave them empty
-                // setFilters(feedData.filters ?? {})
+                
                 setHouses(Array.isArray(feedData.houses) ? feedData.houses : []);
                 setTotalResults(Number(feedData.total_results ?? 0));
             } catch (error) {
@@ -136,7 +146,7 @@ function HaunterFeed({setLoading}) {
 
         fetchFeed();
         return () => {mounted = false};
-    }, [filters])
+    }, [])
 
     const handleFilterChange = (key, value) => {
         setFilters(prev => {
@@ -218,7 +228,7 @@ function HaunterFeed({setLoading}) {
                                 <p>You have not added any favorites</p>
                             ) : (
                                 favorites.map((fav) => (
-                                    <div key={fav.id} className="house-list-item">
+                                    <div key={fav.favorite_id} className="house-list-item">
                                         <div className="house-list-content">
                                             <div className="house-feed-list-image">
                                                 <img src={fav.image_url} alt={fav.title} className="house-image" />
@@ -243,10 +253,10 @@ function HaunterFeed({setLoading}) {
 
                                                 <div className="feed-details-buttom">
                                                     <button 
-                                                        className="add-to-favourite"
-                                                        onClick={() => toggleFavourite(fav.id)}
+                                                        className="remove-from-favourite"
+                                                        onClick={() => removeFav(fav.favorite_id)}
                                                     >
-                                                        {isFavourite[fav.id] ? <HiMiniHeart className='heart' /> : <HiOutlineHeart className='heart' />}
+                                                        Remove
                                                     </button>
                                                 </div>
                                             </div>

@@ -75,8 +75,8 @@
     width: 30px;
 }
 
-/* MOBILE VIEW */
-@media (max-width: 426px) {
+/* TABLET VIEW */
+@media (max-width: 769px) {
     .sidebar-visible {
         position: fixed;
     }
@@ -85,7 +85,10 @@
         position: fixed;
         transform: translateX(-100%);
     }
+}
 
+/* MOBILE VIEW */
+@media (max-width: 426px) {
     .sidebar-image {
         width: 100px;
         height: 90px;
