@@ -1,12 +1,23 @@
 import { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { formatDate } from '../../utilities/formatDate';
+import { formatDate, formatNumber } from '../../utilities/formatDate';
 import { HiOutlineHeart } from "react-icons/hi2";
 import { HiMiniHeart } from "react-icons/hi2";
 import { IoLogoUsd } from "react-icons/io5";
 import { IoMap } from "react-icons/io5";
-import { useAlert } from '../../Context/AlertContext';
-import HouseFilter from '../../Api/House-Filter';
+import { IoFilterSharp } from "react-icons/io5";
+import { IoChevronDownSharp } from "react-icons/io5";
+import { IoCloseCircle } from "react-icons/io5";
+import { IoLocation } from "react-icons/io5";
+import { useAlert } from "../../Context/AlertContext";
+import {
+    getFiltersFromURL,
+    buildQueryParams,
+    applySearchFilter,
+    applyPriceFilter,
+    clearAllFilters,
+} from '../../Api/House-Filter';
 import '../Feed.css'
 
 function HaunterFeed({setLoading}) {
@@ -19,11 +30,21 @@ function HaunterFeed({setLoading}) {
     // FEEDS
     const [feeds, setFeeds] = useState("houses")
     const [houses, setHouses] = useState([]); //Holds All Approved Houses
-
     const [totalResults, setTotalResults] = useState(0); //HOLDS THE NUMBER OF HOUSES IN FEED
+    const [openHouseDetails, setOpenHouseDetails] = useState(false) // Opens the House Details Modal
+    const [selectedHouse, setSelectedHouse] = useState(null) //Stores clicked house in House feed
+    // FILTERS
+    const [openFilter, setOpenFilter] = useState(false) //Opens filter on Mobile
+    const [searchInput, setSearchInput] = useState(""); //Search input states while typing
+    const [priceInput, setPriceInput] = useState(""); //Price input states while typing
+    const [appliedFilters, setAppliedFilters] = useState({
+        search: "",
+        maxPrice: null,
+    }); //Applied Filters
     const {showSuccess, showFail} = useAlert()
 
-
+    const location = useLocation();
+    const navigate = useNavigate();
 
     // ADD/REMOVE TO FAVOURITE
     const toggleFavourite = async (houseId) => {
@@ -101,7 +122,7 @@ function HaunterFeed({setLoading}) {
             setIsFavourite(favMap);
             setFavouriteIds(favMapId)
 
-            console.log(favMap)
+            // console.log(favMap)
             setLoading(false)
         } catch (error) {
             console.error('Error fetching favorites:', error);
@@ -117,27 +138,39 @@ function HaunterFeed({setLoading}) {
     }, [])
     
 
+    // HOUSE FEED AND FILTER
 
-    //RETRIEVE HAUNTERS FEED FROM DATABASE
+    //Sync appliedFilters from URL on mount
+    useEffect(() => {
+        const initialFilters = getFiltersFromURL(location.search);
+        setAppliedFilters(initialFilters);
+
+        // mirror into input fields
+        setSearchInput(initialFilters.search || "");
+        setPriceInput(initialFilters.maxPrice ?? "");
+    }, [location.search]);
+
+    //Retrieve hunters feed from database
     useEffect(() => {
         let mounted = true;
         const fetchFeed = async () => {
             setLoading(true)
             try {
-                const feedResponse = await axios.get(`/api/haunter/houses`,);
-                console.log(feedResponse.data)
+                const params = buildQueryParams(appliedFilters);
+                const feedResponse = await axios.get(`/api/haunter/houses`, {params});
+                // console.log(feedResponse.data) for debugging purposes
 
                 // assign feedResponse to feeds
                 const feedData = feedResponse.data
                 // assigns feedData to their states if data is present else leave them empty
-                
+                console.log(feedData)
                 setHouses(Array.isArray(feedData.houses) ? feedData.houses : []);
                 setTotalResults(Number(feedData.total_results ?? 0));
             } catch (error) {
                 if (!mounted) return;
                 console.log("Error:", error)
                 setTimeout(() => {
-                    setFailAlert("Failed to load feed")
+                    showFail("Failed to load feed")
                 }, 3000);
             } finally {
                 if (mounted) setLoading(false);
@@ -146,60 +179,119 @@ function HaunterFeed({setLoading}) {
 
         fetchFeed();
         return () => {mounted = false};
-    }, [])
+    }, [appliedFilters]) //Fetch runs whenever appliedFilters changes
 
-    const handleFilterChange = (key, value) => {
-        setFilters(prev => {
-            if (prev[key] === value) return prev; // no change
-            return { ...prev, [key]: value }; // update only if changed
-        });
+    // Opens house details when user clicks on a house
+    const handleHouseClick = (house) => {
+        setSelectedHouse(house); // save the clicked house
+        setOpenHouseDetails(true); // open the modal
+    };
+
+    // Search filter button
+    const handleApplyFilters = () => {
+        let updatedFilters = appliedFilters;
+
+        // apply search (replaces previous search)
+        updatedFilters = applySearchFilter(updatedFilters, searchInput);
+
+        // apply price (replaces previous price)
+        updatedFilters = applyPriceFilter(updatedFilters, priceInput);
+
+        setAppliedFilters(updatedFilters);
+
+        // sync URL
+        const params = new URLSearchParams(buildQueryParams(updatedFilters));
+        navigate(`?${params.toString()}`, { replace: true });
+    };
+
+    // Filter Count
+    const filterCount = (appliedFilters.search !== "" ? 1 : 0) + (appliedFilters.maxPrice !== null ? 1 : 0);
+
+    // Clear filters button
+    const handleClearFilters = () => {
+        const cleared = clearAllFilters();
+
+        setAppliedFilters(cleared);
+        setSearchInput("");
+        setPriceInput("");
+
+        // remove query params from URL
+        navigate(location.pathname, { replace: true });
     };
 
 
     return ( 
         <div className="haunter-feed">
-            
-            {/* Search bar Filters */}
-            {/* <div className="filters-container">
-                {filters && (
-                    <div className="feed-filters">
-                        <div className="feed-filter">
-                            <IoMap />
-                            <input
-                                type="search"
-                                id="location"
-                                name="location"
-                                placeholder= {filters.location || "type a location"}
-                                value={filters.location}
-                                onChange={e => handleFilterChange("location", e.target.value)}
-                                className="filter-input location-filter-input"
-                            />
-                        </div>
-                        
 
-                        <div className="feed-filter">
-                            <IoLogoUsd />
-                            <input
-                                type="search"
-                                id="price"
-                                name="price"
-                                placeholder= {filters.max_price || "search by price"}
-                                value={filters.max_price}
-                                onChange={e => handleFilterChange("max_price", Number(e.target.value))}
-                                className="filter-input price-filter-input"
-                            />
-                        </div>
-                        
+            <div className="haunter-feed-header">
+                {/* <div className="feed-heading">
+                    <h2>House Feed</h2>
+                </div> */}
 
+                {/* Feed Filter */}
+                <div className="filter-heading">
+                    <div className="filter-heading-text">
+                        <p>Filters</p>
+
+                        {filterCount > 0 && (
+                            <div className="circle">
+                                {filterCount}
+                            </div>
+                        )}
                         
-                    
+                        {/* <IoFilterSharp /> */}
                     </div>
-                )}
-            </div> */}
-            
+
+                    <div className="filter-dropdown-arrow">
+                        <button onClick={() => setOpenFilter(prev => !prev)} >
+                            <IoChevronDownSharp />
+                        </button>
+                        
+                    </div>
+                </div>
+
+                <div className={openFilter ? "feed-filters filters-open" : "feed-filters"}>
+
+                    <div className="feed-filter-input">
+                        <div className="feed-search-filter">
+                            <IoMap />
+                            
+                            <input
+                                type="text" 
+                                placeholder='search  by location'
+                                value={searchInput}
+                                onChange={(e) => setSearchInput(e.target.value)}
+                            />
+                        </div>
+
+                        <div className="feed-price-filter">
+                            <IoLogoUsd />
+
+                            <input 
+                                type="number" 
+                                placeholder='Enter your budget'
+                                value={priceInput}
+                                onChange={(e) => setPriceInput(e.target.value)}
+                            />
+                        </div>
+                    </div>
+                    
+                    <div className="feed-filter-buttons">
+                        <button className="search-filters-btn" onClick={handleApplyFilters}>
+                            Search
+                        </button>
+
+                        <button className="clear-filters-btn" onClick={handleClearFilters}>
+                            Clear Filters
+                        </button>
+                    </div>
+                    
+                </div>
+            </div>    
             
             {/* House Feeds */}
             <div className="house-feed-container">
+
                 <div className="feed-selector">
                     <button 
                         className={feeds === "houses" ? "feed-selector-button active-feed" : "feed-selector-button"} 
@@ -305,10 +397,14 @@ function HaunterFeed({setLoading}) {
                                 <p>No houses available</p>
                             ) : (
                                 houses.map((house) => (
-                                <div key={house.id} className="house-list-item">
+                                <div key={house.id} className="house-list-item" onClick={() => handleHouseClick(house)} >
                                     <div className="house-list-content">
                                         <div className="house-feed-list-image">
-                                            <img src={house.image_url} alt={house.title} className="house-image" />
+                                            {house.images && house.images.length > 0 ? (
+                                                <img src={house.images[0]} alt={house.title} className='house-image' />
+                                            ): (
+                                                <img src="../../img/icons/broken-image.png" alt="Image not available" className='house-image' />
+                                            )}
                                         </div>
                                         
                                         <div className="house-feed-list-details">
@@ -325,7 +421,7 @@ function HaunterFeed({setLoading}) {
                                             <div className="feed-details-description">
                                                 <p className="house-feed-details">{house.description}</p>
                                                 <p className="house-feed-location">{house.location}</p>
-                                                <p className="house-feed-price">₦ {house.price}</p>
+                                                <p className="house-feed-price">₦ {formatNumber(house.price)}</p>
                                             </div>
 
                                             <div className="feed-details-buttom">
@@ -345,6 +441,86 @@ function HaunterFeed({setLoading}) {
                                 </div>
                                 ))
                             )}
+
+                            {/* House Modal */}
+
+                            {/* {openHouseDetails && selectedHouse && (
+                                <div className="modal house-list-modal">
+                                    <div className="house-list-modal-heading">
+                                        <button className="circle" onClick={() => setOpenHouseDetails(false)} ><IoCloseCircle /></button>
+                                    </div>
+
+                                    <div className="house-list-modal-details">
+                                        <div className="house-list-modal-details-images">
+                                            <div className="left-image">
+                                                {selectedHouse.images && selectedHouse.images.length > 0 ? (
+                                                    <img src={selectedHouse.images[0]} alt={selectedHouse.title} />
+                                                ) : (
+                                                    <img src="../../img/icons/broken-image.png" alt="Image not available" className='house-image' />
+                                                )}
+                                                
+                                            </div>
+
+                                            <div className="right-images">
+                                                <div className="right-images-grid">
+                                                    {selectedHouse.images && selectedHouse.images.length > 1 ? (
+                                                        // Map only 3 images starting from index 1
+                                                        selectedHouse.images.slice(1, 4).map((image, index) => (
+                                                            <div className="right-images-grid-image" key={index} >
+                                                                <img
+                                                                    src={image}
+                                                                    alt={`${selectedHouse.title} ${index + 1}`}
+                                                                    className="house-image"
+                                                                />
+                                                            </div>
+                                                            
+                                                        ))
+                                                        ) : (
+                                                        <img
+                                                            src="../../img/icons/broken-image.png"
+                                                            alt="Image not available"
+                                                            className="house-image"
+                                                        />
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="house-list-modal-details-detail">
+                                            <div className="house-details">
+                                                <div className="main-house-details">
+                                                    <div className="main-house-details-left">
+                                                        <p className='bold' >{selectedHouse.title}</p>
+
+                                                        <p><IoLocation /> {selectedHouse.location}</p>
+                                                    </div>
+
+                                                    <div className="main-house-details-right">
+                                                        <p>{formatNumber(selectedHouse.price)}</p>
+                                                    </div>
+                                                </div>
+
+                                                <div className="house-descriptions">
+                                                    <p>{selectedHouse.description}</p>
+                                                </div>
+                                            </div>
+
+                                            <div className="house-list-modal-agent-details">
+                                                <div className="agent-name">
+                                                    <p>{selectedHouse.agent_name}</p>
+                                                </div>
+
+                                                <div className="contact-agent">
+                                                    <button className="contact-agent-button">
+                                                        Contact Agent
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            )} */}
                         </div>
                     </div>
                 )}

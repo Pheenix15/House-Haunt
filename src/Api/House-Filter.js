@@ -1,53 +1,64 @@
-import { useEffect, useMemo, useRef, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+// Extract applied filters from the URL
+export const getFiltersFromURL = (searchString) => {
+    const params = new URLSearchParams(searchString);
 
-function HouseFilter ({onSearch}) {
-    const [searchParams, setSearchParams] = useSearchParams(); //Used to sync filters to URL
-    const debounceRef = useRef(null);
+    const search = params.get("search") || "";
+    const maxPriceRaw = params.get("max_price");
 
-    // Filter States
-    const [search, setSearch] = useState(searchParams.get("search") || "");
-    const [price, setPrice] = useState(searchParams.get("price") || "");
-    
-
-    // Apply filters ONLY when search button is clicked
-    const applyFilters = () => {
-        const params = {};
-
-        if (search.trim()) params.search = search.trim();
-        if (price) params.price = price;
-
-        // Sync filters to URL
-        setSearchParams(params);
-
-        // Send filters to backend
-        onSearch(params);
-    };
-
-    // Filtering logic
-    const filteredHouses = useMemo(() => {
-        return houses.filter(house => {
-        const matchesSearch =
-            !searchQuery ||
-            house.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            house.location?.toLowerCase().includes(searchQuery.toLowerCase());
-
-        const matchesPrice =
-            !priceQuery || Number(house.price) <= Number(priceQuery);
-
-        return matchesSearch && matchesPrice;
-        });
-    }, [houses, searchQuery, priceQuery]);
-
+    const maxPrice = maxPriceRaw && !isNaN(maxPriceRaw)
+        ? Number(maxPriceRaw)
+        : null;
 
     return {
-        searchInput,
-        setSearchInput,
-        priceInput,
-        setPriceInput,
-        applyFilters,
-        filteredHouses,
+        search,
+        maxPrice,
     };
-}
+};
 
-export default HouseFilter ;
+// Build query parameters for axios
+export const buildQueryParams = ({ search, maxPrice }) => {
+    const params = {};
+
+    if (search && search.trim() !== "") {
+        params.search = search.trim();
+    }
+
+    if (typeof maxPrice === "number") {
+        params.max_price = maxPrice;
+    }
+
+    return params;
+};
+
+// Preserve, replace or apply search filter
+export const applySearchFilter = (currentFilters, searchValue) => {
+    return {
+        ...currentFilters,
+        search: searchValue.trim(),
+    };
+};
+
+//Preserve, replace or apply price filter
+export const applyPriceFilter = (currentFilters, priceValue) => {
+    if (priceValue === "" || priceValue === null) {
+        return {
+            ...currentFilters,
+            maxPrice: null,
+        };
+    }
+
+    const parsedPrice = Number(priceValue);
+
+    return {
+        ...currentFilters,
+        maxPrice: !isNaN(parsedPrice) ? parsedPrice : null,
+    };
+};
+
+//Clears all filters
+export const clearAllFilters = () => {
+    return {
+        search: "", 
+        maxPrice: null,
+    };
+};

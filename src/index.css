@@ -76,6 +76,11 @@ img {
   height: auto;
 }
 
+.tiny {
+  font-size: 0.65em;
+  color: var(--textGray);
+}
+
 .bold {
   font-weight: bold;
 }
@@ -97,6 +102,17 @@ form {
   font-family: var(--headingFont);
 }
 
+.form-input {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-size: 0.8em;
+  margin-bottom: 5px;
+  padding-left: 10px;
+}
+
 .card {
   padding: 15px 10px;
   border-radius: 10px;
@@ -109,6 +125,7 @@ input {
   border-radius: 10px;
   border: 2px solid var(--mainBlue);
   background: transparent;
+  outline: transparent;
 }
 
 .password /**Form Password input**/{

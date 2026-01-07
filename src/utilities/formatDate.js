@@ -18,3 +18,15 @@ export const formatDate = (dateString) => {
     year: 'numeric',
   });
 };
+
+
+// Reusable compact number formatter (200K, 1.2M, etc.)
+const compactFormatter = new Intl.NumberFormat("en-US", {
+  notation: "compact",
+  compactDisplay: "short"
+});
+
+export const formatNumber = (value) => {
+  if (value === null || value === undefined) return "—";
+  return compactFormatter.format(value);
+};

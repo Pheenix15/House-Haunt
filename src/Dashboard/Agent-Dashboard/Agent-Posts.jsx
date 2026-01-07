@@ -1,6 +1,7 @@
 import axios from "axios";
 import { sendAgentPost } from "../../Api/Agent-Post";
 import { useState, useEffect } from "react";
+import { Country, State, City }  from 'country-state-city';
 import { formatDate } from '../../utilities/formatDate';
 import { IoCheckmarkCircleSharp } from "react-icons/io5";
 import { IoAlertCircle } from "react-icons/io5";
@@ -8,9 +9,15 @@ import "../Agent-post.css"
 import { useAlert } from "../../Context/AlertContext";
 
 function Posts({setLoading, loading}) {
-    const [posts, setPosts] = useState(null) //AGENTS POSTS
+    const [allState, setAllState] = useState([])
+    const [selectedState, setSelectedState] = useState("")
+    const [stateCode, setStateCode] = useState("")
+    const [allCities, setAllCities] = useState([])
+    const [selectedCity, setSelectedCity] = useState("")
+    const [selectedImages, setSelectedImages] = useState([]) //IMAGES SELECTED IN ADD HOUSE MODAL
+    // const [posts, setPosts] = useState(null) //AGENTS POSTS
     const [openPostModal, setOpenPostModal] = useState(false) //SET MODAL TO SEND POST
-    const [houseImage, setHouseImage] = useState(null) //IMAGE of HOUSE
+    const [houseImage, setHouseImage] = useState([]) //IMAGE of HOUSE
     const [houses, setHouses] = useState([]) //HOUSES POSTED BY AGENTS
     const [houseName, setHouseName] = useState("") //NAME OF HOUSE
     const [location, setLocation] = useState("") //HOUSE ADDRESS
@@ -21,11 +28,44 @@ function Posts({setLoading, loading}) {
     // RETRIEVE AGENT ID FROM LOCALSTORAGE
     const agentId = localStorage.getItem("id");
 
+    // // RETRIEVE ALL STATES AND THEIR CITIES
+    // useEffect(() => {
+    //     const statelist = State.getStatesOfCountry("NG")
+    //     setAllState(statelist)
+    //     // console.log(allState)
+    // }, [])
+    
+
+    // useEffect(() => {
+    //     if (!stateCode) {
+    //         setAllCities([]);
+    //         return
+    //     }
+
+    //     setAllCities(City.getCitiesOfState("NG", stateCode))
+    // }, [stateCode])
+
+    // // Checks that all values are correct
+    // useEffect(() => {
+    //     console.log("State code:", selectedState);
+    //     console.log("Cities:", selectedCity);
+    // }, [selectedState, selectedCity]);
+
+
+    // // Reset city when state changes
+    // useEffect(() => {
+    //     setSelectedCity("");
+    // }, [stateCode])
+    
+
+
     const form = new FormData()
 
     form.append("agent_id", agentId)
     form.append("title", houseName)
-    form.append("image", houseImage)
+    houseImage.forEach((file) => {
+        form.append("images", file);
+    });
     form.append("location", location)
     form.append("price", price)
     form.append("description", description,)
@@ -36,15 +76,26 @@ function Posts({setLoading, loading}) {
     // SEND POSTS TO DATABASE
     const sendPost = async (e) => {
         e.preventDefault();
+
+        // Enforces min of 3 images
+        
+        //!!!important test this before doing anything else.........!
+        if (!houseImage || houseImage.length < 3) {
+            showFail("Please select at least 3 images.");
+            return;
+        }
+
         setLoading(true)
         try {
             // 
             const postResponse = await sendAgentPost(form);
+            console.log("Post Response:", postResponse)
+            setHouseImage([]) //Reset house images
             showSuccess("Your new listing has been sent")
 
         } catch (error) {
             console.log(error)
-            showFail("An error occured please try again")
+            showFail(error.message)
         } finally {
             setLoading(false)
             setOpenPostModal(false)
@@ -99,7 +150,12 @@ function Posts({setLoading, loading}) {
                             </div>
                             <div className="agent-house-body">
                                 <div className="agent-house-image">
-                                    <img src={house.image_url} alt={house.title} />
+                                    {house.images && house.images.length > 0 ? (
+                                        <img src={house.images[0]} alt={house.title} />
+                                    ): (
+                                        <img src="../../img/icons/broken-image.png" alt="Image not available" />
+                                    )}
+                                    
                                 </div>
 
                                 <div className="agent-house-details">
@@ -120,7 +176,8 @@ function Posts({setLoading, loading}) {
 
                             <div className="agent-house-bottom">
                                 <p className="reviewed-at">
-                                    Reviewed: {formatDate(house.reviewed_at)}
+                                    {house.reviewed_at ? `Reviewed: ${formatDate(house.reviewed_at)}` : " "}
+                                    
                                 </p>
 
                                 <div className="house-status" 
@@ -146,7 +203,7 @@ function Posts({setLoading, loading}) {
             {/* MODAL TO ADD HOUSE TO DATABASE */}
             {openPostModal && (
                 <div className="add-house-modal">
-                    <div className="modal-heading">
+                    <div className="modal-heading add-house-modal-heading">
                         <h2>Add new listing</h2>
 
                         <div className="close-button">
@@ -155,22 +212,102 @@ function Posts({setLoading, loading}) {
                                 style={{
                                     color: "#1a73e8"
                                 }}
-                                onClick={() => setOpenPostModal(false)}
+                                onClick={() => {setOpenPostModal(false); setHouseImage([])}}
                             ></i>
                         </div>
                     </div>
-                    
-                    <div className="modal">
+    
+                    <div className="modal-form">
                         <form onSubmit={sendPost} className="add-house-form">
-                            <input type="text" name="title" placeholder="Building Name" onChange={(e) => setHouseName(e.target.value)} required />
-                            <input type="address" name="location" placeholder="house address" onChange={(e) => setLocation(e.target.value)} required />
-                            <input type="number" name="price" placeholder="price" onChange={(e) => setPrice(e.target.value)} required />
-                            <input type="text" name="description" placeholder="Describe the house" onChange={(e) => setDescription(e.target.value)} required />
+                            <div className="form-input">
+                                <label htmlFor="title">Title</label>
+                                <input type="text" name="title" placeholder="Title of the Listing" onChange={(e) => setHouseName(e.target.value)} required />
+                            </div>
+                            
+                            {/* <div className="location-select">  
+                                <input list="states" 
+                                    name="state"
+                                    value={selectedState}
+                                    onChange={(e) => {
+                                        setSelectedState(e.target.value);
+
+                                        // Match dropdown list to input value
+                                        const match = allState.find(
+                                            // s = state
+                                            (s) => s.name.toLowerCase() === e.target.value.toLowerCase()
+                                        );
+
+                                        setStateCode(match ? match.isoCode : "")
+                                        console.log("Clicked/Typed State:", e.target.value)
+                                    }}
+                                    required
+                                />
+
+                                <datalist id="states">
+                                    {allState.map((state) => (
+                                        <option
+                                        key={state.isoCode}
+                                        value={state.name}
+                                        />
+                                    ))}
+                                </datalist>
+                                
+                                <input list="cities" 
+                                    name="cities"
+                                    value={selectedCity}
+                                    onChange={(e) => {
+                                        setSelectedCity(e.target.value);
+
+                                        console.log("Selected City:", e.target.value)
+                                    }}
+                                    disabled={!stateCode}
+                                    required
+                                />
+
+                                <datalist id="cities">
+                                    {allCities.map((city, index) => (
+                                        <option
+                                        key={`${city.name}-${index}`}
+                                        value={city.name}
+                                        />
+                                    ))}
+                                </datalist>
+                                
+                            </div> */}
+                            <div className="form-input">
+                                <label htmlFor="location">Address</label>
+                                <input type="address" name="location" placeholder="eg. 22, Omotayo Ojo Street, Ikeja, Lagos" onChange={(e) => setLocation(e.target.value)} required />
+                            </div>
+
+                            <div className="form-input">
+                                <label htmlFor="price">Price</label>
+                                <input type="number" name="price" placeholder="price" onChange={(e) => setPrice(e.target.value)} required />
+                            </div>
+
+                            <div className="form-input">
+                                <label htmlFor="description">Describe the house</label>
+                                <input type="text" name="description" placeholder="Describe the house" onChange={(e) => setDescription(e.target.value)} />
+                            </div>
+
                             {/* Image Input */}
-                            <input type="file" name="image" accept="image/png, image/jpeg" onChange={(e) => {
-                                const file = e.target.files[0];
-                                // console.log(file)
-                                setHouseImage(file)}} />
+                            <div className="form-input">
+                                <label htmlFor="images">Images</label>
+                                <input type="file" 
+                                    name="images" 
+                                    accept="image/png, image/jpeg" 
+                                    multiple 
+                                    onChange={(e) => {
+                                        const newFile = Array.from(e.target.files);
+                                        if (newFile.length === 0) return;
+                                        setHouseImage((prev) => [...prev, ...newFile]);
+
+                                        e.target.value = null //Resets file input
+                                    }}
+                                />
+                                {houseImage.length === 0 ? (<></>) : (
+                                    <p className="tiny" >{houseImage.length} image(s) selected</p>
+                                )}
+                            </div>
 
                             <button type="submit" >{loading ? "Posting..." : "Post"}</button>
                         </form>

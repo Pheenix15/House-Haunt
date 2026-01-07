@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { formatNumber } from "../utilities/formatDate";
 import "./Admin-Houses.css"
 import { useAlert } from "../Context/AlertContext";
 
@@ -121,7 +122,7 @@ function AdminHouses({setLoading}) {
                                     <tr className="table-heading-row" >
                                         <th className="table-heading-data" ><h3>Image</h3></th>
                                         <th className="table-heading-data" ><h3>Title</h3></th>
-                                        <th className="table-heading-data" ><h3>Price</h3></th>
+                                        <th className="table-heading-data" ><h3>Price(₦)</h3></th>
                                         <th className="table-heading-data" ><h3>Location</h3></th>
                                         <th className="table-heading-data" ><h3>Status</h3></th>
                                         {/* <th className="table-heading-data" ><h3>Action</h3></th> */}
@@ -134,9 +135,9 @@ function AdminHouses({setLoading}) {
                                             key={index} 
                                             className="house table-body-row"
                                         >
-                                            <td className="table-body-data table-body-image"><img src={allHouse.image_url} alt={allHouse.title} /></td>
+                                            <td className="table-body-data table-body-image"><img src={allHouse.images[0]} alt={allHouse.title} /></td>
                                             <td className="table-body-data"><p>{allHouse.title}</p></td>
-                                            <td className="table-body-data"><p>{allHouse.price}</p></td>
+                                            <td className="table-body-data"><p>{formatNumber(allHouse.price)}</p></td>
                                             <td className="table-body-data"><p>{allHouse.location}</p></td>
                                             <td className="table-body-data"><p>{allHouse.status}</p></td>
                                             {/* <td className="table-body-data">
@@ -173,7 +174,7 @@ function AdminHouses({setLoading}) {
                                     <tr className="table-heading-row" >
                                         <th className="table-heading-data" ><h3>Image</h3></th>
                                         <th className="table-heading-data" ><h3>Title</h3></th>
-                                        <th className="table-heading-data" ><h3>Price</h3></th>
+                                        <th className="table-heading-data" ><h3>Price(₦)</h3></th>
                                         <th className="table-heading-data" ><h3>Location</h3></th>
                                         <th className="table-heading-data" ><h3>Status</h3></th>
                                         <th className="table-heading-data" ><h3>Action</h3></th>
@@ -186,9 +187,9 @@ function AdminHouses({setLoading}) {
                                             key={index} 
                                             className="house table-body-row"
                                         >
-                                            <td className="table-body-data table-body-image"><img src={pendingHouse.image_url} alt={pendingHouse.title} /></td>
+                                            <td className="table-body-data table-body-image"><img src={pendingHouse.images[0]} alt={pendingHouse.title} /></td>
                                             <td className="table-body-data"><p>{pendingHouse.title}</p></td>
-                                            <td className="table-body-data"><p>{pendingHouse.price}</p></td>
+                                            <td className="table-body-data"><p>{formatNumber(pendingHouse.price)}</p></td>
                                             <td className="table-body-data"><p>{pendingHouse.location}</p></td>
                                             <td className="table-body-data"><p>{pendingHouse.status}</p></td>
                                             <td className="table-body-data">

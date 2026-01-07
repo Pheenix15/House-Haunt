@@ -1,4 +1,7 @@
-
+.profile-container {
+    flex: 1;
+    min-height: 0;
+}
 
 .profile-user-info {
     display: grid;
