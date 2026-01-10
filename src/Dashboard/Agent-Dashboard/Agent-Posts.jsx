@@ -1,5 +1,6 @@
 import axios from "axios";
 import { sendAgentPost } from "../../Api/Agent-Post";
+import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from "react";
 import { Country, State, City }  from 'country-state-city';
 import { formatDate } from '../../utilities/formatDate';
@@ -24,6 +25,8 @@ function Posts({setLoading, loading}) {
     const [price, setPrice] = useState(0)
     const [description, setDescription] = useState("")
     const {showSuccess, showFail} = useAlert()
+    
+    const navigate = useNavigate()
 
     // RETRIEVE AGENT ID FROM LOCALSTORAGE
     const agentId = localStorage.getItem("id");
@@ -123,6 +126,11 @@ function Posts({setLoading, loading}) {
         fetchPost();
     }, [])
 
+    // Opens detail page when user clicks on a house
+    const handleHouseClick = (houseId) => {
+        navigate(`/houses/${houseId}`);
+    };
+
     return ( 
         <div className="posts">
             <div className="agent-posts">
@@ -142,6 +150,7 @@ function Posts({setLoading, loading}) {
                         <div
                          key={house._id}
                          className="agent-house"
+                         onClick={() => handleHouseClick(house._id)}
                         >
                             <div className="agent-house-top">
                                 <p className="added-at">

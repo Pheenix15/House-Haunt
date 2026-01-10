@@ -1,11 +1,12 @@
 import { Navigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
+import Loading from './Loading';
 
 const ProtectedRoute = ({ children, allowedRole }) => {
     const { user, loading } = useAuth();
     console.log(' ProtectedRoute render:', { loading, user, allowedRole });
 
-    if (loading) return <div>Loading...</div>;
+    if (loading) return <div><Loading /></div>;
     if (!user) {
         console.log('No user found - attempting redirect to /Login'); 
         return <Navigate to="/Login" replace />;

@@ -31,7 +31,6 @@ function HaunterFeed({setLoading}) {
     const [feeds, setFeeds] = useState("houses")
     const [houses, setHouses] = useState([]); //Holds All Approved Houses
     const [totalResults, setTotalResults] = useState(0); //HOLDS THE NUMBER OF HOUSES IN FEED
-    const [openHouseDetails, setOpenHouseDetails] = useState(false) // Opens the House Details Modal
     const [selectedHouse, setSelectedHouse] = useState(null) //Stores clicked house in House feed
     // FILTERS
     const [openFilter, setOpenFilter] = useState(false) //Opens filter on Mobile
@@ -181,10 +180,9 @@ function HaunterFeed({setLoading}) {
         return () => {mounted = false};
     }, [appliedFilters]) //Fetch runs whenever appliedFilters changes
 
-    // Opens house details when user clicks on a house
-    const handleHouseClick = (house) => {
-        setSelectedHouse(house); // save the clicked house
-        setOpenHouseDetails(true); // open the modal
+    // Opens detail page when user clicks on a house
+    const handleHouseClick = (houseId) => {
+        navigate(`/houses/${houseId}`);
     };
 
     // Search filter button
@@ -397,7 +395,7 @@ function HaunterFeed({setLoading}) {
                                 <p>No houses available</p>
                             ) : (
                                 houses.map((house) => (
-                                <div key={house.id} className="house-list-item" onClick={() => handleHouseClick(house)} >
+                                <div key={house.id} className="house-list-item" onClick={() => handleHouseClick(house.id)} >
                                     <div className="house-list-content">
                                         <div className="house-feed-list-image">
                                             {house.images && house.images.length > 0 ? (
@@ -427,7 +425,10 @@ function HaunterFeed({setLoading}) {
                                             <div className="feed-details-buttom">
                                                 <button 
                                                     className="add-to-favourite"
-                                                    onClick={() => toggleFavourite(house.id)}
+                                                    onClick={(e) => {
+                                                        e.stopPropagation(); //Prevents navigation
+                                                        toggleFavourite(house.id)
+                                                    }}
                                                 >
                                                     {isFavourite[house.id] ? <HiMiniHeart className='heart' /> : <HiOutlineHeart className='heart' />}
                                                 </button>

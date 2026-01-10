@@ -36,6 +36,7 @@ h2 {
 
 h3 {
   font-family: var(--headingFont);
+  margin: 0;
 }
 
 p {
