@@ -60,6 +60,18 @@ function KYC() {
     // Open Camera with front/back camera selection
     const openCamera = async () => {
         try {
+            // Check if we're in a secure context
+            if (!window.isSecureContext) {
+                alert("Camera access requires HTTPS connection");
+                return;
+            }
+
+            // Check if getUserMedia is supported
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                alert("Camera access is not supported on this browser/device");
+                return;
+            }
+
             // Determine which camera to use based on step
             const useFrontCamera = step === 3; // Front camera for selfie, back camera for ID
             
@@ -91,6 +103,19 @@ function KYC() {
         } catch (error) {
             console.error("Camera cannot be opened:", error);
             alert("Unable to access camera. Please check permissions.");
+
+            // More specific error messages
+            if (error.name === 'NotAllowedError') {
+                alert("Camera permission denied. Please allow camera access in your browser settings.");
+            } else if (error.name === 'NotFoundError') {
+                alert("No camera found on this device.");
+            } else if (error.name === 'NotReadableError') {
+                alert("Camera is already in use by another application.");
+            } else if (error.name === 'SecurityError') {
+                alert("Camera access blocked due to security settings. Please ensure you're using HTTPS.");
+            } else {
+                alert(`Unable to access camera: ${error.message}`);
+            }
         }
     };
 

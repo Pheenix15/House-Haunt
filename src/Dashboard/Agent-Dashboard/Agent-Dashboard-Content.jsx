@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import KYC from '../KYC';
+import KYC from '../KYC.jsx';
 import AgentDashboardHeader from './Agent-Dashboard-Header';
 import Posts from './Agent-Posts';
 import AgentProfile from './Agent-Profile';

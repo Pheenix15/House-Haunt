@@ -1,0 +1,5 @@
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Permissions-Policy = "camera=(self), microphone=(self)"
+    Feature-Policy = "camera 'self'; microphone 'self'"

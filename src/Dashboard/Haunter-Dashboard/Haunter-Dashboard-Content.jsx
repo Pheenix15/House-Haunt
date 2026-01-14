@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import KYC from '../KYC';
+import KYC from '../KYC.jsx';
 import HaunterDashboardHeader from './Haunter-Dashboard-Header';
 import HaunterFeed from './Haunter-Feed';
 import HaunterProfile from './Haunter-Profile';
