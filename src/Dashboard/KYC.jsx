@@ -60,7 +60,7 @@ function KYC() {
     // Open Camera with front/back camera selection
     const openCamera = async () => {
         try {
-            // Check if we're in a secure context
+            // Check if context (browser, connection) is secure
             if (!window.isSecureContext) {
                 alert("Camera access requires HTTPS connection");
                 return;
@@ -72,33 +72,51 @@ function KYC() {
                 return;
             }
 
+            // Stop any existing stream first
+            if (cameraStream) {
+                cameraStream.getTracks().forEach(track => track.stop());
+            }
+
             // Determine which camera to use based on step
             const useFrontCamera = step === 3; // Front camera for selfie, back camera for ID
             
+            console.log("Requesting camera access...", useFrontCamera ? "front" : "back");
+
             // Request camera access with facingMode
             const stream = await navigator.mediaDevices.getUserMedia({ 
                 video: { 
                     facingMode: useFrontCamera ? "user" : "environment" 
-                } 
+                },
+                audio: false
             });
+
+            // For Debugging
+            console.log("Camera stream obtained:", stream);
+            console.log("Video tracks:", stream.getVideoTracks());
+
+            // Store the stream
+            setCameraStream(stream);
 
             // Assign stream to <video> element
             if (videoRef.current) {
                 videoRef.current.srcObject = stream;
-
-                // Wait for metadata to load before playing
-                videoRef.current.onloadedmetadata = async () => {
-                    try {
-                        await videoRef.current.play();
-                        console.log("Camera started successfully");
-                    } catch (playError) {
-                        console.error("Error playing video:", playError);
+                
+                // Force play after a short delay
+                setTimeout(async () => {
+                    if (videoRef.current) {
+                        try {
+                            await videoRef.current.play();
+                            console.log("Video playing successfully");
+                        } catch (playError) {
+                            console.error("Play error:", playError);
+                        }
                     }
-                };
+                }, 100);
+            } else {
+                console.error("Video ref is null");
             }
 
-            // Store the stream
-            setCameraStream(stream);
+            
 
         } catch (error) {
             console.error("Camera cannot be opened:", error);
@@ -285,24 +303,27 @@ function KYC() {
                             <div className="upload-box">
                                 <div className="upload-box-icon">
                                     {/* Camera Preview for ID */}
-                                    {cameraStream && step !== 3 && (
-                                        <div className="camera-preview">
-                                            <video
-                                                ref={videoRef}
-                                                autoPlay
-                                                playsInline
-                                                muted
-                                            />
-                                            <div className="camera-controls" >
-                                                <button className="capture-image" onClick={captureImage} >
-                                                    Capture
-                                                </button>
-                                                <button className="close-camera" onClick={stopCamera} >
-                                                    ✕ Close
-                                                </button>
-                                            </div>
+                                    
+                                    <div className="camera-preview"
+                                        style={{
+                                            display: cameraStream && step !== 3 ? 'block' : 'none'
+                                        }}
+                                    >
+                                        <video
+                                            ref={videoRef}
+                                            autoPlay
+                                            playsInline
+                                            muted
+                                        />
+                                        <div className="camera-controls" >
+                                            <button className="capture-image" onClick={captureImage} >
+                                                Capture
+                                            </button>
+                                            <button className="close-camera" onClick={stopCamera} >
+                                                ✕ Close
+                                            </button>
                                         </div>
-                                    )}
+                                    </div>
                                     
                                     {/* File Input for Upload */}
                                     <div className="upload-box-input">
@@ -345,28 +366,26 @@ function KYC() {
                                     </div>
                                 </div>
 
-                                {/* Upload and Camera Buttons - Hide when camera is active */}
-                                {!cameraStream && (
-                                    <div className="upload-buttons">
-                                        <button
-                                            onClick={() => document.getElementById("uploadIdInput").click()} 
-                                        >
-                                            {!kycData.idImageFront
-                                                ? "Upload front of ID"
-                                                : !kycData.idImageBack
-                                                ? "Upload back of ID"
-                                                : "Both sides uploaded"}
-                                        </button>
+                                {/* Upload and Camera Buttons */}
+                                <div className="upload-buttons">
+                                    <button
+                                        onClick={() => document.getElementById("uploadIdInput").click()} 
+                                    >
+                                        {!kycData.idImageFront
+                                            ? "Upload front of ID"
+                                            : !kycData.idImageBack
+                                            ? "Upload back of ID"
+                                            : "Both sides uploaded"}
+                                    </button>
 
-                                        <button onClick={openCamera}>
-                                            {!kycData.idImageFront
-                                                ? "Take picture of front"
-                                                : !kycData.idImageBack
-                                                ? "Take picture of back"
-                                                : "Retake pictures"}
-                                        </button>
-                                    </div>
-                                )}
+                                    <button onClick={openCamera}>
+                                        {!kycData.idImageFront
+                                            ? "Take picture of front"
+                                            : !kycData.idImageBack
+                                            ? "Take picture of back"
+                                            : "Retake pictures"}
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     ) : step === 3 ? (
@@ -375,32 +394,36 @@ function KYC() {
 
                             <div className="upload-box">
                                 <div className="upload-box-icon">
-                                    {/* Camera Preview - Only show when camera is active */}
-                                    {cameraStream ? (
-                                        <div className="camera-preview">
-                                            <video 
-                                                ref={videoRef} 
-                                                autoPlay 
-                                                playsInline 
-                                            />
-                                            <div className="camera-controls">
-                                                <button className="capture-image" onClick={captureImage}>
-                                                    Capture
-                                                </button>
-                                                <button className="close-camera" onClick={stopCamera}>Close Camera</button>
-                                            </div>
+                                    {/* Camera Preview for Selfie */}
+                                    
+                                    <div className="camera-preview"
+                                        style={{
+                                            display: cameraStream && step === 3 ? 'block' : 'none'
+                                        }}
+                                    >
+                                        <video 
+                                            ref={videoRef} 
+                                            autoPlay 
+                                            playsInline 
+                                        />
+                                        <div className="camera-controls">
+                                            <button className="capture-image" onClick={captureImage}>
+                                                Capture
+                                            </button>
+                                            <button className="close-camera" onClick={stopCamera}>Close Camera</button>
                                         </div>
-                                    ) : (
-                                        // Show preview of captured selfie when camera is not active
-                                        kycData.selfie && (
-                                            <div className="selfie-preview">
-                                                <img 
-                                                    src={kycData.selfie.data} 
-                                                    alt="Selfie preview" 
-                                                />
-                                            </div>
-                                        )
+                                    </div>
+                                    
+                                    {/*Show preview of captured selfie when camera is not active */}
+                                    {!cameraStream && kycData.selfie && (
+                                        <div className="selfie-preview">
+                                            <img 
+                                                src={kycData.selfie.data} 
+                                                alt="Selfie preview" 
+                                            />
+                                        </div>
                                     )}
+                                    
 
                                     <div className="uploaded-file">
                                         {kycData.selfie && (
@@ -419,12 +442,10 @@ function KYC() {
                                 </div>
 
                                 <div className="upload-buttons">
-                                    {/* Camera Capture Button - Only show when camera is NOT active */}
-                                    {!cameraStream && (
-                                        <button onClick={openCamera}>
-                                            {!kycData.selfie ? "Take a Selfie" : "Retake Selfie"}
-                                        </button>
-                                    )}
+                                    {/* Open Camera Button */}
+                                    <button onClick={openCamera}>
+                                        {!kycData.selfie ? "Take a Selfie" : "Retake Selfie"}
+                                    </button>
                                 </div>
                             </div>
                         </div>
