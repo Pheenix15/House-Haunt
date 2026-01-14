@@ -1,9 +1,10 @@
 import { useState,useRef } from "react";
+import { uploadKYC } from "../Api/Upload-KYC";
 import "./KYC.css"
 
 function KYC() {
     
-    const [step, setStep] = useState(1) //Current KYC stage
+    const [step, setStep] = useState(2) //Current KYC stage
     const [cameraStream, setCameraStream] = useState(null); //Holds camera strem and video element
     const videoRef = useRef(null); // <video> element shown to user
     const [failAlert, setFailAlert] = useState("") //Alert for errors
@@ -56,11 +57,18 @@ function KYC() {
     // Id Document Upload Handler for Camera Capture
     
 
-    // Open Camera
+    // Open Camera with front/back camera selection
     const openCamera = async () => {
         try {
-            // Request camera access
-            const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            // Determine which camera to use based on step
+            const useFrontCamera = step === 3; // Front camera for selfie, back camera for ID
+            
+            // Request camera access with facingMode
+            const stream = await navigator.mediaDevices.getUserMedia({ 
+                video: { 
+                    facingMode: useFrontCamera ? "user" : "environment" 
+                } 
+            });
 
             // Assign stream to <video> element
             if (videoRef.current) {
@@ -68,7 +76,12 @@ function KYC() {
 
                 // Wait for metadata to load before playing
                 videoRef.current.onloadedmetadata = async () => {
-                    await videoRef.current.play();
+                    try {
+                        await videoRef.current.play();
+                        console.log("Camera started successfully");
+                    } catch (playError) {
+                        console.error("Error playing video:", playError);
+                    }
                 };
             }
 
@@ -77,13 +90,43 @@ function KYC() {
 
         } catch (error) {
             console.error("Camera cannot be opened:", error);
+            alert("Unable to access camera. Please check permissions.");
         }
     };
+
+
+    const stopCamera = () => {
+        // Stop all tracks in the camera stream
+        if (cameraStream) {
+            cameraStream.getTracks().forEach(track => {
+                track.stop();
+                console.log("Camera track stopped");
+            });
+        }
+        
+        // Clear video source
+        if (videoRef.current) {
+            videoRef.current.srcObject = null;
+        }
+        
+        setCameraStream(null);
+    }
 
     // Capture Image
     const captureImage = () => {
         try {
-            if (!videoRef.current) return;
+            if (!videoRef.current || !cameraStream) {
+                console.error("No video stream available");
+                alert("Camera not ready. Please try again.");
+                return;
+            }
+
+            // Check if video has valid dimensions
+            if (videoRef.current.videoWidth === 0 || videoRef.current.videoHeight === 0) {
+                console.error("Video dimensions are zero");
+                alert("Camera is not ready yet. Please wait a moment.");
+                return;
+            }
 
             // Create canvas to draw the current frame
             const canvas = document.createElement("canvas");
@@ -98,24 +141,46 @@ function KYC() {
 
             // Store according to step
             if (step === 3) {
+                // Selfie
                 setKycData(prev => ({
                     ...prev,
-                    selfie: imageDataUrl
+                    selfie: {
+                        data: imageDataUrl,
+                        name: "selfie.png",
+                        size: imageDataUrl.length
+                    }
                 }));
             } else {
-                setKycData(prev => ({
-                    ...prev,
-                    idImageFront: prev.idImageFront ? prev.idImageFront : imageDataUrl,
-                    idImageBack: prev.idImageFront ? imageDataUrl : prev.idImageBack
-                }));
+                // ID front or back
+                if (!kycData.idImageFront) {
+                    setKycData(prev => ({
+                        ...prev,
+                        idImageFront: {
+                            data: imageDataUrl,
+                            name: "id_front.png",
+                            size: imageDataUrl.length
+                        }
+                    }));
+                } else if (!kycData.idImageBack) {
+                    setKycData(prev => ({
+                        ...prev,
+                        idImageBack: {
+                            data: imageDataUrl,
+                            name: "id_back.png",
+                            size: imageDataUrl.length
+                        }
+                    }));
+                }
             }
 
-            // Stop camera
-            cameraStream?.getTracks().forEach(track => track.stop());
-            setCameraStream(null);
+            console.log("Image captured successfully");
+            
+            // Stop camera AFTER storing the image
+            stopCamera();
 
         } catch (error) {
             console.error("Failed to Capture Image:", error);
+            alert("Failed to capture image. Please try again.");
         }
     };
 
@@ -190,22 +255,31 @@ function KYC() {
                         </div>
                     ) : step === 2 ? (
                         <div className="id-verification">
-                            <h3>Upload your Id</h3>
+                            <h3>Upload your ID</h3>
 
                             <div className="upload-box">
                                 <div className="upload-box-icon">
-                                    {/* Camera Preview */}
-                                    {cameraStream && (
+                                    {/* Camera Preview for ID */}
+                                    {cameraStream && step !== 3 && (
                                         <div className="camera-preview">
                                             <video
                                                 ref={videoRef}
                                                 autoPlay
                                                 playsInline
-                                                style={{ width: "100%", height: "200px", objectFit: "cover", borderRadius: "10px" }}
+                                                muted
                                             />
-                                            <button onClick={captureImage}>Capture</button>
+                                            <div className="camera-controls" >
+                                                <button className="capture-image" onClick={captureImage} >
+                                                    Capture
+                                                </button>
+                                                <button className="close-camera" onClick={stopCamera} >
+                                                    ✕ Close
+                                                </button>
+                                            </div>
                                         </div>
                                     )}
+                                    
+                                    {/* File Input for Upload */}
                                     <div className="upload-box-input">
                                         <input
                                             id="uploadIdInput"
@@ -216,95 +290,116 @@ function KYC() {
                                         />
                                     </div>
 
+                                    {/* Display uploaded files */}
                                     <div className="uploaded-file">
                                         {kycData.idImageFront && (
                                             <div className="uploaded-file-data front-of-id">
-                                                <p>{kycData.idImageFront.name}</p>
-                                                <p className="upload-file-size" >size: <span>{(kycData.idImageFront.size / 1024).toFixed(1)} KB</span></p>
+                                                <p>{kycData.idImageFront.name || "Front ID"}</p>
+                                                <p className="upload-file-size">
+                                                    size: <span>
+                                                        {kycData.idImageFront.size 
+                                                            ? (kycData.idImageFront.size / 1024).toFixed(1) 
+                                                            : 'N/A'} KB
+                                                    </span>
+                                                </p>
                                             </div>
                                         )}
                                         
                                         {kycData.idImageBack && (
                                             <div className="uploaded-file-data back-of-id">
-                                                <p>{kycData.idImageBack.name}</p>
-                                                <p className="upload-file-size" >size: <span>{(kycData.idImageBack.size / 1024).toFixed(1)} KB</span></p>
+                                                <p>{kycData.idImageBack.name || "Back ID"}</p>
+                                                <p className="upload-file-size">
+                                                    size: <span>
+                                                        {kycData.idImageBack.size 
+                                                            ? (kycData.idImageBack.size / 1024).toFixed(1) 
+                                                            : 'N/A'} KB
+                                                    </span>
+                                                </p>
                                             </div>
                                         )}
-                                        
                                     </div>
                                 </div>
 
-                                <div className="upload-buttons">
-                                    {/* Upload Button */}
-                                    <button
-                                        onClick={() => document.getElementById("uploadIdInput").click()}
-                                    >
-                                        {!kycData.idImageFront
-                                            ? "Upload front of ID"
-                                            : !kycData.idImageBack
-                                            ? "Upload back of ID"
-                                            : "Both sides uploaded"}
-                                    </button>
+                                {/* Upload and Camera Buttons - Hide when camera is active */}
+                                {!cameraStream && (
+                                    <div className="upload-buttons">
+                                        <button
+                                            onClick={() => document.getElementById("uploadIdInput").click()} 
+                                        >
+                                            {!kycData.idImageFront
+                                                ? "Upload front of ID"
+                                                : !kycData.idImageBack
+                                                ? "Upload back of ID"
+                                                : "Both sides uploaded"}
+                                        </button>
 
-                                    {/* Camera Capture Button */}
-                                    <button onClick={openCamera}>
-                                        {!kycData.idImageFront
-                                            ? "Take a picture of front of ID"
-                                            : !kycData.idImageBack
-                                            ? "Take a picture of back of ID"
-                                            : "Both pictures taken"}
-                                    </button>
-                                </div>
+                                        <button onClick={openCamera}>
+                                            {!kycData.idImageFront
+                                                ? "Take picture of front"
+                                                : !kycData.idImageBack
+                                                ? "Take picture of back"
+                                                : "Retake pictures"}
+                                        </button>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     ) : step === 3 ? (
                         <div className="selfie">
-                            <h3>Sefie</h3>
+                            <h3>Selfie</h3>
 
                             <div className="upload-box">
                                 <div className="upload-box-icon">
-                                    <div className="upload-box-input">
-                                        <input
-                                            id="uploadIdInput"
-                                            type="file"
-                                            accept="image/*"
-                                            style={{ display: "none" }}
-                                            onChange={(e) => {
-                                                const file = e.target.files[0];
-                                                if (!file) return;
-
-                                                // Decide where to store the file
-                                                setKycData(prev => ({
-                                                ...prev,
-                                                idImageFront: prev.idImageFront ? prev.idImageFront : file,
-                                                idImageBack: prev.idImageFront ? file : prev.idImageBack
-                                                }));
-                                            }}
-                                        />
-
-                                        {/* For Camera Stream */}
-                                        <video ref={videoRef} autoPlay playsInline style={{ width: "100%" }} />
-                                    </div>
+                                    {/* Camera Preview - Only show when camera is active */}
+                                    {cameraStream ? (
+                                        <div className="camera-preview">
+                                            <video 
+                                                ref={videoRef} 
+                                                autoPlay 
+                                                playsInline 
+                                            />
+                                            <div className="camera-controls">
+                                                <button className="capture-image" onClick={captureImage}>
+                                                    Capture
+                                                </button>
+                                                <button className="close-camera" onClick={stopCamera}>Close Camera</button>
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        // Show preview of captured selfie when camera is not active
+                                        kycData.selfie && (
+                                            <div className="selfie-preview">
+                                                <img 
+                                                    src={kycData.selfie.data} 
+                                                    alt="Selfie preview" 
+                                                />
+                                            </div>
+                                        )
+                                    )}
 
                                     <div className="uploaded-file">
-                                        {kycData.idImageFront && (
-                                            <div className="uploaded-file-data front-of-id">
-                                                <p>{kycData.idImageFront.name}</p>
-                                                <p className="upload-file-size" >size: <span>{(kycData.idImageFront.size / 1024).toFixed(1)} KB</span></p>
+                                        {kycData.selfie && (
+                                            <div className="uploaded-file-data">
+                                                <p>{kycData.selfie.name || "selfie.png"}</p>
+                                                <p className="upload-file-size">
+                                                    size: <span>
+                                                        {kycData.selfie.size 
+                                                            ? (kycData.selfie.size / 1024).toFixed(1) 
+                                                            : 'N/A'} KB
+                                                    </span>
+                                                </p>
                                             </div>
                                         )}
                                     </div>
                                 </div>
 
                                 <div className="upload-buttons">
-                                    {/* Camera Capture Button */}
-                                    <button onClick={openCamera}>
-                                        {!kycData.selfie
-                                            ? "Take a Selfie"
-                                            : !kycData.selfie
-                                            ? "Selfie taken"
-                                            : "Take a Selfie"}
-                                    </button>
+                                    {/* Camera Capture Button - Only show when camera is NOT active */}
+                                    {!cameraStream && (
+                                        <button onClick={openCamera}>
+                                            {!kycData.selfie ? "Take a Selfie" : "Retake Selfie"}
+                                        </button>
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -324,6 +419,12 @@ function KYC() {
                         >Back</button>
                         <button className="KYC-next" 
                             onClick={() => {
+
+                                if (step === 4) {
+                                    uploadKYC(kycData)
+                                    return
+                                }
+
                                 // Go to next step if process is complete
                                 if (isStepComplete()) {
                                     nextStep()

@@ -8,6 +8,8 @@ import { formatNumber } from "../utilities/formatDate";
 import { IoLocation } from "react-icons/io5";
 import { IoClose } from "react-icons/io5";
 import axios from "axios";
+import { contactAgent } from "../Api/Contact-Agent";
+import { useAlert } from "../Context/AlertContext";
 import './House-Details.css'
 
 
@@ -18,6 +20,7 @@ function HouseDetails() {
     const [viewAllImage, setViewAllImage] = useState(false) //Opens all Images Modal
     const [thumbsSwiper, setThumbsSwiper] = useState(null);
     const navigate = useNavigate()
+    const {showSuccess, showFail} = useAlert()
 
     const {user} = useAuth() //Retrieves the users role
 
@@ -55,6 +58,18 @@ function HouseDetails() {
         } else {
             navigate('/Dashboard-Haunter')
         }
+    }
+
+    // Send Contact Request
+    const sendContactRequest = async (houseId) => {
+        try {
+            await contactAgent(houseId)
+            // Error Here
+            showSuccess(contactRequest.message)
+        } catch (error) {
+            showFail(error)
+        }
+        
     }
 
     if (loading) return (
@@ -147,7 +162,10 @@ function HouseDetails() {
                                     {houseDetail.agent_name}
                                 </p>
 
-                                <button className="contact-agent-button">
+                                <button 
+                                    className="contact-agent-button"
+                                    onClick={() => sendContactRequest(houseDetail.id)}
+                                >
                                     Contact
                                 </button>
                             </div>
