@@ -1,3 +1,17 @@
+.kyc-blocked {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    height: 100%;
+}
+
+.kyc-blocked h2 {
+    color: var(--mainBlue);
+}
+
 .KYC {
     display: flex;
     flex-direction: column;
@@ -126,6 +140,59 @@
     margin-top: 15px;
 }
 
+/* Camera */
+.camera-preview {
+    position: absolute;
+    width: 90vw;
+    height: 90vh;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+.camera-preview video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block; /*removes inline-video whitespace issues*/
+    background-color: var(--transparentBlack);
+}
+
+.camera-controls .capture-image {
+    position: absolute;
+    border-radius: 50%;
+    padding: 0;
+    width: 65px;
+    height: 65px;
+    bottom: 20px;
+    left: 50%;
+    transform: translate(-50%, -20px);
+    z-index: 5;
+}
+
+.camera-controls .close-camera {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    padding: 0;
+    background: transparent;
+    color: var(--mainWhite);
+}
+
+.selfie-preview {
+    width: 100%;
+    height: 100%;
+}
+
+.selfie-preview img {
+    height: 100%;
+    object-fit: contain;
+}
+
+.selfie-uploaded-file {
+    display: none !important;
+}
 
 /* RESPONSIVE CSS */
 
@@ -161,8 +228,8 @@
     .camera-preview {
         position: absolute;
         width: 90vw;
-        height: 100vh;
-        top: 50%;
+        height: 90vh;
+        top: 30%;
         left: 50%;
         transform: translate(-50%, -50%);
     }

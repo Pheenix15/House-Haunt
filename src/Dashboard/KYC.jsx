@@ -4,7 +4,7 @@ import "./KYC.css"
 
 function KYC() {
     
-    const [step, setStep] = useState(2) //Current KYC stage
+    const [step, setStep] = useState(1) //Current KYC stage
     const [cameraStream, setCameraStream] = useState(null); //Holds camera strem and video element
     const videoRef = useRef(null); // <video> element shown to user
     const [failAlert, setFailAlert] = useState("") //Alert for errors
@@ -227,6 +227,39 @@ function KYC() {
         }
     };
 
+    // Detect mobile / tablet devices
+    const isMobileDevice = () => {
+    const ua = navigator.userAgent.toLowerCase();
+    const platform = navigator.platform.toLowerCase();
+
+    const isMobileUA =
+        ua.includes("android") ||
+        ua.includes("iphone") ||
+        ua.includes("ipad") ||
+        ua.includes("ipod");
+
+    const isDesktopPlatform =
+        platform.includes("win") ||
+        platform.includes("mac") ||
+        platform.includes("linux");
+
+    return isMobileUA && !isDesktopPlatform;
+    };
+
+    if (!isMobileDevice()) {
+        return (
+            <div className="kyc-blocked">
+                <h2>KYC Unavailable</h2>
+
+                <p>
+                    Identity verification can only be completed on a mobile device.
+                    Please continue on your phone or tablet.
+                </p>
+            </div>
+        );
+    }
+
+
 
     return ( 
         <div className="KYC">
@@ -317,7 +350,7 @@ function KYC() {
                                         />
                                         <div className="camera-controls" >
                                             <button className="capture-image" onClick={captureImage} >
-                                                Capture
+                                                
                                             </button>
                                             <button className="close-camera" onClick={stopCamera} >
                                                 ✕ Close
@@ -408,7 +441,7 @@ function KYC() {
                                         />
                                         <div className="camera-controls">
                                             <button className="capture-image" onClick={captureImage}>
-                                                Capture
+                                                
                                             </button>
                                             <button className="close-camera" onClick={stopCamera}>Close Camera</button>
                                         </div>
@@ -425,7 +458,7 @@ function KYC() {
                                     )}
                                     
 
-                                    <div className="uploaded-file">
+                                    <div className="uploaded-file selfie-uploaded-file">
                                         {kycData.selfie && (
                                             <div className="uploaded-file-data">
                                                 <p>{kycData.selfie.name || "selfie.png"}</p>

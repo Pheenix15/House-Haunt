@@ -15,3 +15,5 @@ export const uploadKYC = async (KYCData) => {
         // throw new Error(message)
     }
 }
+
+// Continue from Here. What is KYC expecting? Don't Forget to desable on Desktop/Laptop Devices
