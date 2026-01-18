@@ -2,7 +2,7 @@
   position: fixed;
   inset: 0;
   background-color: var(--transparentBlue);
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(10px);
   transition: backdrop-filter 0.5s ease;
   z-index: 1000;
 }

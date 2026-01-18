@@ -3,6 +3,7 @@
 }
 
 .header-title h2 {
+    color: var(--mainWhite);
     margin: 0;
 }
 

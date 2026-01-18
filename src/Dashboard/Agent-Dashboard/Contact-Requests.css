@@ -1,0 +1,64 @@
+.contact-requests-section {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+}
+
+.contact-request-body {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    gap: 10px;
+    height: 100%;
+    min-height: 0;
+    overflow-y: scroll;
+}
+
+.contact-request {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--secondBlue);
+    padding: 10px 0;
+}
+
+.contact-request .hunters-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+}
+
+.hunters-info .hunters-name {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.requested-house p {
+    font-size: 0.95em;
+    color: var(--transparentBlack);
+}
+
+.contact-request-actions {
+    display: flex;
+    gap: 5px;
+}
+
+.contact-request-actions button {
+    display: flex;
+    padding: 5px 15px;
+}
+
+.reject-request-button {
+    background-color: var(--mainRed);
+}
+
+@media (hover: hover) {
+    
+}
+
+
+
+

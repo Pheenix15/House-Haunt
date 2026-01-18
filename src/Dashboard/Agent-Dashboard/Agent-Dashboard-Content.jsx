@@ -3,10 +3,12 @@ import KYC from '../KYC.jsx';
 import AgentDashboardHeader from './Agent-Dashboard-Header';
 import Posts from './Agent-Posts';
 import AgentProfile from './Agent-Profile';
+import Chat from '../Chat.jsx';
 import '../Dashboard-Content.css'
 import Transaction from './Agent-Transaction';
 import AgentWallet from './Agent-Wallet';
 import Loading from '../../component/Loading';
+import ContactRequests from './Contact-Requests.jsx';
 
 
 function AgentDashboardContent({section, setSidebarVisible}) {
@@ -14,7 +16,7 @@ function AgentDashboardContent({section, setSidebarVisible}) {
 
     return ( 
         <div className="dashboard-content">
-            <AgentDashboardHeader setSidebarVisible={setSidebarVisible} />
+            <AgentDashboardHeader setSidebarVisible={setSidebarVisible} section={section} />
             
             <div className="dashboard-section-content">
                 {section === "Posts" &&
@@ -24,6 +26,14 @@ function AgentDashboardContent({section, setSidebarVisible}) {
                 {section === "Profile" &&
                     <AgentProfile setLoading={setLoading} />
                 }
+
+                {section === "Contact Requests" &&
+                    <ContactRequests setLoading={setLoading} />
+                }
+
+                {section === 'Chat' && (
+                    <Chat />
+                )}
 
                 {section === "Transactions" &&
                     <Transaction setLoading={setLoading} />

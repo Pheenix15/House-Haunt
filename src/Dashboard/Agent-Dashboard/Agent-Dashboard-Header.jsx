@@ -6,7 +6,7 @@ import '../Dashboard-Header.css'
 import axios from 'axios';
 
 
-function AgentDashboardHeader({setSidebarVisible}) {
+function AgentDashboardHeader({setSidebarVisible, section}) {
     const [name, setName] = useState(null) // USERS NAME FROM LOCALSTORAGE
     const notificationRef = useRef(null); //REF TO NOTIFICATION CONTAINER
     const [notifications, setNotifications] = useState([]) //NOTIFICATIONS
@@ -68,7 +68,7 @@ function AgentDashboardHeader({setSidebarVisible}) {
                 </div>
 
                 <div className="header-title">
-                    <h2>Agent Dashboard</h2>
+                    <h2>{section}</h2>
                 </div>
 
                 <div className="dashboard-header-right">

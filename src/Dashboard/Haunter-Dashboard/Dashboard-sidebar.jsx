@@ -6,6 +6,7 @@ import { HiOutlineChevronDoubleRight } from "react-icons/hi2";
 import { HiOutlineArrowLeftStartOnRectangle } from "react-icons/hi2";
 import { HiOutlineBanknotes } from "react-icons/hi2";
 import { HiOutlineWallet } from "react-icons/hi2";
+import { IoChatbubblesOutline } from "react-icons/io5";
 import { HiOutlineNewspaper } from "react-icons/hi2";
 import { HiOutlineIdentification } from "react-icons/hi2";
 import { HiOutlineUser } from "react-icons/hi2";
@@ -84,6 +85,19 @@ function DashboardSidebar({section, setSection, sidebarVisible, setSidebarVisibl
                             >
                                 <div className="sidebar-icon"><HiOutlineWallet /></div>
                                 <p>Wallet</p>
+                            </div>
+
+                            {/* CHAT */}
+                            <div className="sidebar-option"
+                            onClick={() => setSection("Chat")}
+                            style={{
+                                color: section === "Chat" ? "black" : "white",
+                                backgroundColor: section === "Chat" ? "white" : "transparent",
+                                transition: "background-color 0.3s ease-in, color 0.3s ease-in"
+                            }}
+                            >
+                                <div className="sidebar-icon"><IoChatbubblesOutline /></div>
+                                <p>Chat</p>
                             </div>
 
                             {/* TRANSACTION */}
@@ -172,6 +186,18 @@ function DashboardSidebar({section, setSection, sidebarVisible, setSidebarVisibl
                             }}
                             >
                                 <div className="sidebar-icon"><HiOutlineWallet /></div>
+                            </div>
+
+                            {/* CHAT */}
+                            <div className="sidebar-option"
+                            onClick={() => setSection("Chat")}
+                            style={{
+                                color: section === "Chat" ? "black" : "white",
+                                backgroundColor: section === "Chat" ? "white" : "transparent",
+                                transition: "background-color 0.3s ease-in, color 0.3s ease-in"
+                            }}
+                            >
+                                <div className="sidebar-icon"><IoChatbubblesOutline /></div>
                             </div>
 
                             {/* TRANSACTION */}

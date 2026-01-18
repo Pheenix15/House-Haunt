@@ -9,7 +9,7 @@
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    gap: 50px;
+    gap: 20px;
     background-color: var(--mainBlue);
     padding: 20px 0;
     height: 100%;
@@ -24,8 +24,14 @@
 
 .sidebar-image {
     width: 150px;
-    height: 115px;
+    height: 100px;
     margin: 0 auto;
+}
+
+.sidebar-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 
 .sidebar-image.sidebar-closed {
@@ -62,7 +68,7 @@
     flex-direction: row;
     align-items: center;
     gap: 5px;
-    padding: 20px;
+    padding: 15px 20px;
     cursor: pointer;
 }
 

@@ -8,6 +8,8 @@ import { HiOutlineBanknotes } from "react-icons/hi2";
 import { HiOutlineWallet } from "react-icons/hi2";
 import { HiOutlineNewspaper } from "react-icons/hi2";
 import { HiOutlineIdentification } from "react-icons/hi2";
+import { IoChatbubblesOutline } from "react-icons/io5";
+import { IoCall } from "react-icons/io5";
 import { HiOutlineUser } from "react-icons/hi2";
 import '../Dashboard-sidebar.css'
 
@@ -70,6 +72,32 @@ function DashboardSidebar({section, setSection, sidebarVisible, setSidebarVisibl
                             >
                                 <div className="sidebar-icon"><HiOutlineSquare3Stack3D /></div>
                                 <p>Posts</p>
+                            </div>
+
+                            {/* CONTACT REQUESTS */}
+                            <div className="sidebar-option"
+                            onClick={() => setSection("Contact Requests")}
+                            style={{
+                                color: section === "Contact Requests" ? "black" : "white",
+                                backgroundColor: section === "Contact Requests" ? "white" : "transparent",
+                                transition: "background-color 0.3s ease-in, color 0.3s ease-in"
+                            }}
+                            >
+                                <div className="sidebar-icon"><IoCall /></div>
+                                <p>Contact Requests</p>
+                            </div>
+
+                            {/* CHAT */}
+                            <div className="sidebar-option"
+                            onClick={() => setSection("Chat")}
+                            style={{
+                                color: section === "Chat" ? "black" : "white",
+                                backgroundColor: section === "Chat" ? "white" : "transparent",
+                                transition: "background-color 0.3s ease-in, color 0.3s ease-in"
+                            }}
+                            >
+                                <div className="sidebar-icon"><IoChatbubblesOutline /></div>
+                                <p>Chat</p>
                             </div>
 
                             {/* WALLET */}
@@ -160,6 +188,30 @@ function DashboardSidebar({section, setSection, sidebarVisible, setSidebarVisibl
                             }}
                             >
                                 <div className="sidebar-icon"><HiOutlineSquare3Stack3D /></div>
+                            </div>
+
+                            {/* CONTACT REQUESTS */}
+                            <div className="sidebar-option"
+                            onClick={() => setSection("Contact Requests")}
+                            style={{
+                                color: section === "Contact Requests" ? "black" : "white",
+                                backgroundColor: section === "Contact Requests" ? "white" : "transparent",
+                                transition: "background-color 0.3s ease-in, color 0.3s ease-in"
+                            }}
+                            >
+                                <div className="sidebar-icon"><IoCall /></div>
+                            </div>
+
+                            {/* CHAT */}
+                            <div className="sidebar-option"
+                            onClick={() => setSection("Chat")}
+                            style={{
+                                color: section === "Chat" ? "black" : "white",
+                                backgroundColor: section === "Chat" ? "white" : "transparent",
+                                transition: "background-color 0.3s ease-in, color 0.3s ease-in"
+                            }}
+                            >
+                                <div className="sidebar-icon"><IoChatbubblesOutline /></div>
                             </div>
 
                             {/* WALLET */}

@@ -60,8 +60,9 @@ button {
   color: var(--mainWhite);
   font-weight: bold;
   border: none;
+  border-radius: 10px;
   cursor: pointer;
-  transition: background0-color 0.5s ease, color 0.5s ease;
+  transition: background-color 0.5s ease, color 0.5s ease;
 }
 
 
@@ -121,7 +122,7 @@ label {
   height: 220px;
 }
 
-input {
+input, select {
   padding: 10px;
   border-radius: 10px;
   border: 2px solid var(--mainBlue);

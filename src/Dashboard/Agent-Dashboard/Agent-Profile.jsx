@@ -7,7 +7,6 @@ function AgentProfile({setLoading}) {
     const [kyc, setKyc] = useState([])
     const [reviews, setReviews] = useState([]) //AGENT PROFILE REVIEWS
     const [wallet, setWallet] = useState([])
-    const [contactRequests, setContactRequests] = useState([])
     const [agentRating, setAgentRating] = useState(0)
 
     // RETRIVE USER PROFILE
@@ -25,7 +24,6 @@ function AgentProfile({setLoading}) {
                 setKyc(profile.kyc)
                 setWallet(profile.wallet)
                 setReviews(profile.reviews)
-                setContactRequests(profile.contact_requests)
                 setAgentRating(profile.average_rating)
             } catch (error) {
                 console.log("Failed to fetch profile:", error);
@@ -38,6 +36,8 @@ function AgentProfile({setLoading}) {
         fetchProfile()
         
     }, [])
+
+    
 
     return ( 
         <div className="profile-container">
@@ -95,21 +95,6 @@ function AgentProfile({setLoading}) {
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            {/* CONTACT REQUESTS */}
-            <div className="profile-reviews">
-                <div className="profile-reviews-heading">
-                    <h2>Contact Requests</h2>
-                </div>
-
-                <div className="profile-reviews-body">
-                    {contactRequests.map((cr) => (
-                        <div key={cr._id} className="contact-requests">
-
-                        </div>
-                    ))}
                 </div>
             </div>
             

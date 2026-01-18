@@ -6,6 +6,7 @@ import HaunterProfile from './Haunter-Profile';
 import Wallet from './Haunter-Wallet';
 import '../Dashboard-Content.css'
 import Loading from '../../component/Loading';
+import Chat from '../Chat.jsx';
 
 
 function HaunterDashboardContent({section, setSidebarVisible}) {
@@ -25,6 +26,10 @@ function HaunterDashboardContent({section, setSidebarVisible}) {
                         <HaunterProfile setLoading={setLoading} />
                     </div>
                 }
+
+                {section === 'Chat' && (
+                    <Chat />
+                )}
 
                 {section === "Wallet" &&
                     <div className="wallet">
