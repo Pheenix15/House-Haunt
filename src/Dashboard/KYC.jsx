@@ -39,8 +39,8 @@ function KYC() {
     kycData.append("id_type", idType)
     kycData.append("id_number", idNumber)
     kycData.append("address", address)
-    kycData.append("id_document", idImageFront)
-    kycData.append("id_document", idImageBack) //Temporary Until I Know what the backend expects
+    kycData.append("id_documents", idImageFront)
+    kycData.append("id_documents", idImageBack) //Temporary Until I Know what the backend expects
     kycData.append("selfie", selfie)
 
 
@@ -137,18 +137,18 @@ function KYC() {
     return isMobileUA && !isDesktopPlatform;
     };
 
-    if (!isMobileDevice()) {
-        return (
-            <div className="kyc-blocked">
-                <h2>KYC Unavailable</h2>
+    // if (!isMobileDevice()) {
+    //     return (
+    //         <div className="kyc-blocked">
+    //             <h2>KYC Unavailable</h2>
 
-                <p>
-                    Identity verification can only be completed on a mobile device.
-                    Please continue on your phone or tablet.
-                </p>
-            </div>
-        );
-    }
+    //             <p>
+    //                 Identity verification can only be completed on a mobile device.
+    //                 Please continue on your phone or tablet.
+    //             </p>
+    //         </div>
+    //     );
+    // }
 
 
 

@@ -63,9 +63,10 @@ function HouseDetails() {
     // Send Contact Request
     const sendContactRequest = async (houseId) => {
         try {
-            await contactAgent(houseId)
-            // Error Here
-            showSuccess(contactRequest.message)
+            const contactRequestResponse = await contactAgent(houseId)
+            
+            console.log(contactRequestResponse)
+            showSuccess(contactRequestResponse.message)
         } catch (error) {
             showFail(error)
         }
