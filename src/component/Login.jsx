@@ -36,9 +36,14 @@ function Login() {
             localStorage.setItem("role", user.role);
 
             // Rerun auth check
-            await refreshAuth();
+            const refreshedUser = await refreshAuth();
 
-            showSuccess("Login successful!");
+            if (!refreshedUser) {
+                showFail("Auth refresh failed. No user returned.")
+                return
+            }
+
+            showSuccess(`Login successful. Role: ${refreshedUser.role}`);
 
             // Redirect based on role
             const role = user.role; // Used directly from response instead of localStorage
@@ -132,7 +137,7 @@ function Login() {
                                 
 
                                 <div className="form-button-container">
-                                    <button type="submit" className='button primary-form-button' >{loading ? "Logginng" : "Login"}</button>
+                                    <button type="submit" className='button primary-form-button'disabled={loading} >{loading ? "Logginng" : "Login"}</button>
                                 </div>
 
                             </form>

@@ -385,7 +385,7 @@ function KYC() {
                         </div>
                     ) : (
                         <div className="Submit">
-                            <h3>SUbmit</h3>
+                            <h3>Submit</h3>
                             <p>You can go back and review your entries or submit</p>
                         </div>
                     )}

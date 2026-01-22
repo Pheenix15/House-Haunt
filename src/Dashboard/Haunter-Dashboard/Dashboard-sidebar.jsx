@@ -126,19 +126,6 @@ function DashboardSidebar({section, setSection, sidebarVisible, setSidebarVisibl
                                 <p>History</p>
                             </div>
 
-                            {/* KYC */}
-                            <div className="sidebar-option"
-                            onClick={() => setSection("KYC")}
-                            style={{
-                                color: section === "KYC" ? "black" : "white",
-                                backgroundColor: section === "KYC" ? "white" : "transparent",
-                                transition: "background-color 0.3s ease-in, color 0.3s ease-in"
-                            }}
-                            >
-                                <div className="sidebar-icon"><HiOutlineIdentification /></div>
-                                <p>KYC</p>
-                            </div>
-
                             {/* LOGOUT */}
                             <div className="sidebar-option"
                             role='button'
@@ -222,18 +209,6 @@ function DashboardSidebar({section, setSection, sidebarVisible, setSidebarVisibl
                             }}
                             >
                                 <div className="sidebar-icon"><HiOutlineNewspaper /></div>
-                            </div>
-
-                            {/* KYC */}
-                            <div className="sidebar-option"
-                            onClick={() => setSection("KYC")}
-                            style={{
-                                color: section === "KYC" ? "black" : "white",
-                                backgroundColor: section === "KYC" ? "white" : "transparent",
-                                transition: "background-color 0.3s ease-in, color 0.3s ease-in"
-                            }}
-                            >
-                                <div className="sidebar-icon"><HiOutlineIdentification /></div>
                             </div>
 
                             {/* LOGOUT */}

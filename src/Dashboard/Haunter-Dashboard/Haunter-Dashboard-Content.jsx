@@ -37,9 +37,6 @@ function HaunterDashboardContent({section, setSidebarVisible}) {
                     </div>
                 }
 
-                {section === "KYC" &&
-                    <KYC setLoading={setLoading} />
-                }
             </div>
 
             {loading && (
