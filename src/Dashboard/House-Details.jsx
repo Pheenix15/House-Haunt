@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode, Navigation, Thumbs } from 'swiper/modules';
 import Loading from "../component/Loading";
-import { useAuth } from "../component/AuthContext";
+import { useAuth } from "../Context/AuthContext";
 import { formatNumber } from "../utilities/formatDate";
 import { IoLocation } from "react-icons/io5";
 import { IoClose } from "react-icons/io5";

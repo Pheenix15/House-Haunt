@@ -17,7 +17,9 @@ function ContactRequests({setLoading, loading}) {
         const fetchContactRequest = async () => {
             setLoading(true)
             try {
-                const response = await axios.get('/api/agent/contact-requests')
+                const response = await axios.get('/api/agent/contact-requests',
+                    { headers: { "Content-Type": "application/json" } }
+                )
 
                 console.log(response)
                 setContactRequests(response.data.requests)
@@ -34,7 +36,7 @@ function ContactRequests({setLoading, loading}) {
     // Accept Request
     const acceptRequest = async (requestId) => {
         try {
-            const response = await axios.post(`/api/contact-requests/${requestId}`,
+            const response = await axios.post(`/api/agent/contact-requests/${requestId}`,
                 {decision: "accepted"},
             )
 
@@ -44,7 +46,7 @@ function ContactRequests({setLoading, loading}) {
         } catch (error) {
             console.log("Error:", error)
 
-            showFail("An Error Occured:", error.message)
+            showFail("An Error Occured:", error)
         }
     }
 
@@ -59,31 +61,41 @@ function ContactRequests({setLoading, loading}) {
             </div> */}
 
             <div className="contact-request-body">
-                {contactRequests.map((cr) => (
-                    <div key={cr.request_id} className="contact-request">
-                        <div className="hunters-info">
-                            <p className="hunters-name" >{cr.haunter.username}</p>
+                <table>
+                    <thead className="table-heading" >
+                        <tr className="table-heading-row" >
+                            <th className="table-heading-data" ><h3>Hunter Name</h3></th>
+                            <th className="table-heading-data" ><h3><IoHome /> Requested House</h3></th>
+                            <th className="table-heading-data" ><h3><IoLocation /> Location</h3></th>
+                            <th className="table-heading-data" ><h3>Action</h3></th>
+                        </tr>
+                    </thead>
 
-                            <div className="requested-house">
-                                <p><IoHome /> {cr.house.title}</p>
-                                <p><IoLocation /> {cr.house.location}</p>
-                            </div>
-                            
-                        </div>
+                    <tbody>
+                        {contactRequests.map((cr) => (
+                            <tr key={cr.request_id} className="table-body-row contact-request">
+                                <td className="table-body-data" ><p>{cr.haunter.username}</p></td>
+                                <td className="table-body-data" ><p>{cr.house.title}</p></td>
+                                <td className="table-body-data" ><p>{cr.house.location}</p></td>
+                                <td className="table-body-data" >
+                                    <div className="contact-request-actions">
+                                        <button className="accept-request-button"
+                                            onClick={() => acceptRequest(cr.request_id)}
+                                        >
+                                            <IoCheckmarkOutline />
+                                        </button>
 
-                        <div className="contact-request-actions">
-                            <button className="accept-request-button"
-                                onClick={() => acceptRequest(cr.request_id)}
-                            >
-                                <IoCheckmarkOutline />
-                            </button>
-
-                            <button className="reject-request-button">
-                                <IoClose />
-                            </button>
-                        </div>
-                    </div>
-                ))}
+                                        <button className="reject-request-button">
+                                            <IoClose />
+                                        </button>
+                                    </div>
+                                </td>
+                                
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+                
             </div>
         </div>
     );

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../component/AuthContext";
+import { useAuth } from "../Context/AuthContext";
 import axios from "axios";
 
 export const useLogout = () => {

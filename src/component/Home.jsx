@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { useAuth } from './AuthContext';
+import { useAuth } from '../Context/AuthContext';
 import Nav from './Nav';
 import Loading from './Loading';
 import './Home.css'
