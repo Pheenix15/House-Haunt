@@ -23,10 +23,16 @@ import 'swiper/css/thumbs';
 axios.defaults.baseURL = import.meta.env.VITE_API_URL;
 axios.defaults.withCredentials = true;
 
-// const token = localStorage.getItem("token");
+// read token from localStorage and attach to every request
+axios.interceptors.request.use(config => {
+  const token = localStorage.getItem('token');
+  if (token) config.headers['Authorization'] = `Bearer ${token}`;
+  return config;
+});
+
 // if (token) {
-//     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-// }
+//   axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+// } 
 
 
 function App() {

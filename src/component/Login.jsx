@@ -26,24 +26,27 @@ function Login() {
             );
             
 
-            const { user } = response.data;
+            const loginData = response.data;
+            const user = loginData.user; // Extract user data from response
             console.log('Login response:', response.data);
 
 
             // Store token and user data to local storage
-            localStorage.setItem("id", user.id);
-            localStorage.setItem("name", user.username);
-            localStorage.setItem("role", user.role);
+            localStorage.setItem("token", loginData.token);
+            // localStorage.setItem("id", user.id);
+            // localStorage.setItem("name", user.username);
+            // localStorage.setItem("role", user.role);
 
             // Rerun auth check
-            const refreshedUser = await refreshAuth();
+            await refreshAuth();
 
-            if (!refreshedUser) {
-                showFail("Auth refresh failed. No user returned.")
-                return
-            }
+            // const refreshedUser = await refreshAuth();
+            // if (!refreshedUser) {
+            //     showFail("Auth refresh failed. No user returned.")
+            //     return
+            // } DEBUGGING PURPOSES
 
-            showSuccess(`Login successful. Role: ${refreshedUser.role}`);
+            showSuccess("Login successful!");
 
             // Redirect based on role
             const role = user.role; // Used directly from response instead of localStorage

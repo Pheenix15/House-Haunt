@@ -36,7 +36,7 @@ function ContactRequests({setLoading, loading}) {
     // Accept Request
     const acceptRequest = async (requestId) => {
         try {
-            const response = await axios.post(`/api/agent/contact-requests/${requestId}`,
+            const response = await axios.post(`/api/agent/contact-requests/${requestId}/decision`,
                 {decision: "accepted"},
             )
 
