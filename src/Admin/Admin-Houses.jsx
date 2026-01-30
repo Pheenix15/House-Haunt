@@ -22,7 +22,7 @@ function AdminHouses({setLoading}) {
 
                 console.log('pending houses:', pendingHousesResponse)
                 const pendingHousesData = pendingHousesResponse.data
-                setPendingHouses(pendingHousesData.pending_houses)
+                setPendingHouses(pendingHousesData.houses)
             } catch (error) {
                 console.log(error)
             }
@@ -71,7 +71,7 @@ function AdminHouses({setLoading}) {
         const fetchAllHouses = async () => {
             setLoading(true)
             try {
-                const allHousesResponse = await axios.get('/api/admin/all-houses')
+                const allHousesResponse = await axios.get('/api/admin/houses')
 
                 console.log('All houses:', allHousesResponse.data)
                 const allHousesData = allHousesResponse.data

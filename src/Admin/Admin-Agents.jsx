@@ -9,10 +9,10 @@ function AdminAgents({setLoading}) {
         const fetchAgentList = async () => {
             setLoading(true)
             try {
-                const agentListResponse = await axios.get('/api/admin/agents')
+                const agentListResponse = await axios.get('/api/admin/users/agents')
 
                 const agentListData = agentListResponse.data
-
+                console.log(agentListResponse.data)
                 setAgentList(agentListData.agents)
 
                 console.log('List of Agents:', agentList)

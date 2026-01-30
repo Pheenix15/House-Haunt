@@ -9,13 +9,15 @@ function AdminHunters({setLoading}) {
         const fetchHunterList = async () => {
             setLoading(true)
             try {
-                const huntersListResponse = await axios.get('/api/admin/haunters')
+                const huntersListResponse = await axios.get('/api/admin/users/haunter')
 
                 const huntersListData = huntersListResponse.data
 
-                setHuntersList(huntersListData.haunters)
+                // console.log(huntersListResponse.data) for debugging
+                
+                setHuntersList(huntersListData.users)
 
-                console.log('List of Hunters:', huntersListData.haunters)
+                console.log('List of Hunters:', huntersListData.users)
                 
 
             } catch (error) {
