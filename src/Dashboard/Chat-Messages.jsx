@@ -18,7 +18,7 @@ function ChatMessages() {
     useEffect(() => {
         const getSelectedChat = async () => {
             if (chatId) {
-                const chatResponse = await axios.get(`/api/agent/chats`)
+                const chatResponse = await axios.get(`/api/chat`)
                 // Filter to find the chat with the matching chatId
                 const chat = chatResponse.data.chats.find(c => c.chat_id.toString() === chatId);
                 setSelectedChat(chat);
@@ -33,7 +33,7 @@ function ChatMessages() {
     useEffect(() => {
         const getMessages = async () => {
             if (selectedChat) {
-                const messagesResponse = await axios.get(`/api/agent/chats/${selectedChat.chat_id}/messages`)
+                const messagesResponse = await axios.get(`/api/chat/${selectedChat.chat_id}/messages`)
                 console.log('Fetched Messages for Selected Chat:', messagesResponse.data.messages)
 
                 setChatMessages(messagesResponse.data.messages) //Set state with fetched messages
@@ -47,7 +47,7 @@ function ChatMessages() {
     const sendMessage = async () => {
         if (message.trim() === '' || !selectedChat) return; // Prevent sending empty messages or if no chat is selected
         try {
-            const response = await axios.post(`/api/agent/chats/${chatId}/messages`, 
+            const response = await axios.post(`/api/chat/${chatId}/messages`, 
                 { content: message }
             );
 
@@ -68,7 +68,7 @@ function ChatMessages() {
         <div className="chat-message-page">
             <div className="chat-messages-heading">
 
-                {selectedChat ? `Chat with ${selectedChat.haunter.username}` : 'Loading Chat...'}
+                {selectedChat ? `Chat with ${selectedChat.participant.username}` : 'Loading Chat...'}
             </div>
 
             <div className="chat-messages">
@@ -78,7 +78,7 @@ function ChatMessages() {
                         {/* <h2>{selectedChat.haunter.username}</h2> */}
 
                         {chatMessages.map((msg) => (
-                            <div key={msg.id} className={`chat-message-item ${msg.sender_role === user?.role ? 'sent' : 'received'}`} >
+                            <div key={msg.id} className={`chat-message-item ${msg.sender_role === user?.role ? 'sent' : 'recieved'}`} >
                                 <p className="message-content">{msg.content}</p>
                             </div>
                         ))}
