@@ -10,20 +10,65 @@
     border-radius: 10px;
 }
 
+.desktop-chat-section {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    width: 100%;
+    min-width: 0;
+    min-height: 0;
+    flex: 1;
+}
+
+.mobile-chat-section {
+    display: none;
+}
+
 .chat-section h2 {
     color: var(--mainBlue);
 }
 
 .chat-contact-section {
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
     width: 25%;
+    min-width: 175px;
     height: 100%;
     border-right: 2px solid var(--backgroundGray);
     padding: 10px;
-    overflow-y: scroll;
+    overflow-y: auto;
     scroll-behavior: smooth;
+    scrollbar-width: thin;
 }
 
+.chat-contact-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 15px 10px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.chat-letter {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    background: var(--mainBlue);
+    color: var(--mainWhite);
+    border-radius: 100%;
+    height: 30px;
+    width: 30px;
+}
+
+.contact-email {
+    font-size: 0.8em;
+    color: var(--transparentBlack);
+}
 
 .chat-message-section {
     box-sizing: border-box;
@@ -45,7 +90,153 @@
 }
 
 .chat-message-container {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 20px; /*Gap between messages and input bar*/
+    flex: 1;
     width: 100%;
-    background-color: var(--backgroundGray);
     height: 100%;
+    min-height: 0;
+    background-color: var(--backgroundGray);
+    padding: 20px;
+}
+
+.chat-messages {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+}
+
+.chat-input {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    gap: 20px;
+    border: 2px solid var(--mainBlue);
+    border-radius: 15px;
+    padding: 5px 15px;
+}
+
+.chat-input input {
+    width: 100%;
+    border: none;
+}
+
+.chat-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--mainBlue);
+    padding: 0;
+    color: var(--mainWhite);
+    font-size: 1.5em;
+    /* transform: rotate(45deg); */
+    border-radius: 50%;
+    width: 50px;
+    height: 40px;
+}
+
+/* Sent / Revieved Message */
+.chat-message-item {
+    box-sizing: border-box;
+    width: fit-content;
+    color: var(--mainWhite);
+    padding: 10px;
+}
+.sent {
+    background-color: var(--mainBlue);
+    align-self: flex-end;
+    border-radius: 13px 0 13px 14px;
+}
+
+.recieved {
+    background-color: var(--secondBlue);
+    align-self: flex-start;
+    border-radius: 0px 13px 13px 14px;
+}
+
+/* Chat Message Page */
+.chat-message-page {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100%;
+}
+
+.chat-messages-heading {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    background-color: var(--mainBlue);
+    color: var(--mainWhite);
+    padding: 20px;
+}
+
+@media (hover: hover) {
+    .chat-contact-item:hover {
+        background-color: var(--backgroundBlue);
+    }
+}
+
+@media (max-width: 771px) {
+    .chat-contact-item {
+        gap: 10px;
+        padding: 15px 0;
+    }
+
+    .contact-name {
+        font-size: 0.9em;
+    }
+
+    .contact-email {
+        font-size: 0.6em;
+    }
+}
+
+@media (max-width: 521px) {
+    .desktop-chat-section {
+        display: none !important;
+    }
+
+    .mobile-chat-section {
+        display: flex !important;
+        flex-direction: column;
+        height: 100%;
+        width: 100%;
+        min-width: 0;
+        min-height: 0;
+        flex: 1;
+    }
+
+    .chat-contact-section {
+        width: 100%;
+        border-right: none;
+    }
+
+    .chat-contact-item {
+        gap: 20px;
+        padding: 15px 10px;
+        box-shadow: 0px 1px 2px 0px var(--transparentBlue);
+    }
+
+    .chat-letter {
+        width: 50px;
+        height: 50px;
+    }
+
+    .contact-name {
+        font-size: 1em;
+    }
+
+    .contact-email {
+        font-size: 0.8em;
+    }
 }

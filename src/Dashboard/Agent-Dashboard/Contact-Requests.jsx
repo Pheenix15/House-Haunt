@@ -50,6 +50,22 @@ function ContactRequests({setLoading, loading}) {
         }
     }
 
+    // Reject Request
+    const rejectRequest = async (requestId) => {
+        try {
+            const response = await axios.post(`/api/agent/contact-requests/${requestId}/decision`,
+                {decision: "rejected"},
+            )
+
+            console.log(response)
+
+            showSuccess("Request Rejected")
+        } catch (error) {
+            console.log("Error:", error)
+
+            showFail("An Error Occured:", error)
+        }
+    }
     useEffect(() => {
         console.log(contactRequests)
     }, [])
@@ -60,43 +76,55 @@ function ContactRequests({setLoading, loading}) {
                 <h2>Contact Requests</h2>
             </div> */}
 
-            <div className="contact-request-body">
-                <table>
-                    <thead className="table-heading" >
-                        <tr className="table-heading-row" >
-                            <th className="table-heading-data" ><h3>Hunter Name</h3></th>
-                            <th className="table-heading-data" ><h3><IoHome /> Requested House</h3></th>
-                            <th className="table-heading-data" ><h3><IoLocation /> Location</h3></th>
-                            <th className="table-heading-data" ><h3>Action</h3></th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        {contactRequests.map((cr) => (
-                            <tr key={cr.request_id} className="table-body-row contact-request">
-                                <td className="table-body-data" ><p>{cr.haunter.username}</p></td>
-                                <td className="table-body-data" ><p>{cr.house.title}</p></td>
-                                <td className="table-body-data" ><p>{cr.house.location}</p></td>
-                                <td className="table-body-data" >
-                                    <div className="contact-request-actions">
-                                        <button className="accept-request-button"
-                                            onClick={() => acceptRequest(cr.request_id)}
-                                        >
-                                            <IoCheckmarkOutline />
-                                        </button>
-
-                                        <button className="reject-request-button">
-                                            <IoClose />
-                                        </button>
-                                    </div>
-                                </td>
-                                
+            {contactRequests.length === 0 && !loading ? (
+                <div className="no-contact-requests">
+                    <p>No Contact Requests Available</p>
+                </div>
+            ) : (
+                <div className="contact-request-body">
+                    <table>
+                        <thead className="table-heading" >
+                            <tr className="table-heading-row" >
+                                <th className="table-heading-data" ><h3>Hunter Name</h3></th>
+                                <th className="table-heading-data" ><h3><IoHome /> Requested House</h3></th>
+                                <th className="table-heading-data" ><h3><IoLocation /> Location</h3></th>
+                                <th className="table-heading-data" ><h3>Action</h3></th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
-                
-            </div>
+                        </thead>
+
+                        <tbody>
+                            {contactRequests.map((cr) => (
+                                <tr key={cr.request_id} className="table-body-row contact-request">
+                                    <td className="table-body-data" ><p>{cr.haunter.username}</p></td>
+                                    <td className="table-body-data" ><p>{cr.house.title}</p></td>
+                                    <td className="table-body-data" ><p>{cr.house.location}</p></td>
+                                    <td className="table-body-data" >
+                                        <div className="contact-request-actions">
+                                            <button className="accept-request-button"
+                                                onClick={() => acceptRequest(cr.request_id)}
+                                                disabled={loading}
+                                            >
+                                                {loading ? <span className="spinner" /> : <IoCheckmarkOutline />}
+                                            </button>
+
+                                            <button className="reject-request-button"
+                                                onClick={() => rejectRequest(cr.request_id)}
+                                                disabled={loading}
+                                            >
+                                                {loading ? <span className="spinner" /> : <IoClose />}
+                                            </button>
+                                        </div>
+                                    </td>
+                                    
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                    
+                </div>
+            )}
+
+            
         </div>
     );
 }

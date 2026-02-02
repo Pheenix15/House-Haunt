@@ -7,6 +7,7 @@ import ProtectedRoute from './component/ProtectedRoute'
 import DashboardAgent from './Dashboard/Agent-Dashboard/Dashboard-Agent'
 import DashboardHaunter from './Dashboard/Haunter-Dashboard/Dashboard-Haunter'
 import HouseDetails from './Dashboard/House-Details'
+import ChatMessages from './Dashboard/Chat-Messages'
 import Admin from './Admin/Admin'
 import axios from 'axios'
 import EmptyPage from './component/404-not-found'
@@ -46,6 +47,7 @@ function App() {
           <Route path="/Signup" element={<Signup />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/houses/:houseId" element={<HouseDetails />} />
+          <Route path='/dashboard/chat/:chatId' element={<ChatMessages />} />
           
           {/* Protected route - Admin only */}
           <Route path='/Admin' element={

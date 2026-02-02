@@ -98,6 +98,14 @@ function Login() {
             setLoading(false);
         }
     };
+
+    // Reset Password
+    const resetPassword = async () => {
+        console.log('Users Email', email)
+        const resetResponse = await axios.post('/api/auth/forgot-password', {email});
+
+        console.log("Reset Response:", resetResponse)
+    }
     
 
     return ( 
@@ -140,6 +148,7 @@ function Login() {
                                 
 
                                 <div className="form-button-container">
+                                    <p className="login-text" >Forgot your password? <span className="blue-link" onClick={() => resetPassword()} >click here to reset it.</span></p>
                                     <button type="submit" className='button primary-form-button'disabled={loading} >{loading ? "Logginng" : "Login"}</button>
                                 </div>
 

@@ -162,11 +162,11 @@ function Home() {
 
                         {howItWorksState === "hunter" ? (
                             <div className="how-it-works-cards">
-                                <div className="how-it-works-card card">
+                                <div className="how-it-works-card card" onClick={() => navigate('/Signup', {state: {role: 'haunter'}})}>
                                     <div className="how-it-works-icon card-icon">
                                         <img src="./img/icons/new-user.png" alt="sign up" />
                                     </div>
-                                    <div className="card-text">
+                                    <div className="card-text" >
                                         <h3>Sign Up</h3>
 
                                         <p className="card-description">
@@ -219,11 +219,11 @@ function Home() {
                             </div>
                         ) : (
                             <div className="how-it-works-cards">
-                                <div className="how-it-works-card card">
+                                <div className="how-it-works-card card" onClick={() => navigate('/Signup', {state: {role: 'agent'}})} >
                                     <div className="how-it-works-icon card-icon">
                                         <img src="./img/icons/new-user.png" alt="sign up" />
                                     </div>
-                                    <div className="card-text">
+                                    <div className="card-text" >
                                         <h3>Sign Up</h3>
 
                                         <p className="card-description">

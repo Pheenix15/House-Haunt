@@ -24,7 +24,11 @@ export const AuthProvider = ({ children }) => {
         } catch (error) {
             console.log('Auth failed:', error.response?.status);
             setUser(null);
-            localStorage.clear();
+            // Remove only auth-related keys so other app state (e.g. sidebar selection) is preserved
+            localStorage.removeItem("id");
+            localStorage.removeItem("name");
+            localStorage.removeItem("role");
+            localStorage.removeItem("token");
         } finally {
             console.log('Auth check complete, setting loading to false');
             setLoading(false);

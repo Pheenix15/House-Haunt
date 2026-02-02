@@ -4,6 +4,7 @@
   --mainBlue: #0d47a1;
   --secondBlue: #1a73e8;
   --mainRed: #bc0808;
+  --darkRed: #9b0505;
   --textGray: #a2a3a4;
   --backgroundGray: #E1e5eb;
   --backgroundBlue: #e5efff;
@@ -65,10 +66,36 @@ button {
   transition: background-color 0.5s ease, color 0.5s ease;
 }
 
+.close-button {
+  padding: 0;
+  background: transparent;
+}
+
+/* Spinner */
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
 
 @media (hover: hover) {
   button:hover {
     background-color: var(--secondBlue);
+  }
+
+  .close-button:hover {
+    background-color: transparent;
   }
 }
 

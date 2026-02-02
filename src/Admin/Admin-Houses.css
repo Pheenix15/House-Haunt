@@ -13,6 +13,7 @@
 .active-list {
     color: var(--mainBlack) !important;
     border-bottom: 2px solid var(--mainBlue);
+    border-radius: 0;
 }
 
 .reject-button {

@@ -1,0 +1,35 @@
+.admin-KYC {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    height: 100%;
+}
+
+.kyc-modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+    height: 30%;
+    box-shadow: 0px 0px 2px 0px var(--mainBlue);
+}
+
+.kyc-modal-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--mainBlue);
+    color: var(--mainWhite);
+    padding: 5px 15px;
+}
+
+.kyc-modal-heading p {
+    font-size: 1em;
+}
+
+.kyc-modal-content {
+    padding: 15px;
+    overflow-y: auto;
+}

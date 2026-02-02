@@ -1,5 +1,5 @@
 .wallet-section {
-    width: 500px;
+    max-width: 500px;
     background-color: var(--mainBlack);
     color: var(--mainWhite);
     padding: 20px;
