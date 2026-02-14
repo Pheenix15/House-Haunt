@@ -5,6 +5,7 @@ import Nav from './Nav';
 import Loading from './Loading';
 import './Home.css'
 import Footer from './Footer';
+import EnableCookies from './Enable-Cookies';
 
 function Home() {
     const [backgroundImagesIndex, setBackgroundImagesIndex] = useState(0);
@@ -100,8 +101,20 @@ function Home() {
                         <p>We Link you up with direct owners. No outrageous agent fee</p>
                     </div>
 
+                    <div className="nav-button">
+                        <button className="button nav-search-button" onClick={() => navigate('/Signup', {state: {role: 'haunter'}})} >Find A House</button>
+                    </div>
+
                     <div className="hero-image">
-                        <img src={backgroundImages[backgroundImagesIndex]} alt="appartment building" />
+                        <video 
+                            autoPlay
+                            muted
+                            loop
+                            playsInline
+                            poster='/img/fallback.png'
+                        >
+                            <source src="/vid/bkg-vid.mp4" type= "video/mp4" />
+                        </video>
                     </div>
                 </div>
             </section>
@@ -450,6 +463,7 @@ function Home() {
                     
                 </div>
             </section>
+            <EnableCookies />
 
             <Footer />
         </div>

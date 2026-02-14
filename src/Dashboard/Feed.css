@@ -118,6 +118,7 @@
 
 .active-feed {
     border-bottom: 2px solid var(--mainBlue);
+    border-radius: 0;
     color: var(--mainBlack);
 }
 
@@ -432,6 +433,20 @@
         font-size: 1.3em;
     }
 
+}
+
+/* For Iphone screen */
+@media (max-width: 471px) {
+    .house-feed-list .house-list-content {
+        flex-direction: column;
+    }
+
+    .house-feed-list .house-feed-list-image {
+        width: unset;
+        height: auto;
+        max-height: 200px;
+        overflow: hidden;
+    }
 }
 
 @media (max-width: 426px) {

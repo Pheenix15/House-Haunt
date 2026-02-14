@@ -1,9 +1,19 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { io } from 'socket.io-client'
+// import {
+//     initSocket,
+//     joinChat as socketJoinChat,
+//     sendMessage as socketSendMessage,
+//     onReceiveMessage,
+//     offReceiveMessage,
+//     onJoined,
+//     offJoined,
+//     disconnect as socketDisconnect,
+// } from './Chat-Socket'
 import { IoSend } from "react-icons/io5";
 import { useAuth } from '../Context/AuthContext';
+import { useAlert } from '../Context/AlertContext';
 import './Chat.css'
 
 // Initialize Socket.io
@@ -14,11 +24,19 @@ function Chat() {
     const [chatMessages, setChatMessages] = useState([]) //Stores messages of selected chat
     const [message, setmessage] = useState('') //Stores users input from message bar
     const {user} = useAuth() //Get current user info
+    const socketRef = useRef(null); //Reference to socket instance
+    const selectedChatRef = useRef(null); //Reference to currently selected chat
+    const { showFail } = useAlert()
     const navigate = useNavigate()
 
-    console.log('Current User in Chat:', user?.role)
+    // console.log('Current User in Chat:', user?.role) For Debugging
     let allChats = [] //Temporary variable to store fetched chats
 
+    
+    
+    // HTTP REQUESTS 
+
+    // Fetch all chats
     useEffect(() => {
         const getChats = async () => {
             const chatRsponse = await axios.get('api/chat')
@@ -31,29 +49,46 @@ function Chat() {
         getChats()
     }, [])
 
-    useEffect(() => {
-        console.log('Selected Chat:', selectedChat)
-    }, [selectedChat])
+    
 
-    // CHAT MESSAGES
-
-    // Retrieve Messages for Selected Chat
+    // Keep selectedChatRef in sync and perform join + fetch messages
     useEffect(() => {
+        selectedChatRef.current = selectedChat;
+        if (!selectedChat) return;
+
+        // fetch existing messages via HTTP for history load
         const getMessages = async () => {
-            if (selectedChat) {
+            try {
                 const messagesResponse = await axios.get(`/api/chat/${selectedChat.chat_id}/messages`)
                 console.log('Fetched Messages for Selected Chat:', messagesResponse.data.messages)
-
-                setChatMessages(messagesResponse.data.messages) //Set state with fetched messages
+                setChatMessages(messagesResponse.data.messages)
+            } catch (err) {
+                console.error('Error fetching messages', err)
             }
         }
-        
-        getMessages()
-    }, [selectedChat])
+
+        getMessages();
+    }, [selectedChat]);
 
     //Send Message Functionality
     const sendMessage = async () => {
         if (message.trim() === '' || !selectedChat) return; // Prevent sending empty messages or if no chat is selected
+        
+        // show immediately in chat box
+        const optimisticMsg = {
+            chat_id: selectedChat.chat_id,
+            sender_id: user.id,
+            content: message,
+            sender_role: user.role,
+            created_at: new Date().toISOString(),
+            pending: true,
+        };
+        setChatMessages(prev => [...prev, optimisticMsg]);
+        setmessage('');
+
+        scrollToBottom();  //Scroll to bottom to show latest message
+        // define scrollToBottom() first.
+
         try {
             const response = await axios.post(`/api/chat/${selectedChat.chat_id}/messages`, 
                 { content: message }
@@ -61,19 +96,23 @@ function Chat() {
 
             console.log('Message Sent:', response.data);
             // Update chatMessages state to include the new message
-            setChatMessages((prevMessages) => [...prevMessages, response.data.message]);
+            // setChatMessages((prevMessages) => [...prevMessages, response.data.message]);
             
             setmessage(''); // Clear input field after sending
-
-            //scrollToBottom();  Scroll to bottom to show latest message
         } catch (error) {
             console.log('Error sending message:', error);
         }
     }
+
+
     // Open Chat in New Page on Mobile
     const handleChatClick = (chatId) => {
         navigate(`/dashboard/chat/${chatId}`);
     }
+
+    // SOCKET.IO LISTENERS
+
+    
 
     return (
         <div className="chat-section">
@@ -133,7 +172,7 @@ function Chat() {
                                     {/* <h2>{selectedChat.haunter.username}</h2> */}
 
                                     {chatMessages.map((msg) => (
-                                        <div key={msg.id} className={`chat-message-item ${msg.sender_role === user?.role ? 'sent' : 'recieved'}`} >
+                                        <div key={msg.clientId || msg.id} className={`chat-message-item ${msg.sender_role === user?.role ? 'sent' : 'recieved'}`} >
                                             <p className="message-content">{msg.content}</p>
                                         </div>
                                     ))}
@@ -178,7 +217,7 @@ function Chat() {
                             
                         ) : (
                             <div className="no-content">
-                                <p>Chat will activate when an agent accepts yoir request</p>
+                                <p>Chat will activate when an agent accepts your request</p>
                             </div>
                         
                         )
@@ -203,7 +242,7 @@ function Chat() {
 
                 {/* Chat Message Section */}
                 <div className="chat-message-section">
-
+                    {/* NOW IN Chat-Messags.jsx */}
                 </div>
             </div>
         </div>

@@ -4,9 +4,10 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { FreeMode, Navigation, Thumbs } from 'swiper/modules';
 import Loading from "../component/Loading";
 import { useAuth } from "../Context/AuthContext";
-import { formatNumber } from "../utilities/formatDate";
+import { formatNumber, getInitials } from "../utilities/formatDate";
 import { IoLocation } from "react-icons/io5";
 import { IoClose } from "react-icons/io5";
+import { IoNewspaper } from "react-icons/io5";
 import axios from "axios";
 import { contactAgent } from "../Api/Contact-Agent";
 import { useAlert } from "../Context/AlertContext";
@@ -62,6 +63,7 @@ function HouseDetails() {
 
     // Send Contact Request
     const sendContactRequest = async (houseId) => {
+        setLoading(true)
         try {
             const contactRequestResponse = await contactAgent(houseId)
             
@@ -69,6 +71,8 @@ function HouseDetails() {
             showSuccess(contactRequestResponse.message)
         } catch (error) {
             showFail(error)
+        } finally {
+            setLoading(false)
         }
         
     }
@@ -88,88 +92,100 @@ function HouseDetails() {
                 </div>
 
                 {houseDetail && (
-                    <div className="house-details">
-                        {/* House Images */}
-                        <div className="house-details-image">
-                            <div className="details-main-image">
-                                {houseDetail.images && houseDetail.images.length > 0 ? (
-                                    <img src={houseDetail.images[0]} alt={houseDetail.title} />
-                                ) : (
-                                    <img src="../../img/icons/broken-image.png" alt="Image not available" className='house-image' />
-                                )}
-
-                                {/* <img src={houseDetail.images[0]} alt={houseDetail.title} /> */}
-                            </div>
-
-                            <div className="details-secondary-image">
-                                {houseDetail.images && houseDetail.images.length > 1 ? (
-                                    // Map only 2 images starting from index 1
-                                    houseDetail.images.slice(1, 3).map((image, index) => (
-                                        <div className="secondry-image-box" key={index} >
-                                            <img
-                                                src={image}
-                                                alt={`${houseDetail.title} ${index + 1}`}
-                                            />
-                                        </div>
-                                        
-                                    ))
+                    <div className="house-and-agent-details">
+                        <div className="house-details">
+                            {/* House Images */}
+                            <div className="house-details-image">
+                                <div className="details-main-image">
+                                    {houseDetail.images && houseDetail.images.length > 0 ? (
+                                        <img src={houseDetail.images[0]} alt={houseDetail.title} />
                                     ) : (
-                                    <img
-                                        src="../../img/icons/broken-image.png"
-                                        alt="Image not available"
-                                    />
-                                )}
+                                        <img src="../../img/icons/broken-image.png" alt="Image not available" className='house-image' />
+                                    )}
+
+                                    {/* <img src={houseDetail.images[0]} alt={houseDetail.title} /> */}
+                                </div>
+
+                                {/* <div className="details-secondary-image">
+                                    {houseDetail.images && houseDetail.images.length > 1 ? (
+                                        // Map only 2 images starting from index 1
+                                        houseDetail.images.slice(1, 3).map((image, index) => (
+                                            <div className="secondry-image-box" key={index} >
+                                                <img
+                                                    src={image}
+                                                    alt={`${houseDetail.title} ${index + 1}`}
+                                                />
+                                            </div>
+                                            
+                                        ))
+                                        ) : (
+                                        <img
+                                            src="../../img/icons/broken-image.png"
+                                            alt="Image not available"
+                                        />
+                                    )}
+                                </div> */}
+
+                                <div className="image-overlay-button">
+                                    {houseDetail.images.length > 3 && (
+                                        <button 
+                                            className="see-all-images"
+                                            onClick={() => setViewAllImage(true)}
+                                        >
+                                            +{houseDetail.images.length - 1} more
+                                        </button>
+                                    )}
+                                </div>
+
+                                {/* Price */}
+                                <div className="price">
+                                    <p className="main-description-price" >₦ {formatNumber(houseDetail.price)}</p>
+                                </div>
                             </div>
 
-                            <div className="image-overlay-button">
-                                {houseDetail.images.length > 3 && (
-                                    <button 
-                                        className="see-all-images"
-                                        onClick={() => setViewAllImage(true)}
-                                    >
-                                        +{houseDetail.images.length - 3} more
-                                    </button>
-                                )}
+                            <div className="house-details-content">
+                                <div className="details-main-description">
+                                    <div className="main-description-top">
+                                        <div className="title-and-location">
+                                            <p className="main-description-title" >{houseDetail.title}</p>
+
+                                            <p className="main-description-location">
+                                                <IoLocation /> {houseDetail.location}
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div className="main-description-body">
+                                        <div className="description-body-heading">
+                                            <IoNewspaper />
+
+                                            <p>Property Overview</p>
+                                        </div>
+
+                                        <p>{houseDetail.description}</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
-                        <div className="house-details-content">
-                            <div className="details-main-description">
-                                <div className="main-description-top">
-                                    <div className="title-and-location">
-                                        <p className="main-description-title" >{houseDetail.title}</p>
-
-                                        <p className="main-description-location">
-                                            <IoLocation /> {houseDetail.location}
-                                        </p>
-                                    </div>
-
-                                    <div className="price">
-                                        <p>Price</p>
-                                        <p className="main-description-price" >₦ {formatNumber(houseDetail.price)}</p>
-                                    </div>
-                                </div>
-
-                                <div className="main-description-body">
-                                    <p className="description-body-heading" >Description</p>
-
-                                    <p>{houseDetail.description}</p>
-                                </div>
-                            </div>
-                            
+                        <div className="agent-details">
                             {/* Agent Description */}
-                            <div className="agent-description">
+                            <h3>Contact Agent</h3>
+                            <div className="agent-name">
+                                <div className="agent-initials">
+                                    <p>{getInitials(houseDetail.agent_name)}</p>
+                                </div>
                                 <p className="agent-name">
                                     {houseDetail.agent_name}
                                 </p>
-
-                                <button 
-                                    className="contact-agent-button"
-                                    onClick={() => sendContactRequest(houseDetail.id)}
-                                >
-                                    Contact
-                                </button>
                             </div>
+                            
+                            <button 
+                                className="contact-agent-button"
+                                onClick={() => sendContactRequest(houseDetail.id)}
+                            >
+                                {loading ? 'Sending Request...' : 'Contact'}
+                            </button>
                         </div>
                     </div>
                 )}

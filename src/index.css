@@ -71,6 +71,10 @@ button {
   background: transparent;
 }
 
+.delete-button {
+  background-color: var(--mainRed);
+}
+
 /* Spinner */
 .spinner {
   width: 16px;
@@ -96,6 +100,10 @@ button {
 
   .close-button:hover {
     background-color: transparent;
+  }
+
+  .delete-button:hover {
+    background-color: var(--darkRed);
   }
 }
 
@@ -170,6 +178,37 @@ input, select {
   position: absolute;
   right: 3%;
   top: 30%;
+}
+
+/* MODAL */
+
+/* Replace with modal after finding which component uses .modal */
+.add-house-modal, .modal {
+  box-sizing: border-box;
+  position: absolute;
+  background-color: var(--mainWhite);
+  border-radius: 10px;
+  box-shadow: 0px 0px 4px 0px var(--secondBlue);
+  width: 70%;
+  max-width: 750px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.modal-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--mainBlue);
+  color: var(--mainWhite);
+  padding: 10px 20px;
+  border-radius: 10px 10px 0 0;
+}
+
+.add-house-modal h2 {
+  font-size: 1.3em;
+  margin: 0;
 }
 
 /* TABLE CSS */

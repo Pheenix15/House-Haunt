@@ -1,0 +1,38 @@
+.cookie-popup {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    bottom: 0;
+    left: 0;
+    height: 30%;
+    background-color: var(--mainWhite);
+    padding: 20px;
+    box-shadow: 0 2px 10px var(--mainBlue);
+    z-index: 1000;
+    border-radius: 0px 8px 0 0;
+}
+
+.cookie-popup h2 {
+    color: var(--mainRed);
+}
+
+.reload-page {
+    align-self: flex-end;
+}
+
+@media (max-width: 769px) {
+    .cookie-popup {
+        width: 70%;
+    }
+
+    .reload-page {
+        align-self: flex-start;
+    }
+}
+
+@media (max-width: 513px) {
+    .cookie-popup {
+        width: 90%;
+    }
+}

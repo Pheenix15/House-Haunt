@@ -33,3 +33,13 @@
     padding: 15px;
     overflow-y: auto;
 }
+
+.Kyc-Note {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.view-kyc-button {
+    background-color: var(--mainBlack);
+}

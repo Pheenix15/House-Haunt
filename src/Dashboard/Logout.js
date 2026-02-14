@@ -18,6 +18,8 @@ export const useLogout = () => {
             localStorage.removeItem("id");
             localStorage.removeItem("name");
             localStorage.removeItem("role");
+            localStorage.removeItem("token");
+            localStorage.removeItem("sidebarSection");
 
             navigate("/login");
         } catch (error) {

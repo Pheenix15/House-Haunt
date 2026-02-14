@@ -1,8 +1,29 @@
 .login-page {
+    position: relative;
     background-color: var(--transparentBlack);
     background-image: url('../img/House-1.png');
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
     background-blend-mode: overlay;
+}
+
+.reset-password-modal-heading h2 {
+    font-size: 1.2em;
+}
+
+.reset-password-modal-body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    padding: 20px;
+}
+
+.reset-password-modal-body input {
+    width: 40%;
+}
+
+.reset-password-button {
+    padding: 10px;
 }

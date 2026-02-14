@@ -4,9 +4,12 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../Context/AuthContext";
 import { useAlert } from "../Context/AlertContext";
+import { IoClose } from "react-icons/io5";
 import './Login.css'
 
 function Login() {
+    const [resetPasswordModal, setResetPasswordModal] = useState(false) //MODAL TO RESET PASSWORD
+    const [usersEmail, setUsersEmail] = useState("") // USERS EMAIL FOR RESET PASSWORD MODAL
     const [showPassword, setShowPassword] = useState(false); //STATE TO REVIEAL PASSWORD
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -101,10 +104,14 @@ function Login() {
 
     // Reset Password
     const resetPassword = async () => {
-        console.log('Users Email', email)
-        const resetResponse = await axios.post('/api/auth/forgot-password', {email});
+        console.log('Users Email', usersEmail)
+        try {
+            const resetResponse = await axios.post('/api/auth/forgot-password', {email: usersEmail});
 
-        console.log("Reset Response:", resetResponse)
+            console.log("Reset Response:", resetResponse)
+        } catch (error) {
+            console.log('error resetting Password:', error)
+        }
     }
     
 
@@ -148,7 +155,7 @@ function Login() {
                                 
 
                                 <div className="form-button-container">
-                                    <p className="login-text" >Forgot your password? <span className="blue-link" onClick={() => resetPassword()} >click here to reset it.</span></p>
+                                    <p className="login-text" >Forgot your password? <span className="blue-link" onClick={() => setResetPasswordModal(true)} >click here to reset it.</span></p>
                                     <button type="submit" className='button primary-form-button'disabled={loading} >{loading ? "Logginng" : "Login"}</button>
                                 </div>
 
@@ -159,6 +166,40 @@ function Login() {
                 </div>
                 
             </div>
+
+            {/* Reset Pqssword Modal */}
+            {resetPasswordModal && (
+                <div className="modal">
+                    <div className="reset-password-modal-heading modal-heading">
+                        <h2>Reset Password</h2>
+
+                        <div className="close-button">
+                            <IoClose 
+                                style={{
+                                    color: "#f5f7fa",
+                                    fontSize: "1.4em",
+                                    cursor: "Pointer",
+                                }}
+                                onClick={() => {setResetPasswordModal(false); setUsersEmail("")}}
+                            />
+                        </div>
+                    </div>
+
+                    <div className="reset-password-modal-body modal-body">
+                        <input
+                            type="email"
+                            placeholder='Enter your email'
+                            value={usersEmail}
+                            onChange={(e) => setUsersEmail(e.target.value)}
+                            required
+                        />
+
+                        <button className="reset-password-button" onClick={() => resetPassword()}>
+                            Reset Password
+                        </button>
+                    </div>
+                </div>
+            )}
         </div>
      );
 }

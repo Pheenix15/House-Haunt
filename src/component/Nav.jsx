@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { IoMenu } from "react-icons/io5";
+import { IoClose } from "react-icons/io5";
 import './Nav.css'
 
 function Nav() {
@@ -19,7 +21,7 @@ function Nav() {
         <>
             {/* DESKTOP NAV */}
             <nav className= {`${isSticky ? 'sticky-nav' : 'navbar'} desktop-nav`} >
-                <div className={isSticky ? "logo-invinsible" : "nav-logo"}><img src="img/logo-black.png" alt="house haunt logo" /></div>
+                <div className={isSticky ? "logo-invinsible" : "nav-logo"}><img src="img/logo.png" alt="house haunt logo" /></div>
                 {/* Sticky Logo */}
                 <div className={isSticky ? "nav-logo" : "logo-invinsible"}><img src="img/logo.png" alt="house haunt logo" /></div>
                 <div className="nav">
@@ -46,26 +48,26 @@ function Nav() {
                     position: isSticky ? 'fixed' : 'relative'
                 }}
             >
-                <div className="nav-logo"><img src="img/logo-black-100.png" alt="house haunt logo" /></div>
-
-                <div className="search-bar">
-                    <input type="search" name="Search" id="" />
-                    <button className="button search-button mobile-search-button" ><i className="fa-solid fa-magnifying-glass" style={{color: '#1a73e8'}} ></i></button>
-                </div>
-
+                <div className={isSticky ? "logo-invinsible" : "nav-logo"}><img src="img/HouseHaunt-logo.png" alt="house haunt logo" /></div>
+                {/* Sticky Logo */}
+                <div className={isSticky ? "nav-logo" : "logo-invinsible"}><img src="img/HouseHaunt-logo-blue.png" alt="house haunt logo" /></div>
+                
                 <div className="menu-button" 
                     aria-label={openNav ? "Close menu" : "Open menu"}
                     aria-expanded={openNav}
                     aria-controls="nav-menu"
                     onClick={() => setOpenNav(!openNav)}
                 >
-                    <button className='button menu-button' >
-                        <i 
+                    <button className='button menu-button'
+                        style={{
+                            color: `${openNav && !isSticky ? "#f5f7fa" : openNav && isSticky ? "#1a73e8" : !openNav && isSticky ? "#1a73e8" : "#f5f7fa"}`
+                        }}
+                    >
+                        { openNav ? <IoClose /> : <IoMenu /> }
+                        {/* <i 
                             className={`${openNav? 'fa-solid fa-times rotate' : 'fa-solid fa-bars'}`}
-                            style={{
-                                color: "#1a73e8"
-                            }}
-                        ></i>
+                            
+                        ></i> */}
                     </button>
                 </div>
 

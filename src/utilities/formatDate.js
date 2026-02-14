@@ -30,3 +30,9 @@ export const formatNumber = (value) => {
   if (value === null || value === undefined) return "—";
   return compactFormatter.format(value);
 };
+
+// Get Users Initials (First and Lastname only)
+export const getInitials = (name) => {
+  const parts = name.trim().split(" ");
+  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+};

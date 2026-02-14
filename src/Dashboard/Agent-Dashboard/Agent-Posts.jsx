@@ -16,8 +16,10 @@ function Posts({setLoading, loading}) {
     const [allCities, setAllCities] = useState([])
     const [selectedCity, setSelectedCity] = useState("")
     const [selectedImages, setSelectedImages] = useState([]) //IMAGES SELECTED IN ADD HOUSE MODAL
+    const [selectedHouse, setSelectedHouse] = useState(null) //HOUSE SELECTED (FOR EDITING)
     // const [posts, setPosts] = useState(null) //AGENTS POSTS
     const [openPostModal, setOpenPostModal] = useState(false) //SET MODAL TO SEND POST
+    const [editHouseModal, setEditHouseModal] = useState(false) //SET MODAL TO EDIT HOUSE
     const [houseImage, setHouseImage] = useState([]) //IMAGE of HOUSE
     const [houses, setHouses] = useState([]) //HOUSES POSTED BY AGENTS
     const [houseName, setHouseName] = useState("") //NAME OF HOUSE
@@ -75,14 +77,31 @@ function Posts({setLoading, loading}) {
     form.append("status", "pending") //initial status of house
     form.append("created_at", new Date().toLocaleString())
 
+    // FETCH AGENT POSTS
+    const fetchPost = async () => {
+        setLoading(true)
+        try {
+            const housesResponse = await axios.get('/api/dashboard/agent')
+
+            const houseData = housesResponse.data.houses
+
+            setHouses(houseData)
+        } catch (error) {
+
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    useEffect(() => {
+        fetchPost();
+    }, [])
 
     // SEND POSTS TO DATABASE
     const sendPost = async (e) => {
         e.preventDefault();
 
         // Enforces min of 3 images
-        
-        //!!!important test this before doing anything else.........!
         if (!houseImage || houseImage.length < 3) {
             showFail("Please select at least 3 images.");
             return;
@@ -90,12 +109,13 @@ function Posts({setLoading, loading}) {
 
         setLoading(true)
         try {
-            // 
             const postResponse = await sendAgentPost(form);
             console.log("Post Response:", postResponse)
             setHouseImage([]) //Reset house images
             showSuccess("Your new listing has been sent")
 
+            // Refresh posts after successful submission
+            fetchPost();
         } catch (error) {
             console.log(error)
             showFail(error.message)
@@ -105,31 +125,75 @@ function Posts({setLoading, loading}) {
         }
     }
 
-    // FETCH AGENT POSTS
-    useEffect(() => {
-        setLoading(true)
-        const fetchPost = async () => {
-            try {
-                const housesResponse = await axios.get('/api/dashboard/agent')
 
-                const houseData = housesResponse.data.houses
+    // Delete House
+    const deleteHouse = async (houseId) => {
+        try {
+            const deleteResponse = await axios.delete(`api/agent/delete-house/${houseId}`)
 
-                setHouses(houseData)
-                console.log(houses.image_path)
-            } catch (error) {
+            console.log('Delete House Response:', deleteResponse.data)
+            showSuccess("House successfuly Removed")
 
-            } finally {
-                setLoading(false)
-            }
+            // Refresh posts after successful deletion
+            fetchPost();
+        } catch (error) {
+            console.log("House delete error:", error)
+
+            showFail("Unable to delete house:", error)
         }
+    }
 
-        fetchPost();
-    }, [])
+    // Edit House
+    const editForm = new FormData()
 
-    // Opens detail page when user clicks on a house
-    const handleHouseClick = (houseId) => {
-        navigate(`/houses/${houseId}`);
-    };
+    editForm.append("title", houseName)
+    houseImage.forEach((file) => {
+        editForm.append("images", file);
+    });
+    editForm.append("location", location)
+    editForm.append("price", price)
+    editForm.append("description", description,)
+    editForm.append("status", "pending") //initial status of house
+    editForm.append("created_at", new Date().toLocaleString())
+
+    useEffect(() => {
+        if (selectedHouse) {
+            setHouseName(selectedHouse?.title),
+            setLocation(selectedHouse?.location),
+            setPrice(selectedHouse?.price),
+            setDescription(selectedHouse?.description)
+
+            // Location, price, description
+        }
+            
+    }, [selectedHouse]);
+
+    const editHouse = async (e, houseId) => {
+        e.preventDefault()
+        setLoading(true)
+        
+        try {
+            console.log("Edit formData:", Object.fromEntries(editForm.entries()));
+            console.log("House Id:", houseId)
+
+            const editResponse = await axios.put(`/api/agent/edit-house/${houseId}`,
+                editForm,
+                { headers: { "Content-Type": "multipart/form-data" }}
+            )
+
+            console.log("edit House:", editResponse.data)
+
+            setEditHouseModal(false)
+            setSelectedHouse(null)
+
+            // Refresh posts after successful edit
+            fetchPost();
+        } catch (error) {
+            console.log("Error Editing House:", error)
+        } finally {
+            setLoading(false)
+        }
+    }
 
     return ( 
         <div className="posts">
@@ -150,7 +214,6 @@ function Posts({setLoading, loading}) {
                         <div
                          key={house._id}
                          className="agent-house"
-                         onClick={() => handleHouseClick(house._id)}
                         >
                             <div className="agent-house-top">
                                 <p className="added-at">
@@ -180,6 +243,17 @@ function Posts({setLoading, loading}) {
                                     <div className="agent-house-price">
                                         <p><span className="bold">Price:</span> ₦{house.price}</p>
                                     </div>
+                                </div>
+
+                                <div className="agent-house-actions">
+                                    <button className="edit-button" onClick={()=> {setSelectedHouse(house); setEditHouseModal(true)}} >
+                                        Edit House
+                                    </button>
+
+                                    {/* delete house */}
+                                    <button className="delete-button" onClick={() => deleteHouse(house._id)}>
+                                        Remove House
+                                    </button>
                                 </div>
                             </div>
 
@@ -219,7 +293,9 @@ function Posts({setLoading, loading}) {
                             <i 
                                 className='fa-solid fa-times rotate'
                                 style={{
-                                    color: "#1a73e8"
+                                    color: "#f5f7fa",
+                                    fontSize: "1.4em",
+                                    cursor: 'pointer',
                                 }}
                                 onClick={() => {setOpenPostModal(false); setHouseImage([])}}
                             ></i>
@@ -319,6 +395,74 @@ function Posts({setLoading, loading}) {
                             </div>
 
                             <button type="submit" >{loading ? "Posting..." : "Post"}</button>
+                        </form>
+                    </div>
+                </div>
+            )}
+
+            {/* EDIT HOUSE MODAL */}
+            {editHouseModal && selectedHouse && (
+                <div className="edit-house-modal add-house-modal">
+                    <div className="modal-heading">
+                        <h2>Edit House</h2>
+
+                        <div className="close-button">
+                            <i 
+                                className='fa-solid fa-times rotate'
+                                style={{
+                                    color: "#f5f7fa",
+                                    fontSize: "1.4em",
+                                    cursor: "Pointer",
+                                }}
+                                onClick={() => {setEditHouseModal(false); setHouseImage([])}}
+                            ></i>
+                        </div>
+                    </div>
+
+                    <div className="edith-house-body">
+                        <form onSubmit={(e) => editHouse(e, selectedHouse._id)} className="add-house-form">
+                            <div className="form-input">
+                                <label htmlFor="title">Title</label>
+                                <input type="text" name="title" value={houseName} placeholder="Title of the Listing" onChange={(e) => setHouseName(e.target.value)} />
+                            </div>
+                            
+                            
+                            <div className="form-input">
+                                <label htmlFor="location">Address</label>
+                                <input type="address" name="location" value={location} placeholder="eg. 22, Omotayo Ojo Street, Ikeja, Lagos" onChange={(e) => setLocation(e.target.value)} />
+                            </div>
+
+                            <div className="form-input">
+                                <label htmlFor="price">Price</label>
+                                <input type="number" name="price" value={price} placeholder="price" onChange={(e) => setPrice(e.target.value)} />
+                            </div>
+
+                            <div className="form-input">
+                                <label htmlFor="description">Describe the house</label>
+                                <input type="text" name="description" value={description} placeholder="Describe the house" onChange={(e) => setDescription(e.target.value)} />
+                            </div>
+
+                            {/* Image Input */}
+                            <div className="form-input">
+                                <label htmlFor="images">Images</label>
+                                <input type="file" 
+                                    name="images" 
+                                    accept="image/png, image/jpeg"
+                                    multiple 
+                                    onChange={(e) => {
+                                        const newFile = Array.from(e.target.files);
+                                        if (newFile.length === 0) return;
+                                        setHouseImage((prev) => [...prev, ...newFile]);
+
+                                        e.target.value = null //Resets file input
+                                    }}
+                                />
+                                {houseImage.length === 0 ? (<></>) : (
+                                    <p className="tiny" >{houseImage.length} image(s) selected</p>
+                                )}
+                            </div>
+
+                            <button type="submit" >{loading ? "Processing..." : "Post"}</button>
                         </form>
                     </div>
                 </div>
