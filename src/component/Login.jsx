@@ -129,17 +129,21 @@ function Login() {
                         <div className="login-form signup-form">
                             <form className='form' onSubmit={handleLogin} >
                                 <h2>Login</h2>
+                                <div className="email">
+                                    <label htmlFor="email">Email</label>
+                                    <input
+                                    type="email"
+                                    placeholder='Email'
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    required 
+                                    />
+                                </div>
                                 
-                                <input
-                                type="email"
-                                placeholder='Email'
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                required 
-                                />
 
                                 
                                 <div className="password">
+                                    <label htmlFor="Password">Password</label>
                                     <input 
                                     type={showPassword ? "text" : "password"}
                                     placeholder='Password'

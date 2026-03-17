@@ -8,6 +8,11 @@
     background-blend-mode: overlay;
 }
 
+.form .email, .form .password {
+    display: flex;
+    flex-direction: column;
+}
+
 .reset-password-modal-heading h2 {
     font-size: 1.2em;
 }

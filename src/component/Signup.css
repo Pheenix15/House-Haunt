@@ -71,6 +71,7 @@
 }
 
 .signup-form {
+    flex: 1;
     padding: 0 20px;
 }
 
@@ -89,9 +90,8 @@
 
 .form-button-container {
     display: flex;
-    flex-direction: row-reverse;
-    align-items: flex-end;
-    justify-content: space-between;
+    flex-direction: column-reverse;
+    gap: 20px;
 }
 
 .login-text {
@@ -120,6 +120,10 @@
 @media (max-width: 769px) {
     .signup-box {
         width: 90%;
+    }
+
+    .signup-logo {
+        width: 140px;
     }
 
     .signup-box-left {

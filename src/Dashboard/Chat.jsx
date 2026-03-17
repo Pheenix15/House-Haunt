@@ -26,6 +26,7 @@ function Chat() {
     const {user} = useAuth() //Get current user info
     const socketRef = useRef(null); //Reference to socket instance
     const selectedChatRef = useRef(null); //Reference to currently selected chat
+    const bottomRef = useRef(null) //Ref to buttom of chatMessage div
     const { showFail } = useAlert()
     const navigate = useNavigate()
 
@@ -68,6 +69,12 @@ function Chat() {
         }
 
         getMessages();
+
+        // Then poll every 5 seconds
+        const interval = setInterval(getMessages, 3000);
+
+        // Cleanup when chat changes or component unmounts
+        return () => clearInterval(interval);
     }, [selectedChat]);
 
     //Send Message Functionality
@@ -86,8 +93,6 @@ function Chat() {
         setChatMessages(prev => [...prev, optimisticMsg]);
         setmessage('');
 
-        scrollToBottom();  //Scroll to bottom to show latest message
-        // define scrollToBottom() first.
 
         try {
             const response = await axios.post(`/api/chat/${selectedChat.chat_id}/messages`, 
@@ -104,6 +109,10 @@ function Chat() {
         }
     }
 
+    // scroll to bottom of chatMessages (Still working out kinks)
+    useEffect(() => {
+        bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, [chatMessages]);
 
     // Open Chat in New Page on Mobile
     const handleChatClick = (chatId) => {
@@ -172,13 +181,22 @@ function Chat() {
                                     {/* <h2>{selectedChat.haunter.username}</h2> */}
 
                                     {chatMessages.map((msg) => (
-                                        <div key={msg.clientId || msg.id} className={`chat-message-item ${msg.sender_role === user?.role ? 'sent' : 'recieved'}`} >
+                                        <div key={msg.id} className={`chat-message-item ${msg.sender_role === user?.role ? 'sent' : 'recieved'}`} >
                                             <p className="message-content">{msg.content}</p>
                                         </div>
                                     ))}
+
+                                    <div ref={bottomRef} />
                                 </div>
 
-                                <div className="chat-input">
+                                <form 
+                                    className="chat-input"
+                                    onSubmit={(e) => {
+                                        e.preventDefault();
+                                        sendMessage()
+                                    }}
+                                    
+                                >
                                     <input type="text" 
                                         placeholder='start typing...'
                                         name='message' 
@@ -189,14 +207,13 @@ function Chat() {
                                     />
 
                                     <button 
-                                        className='chat-button' 
-                                        onClick={sendMessage} 
+                                        className='chat-button'
                                         disabled={selectedChat === null}
                                         type='submit'
                                     >
                                         <IoSend />
                                     </button>
-                                </div>
+                                </form>
                             </div>
                         )
                     )}

@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../Context/AuthContext";
 import { IoSend } from "react-icons/io5";
+import { IoArrowBackOutline } from "react-icons/io5";
 import axios from "axios";
 import './Chat.css'
 
@@ -83,15 +84,21 @@ function ChatMessages() {
         }
     }
 
-    //  TO DO: ADD BACK BUTTON TO NAVIGATE BACK TO CHAT LIST
-    const handleChatClick = (chatId) => {
-        navigate(`/Dashboard/chat/${chatId}`);
+    //  Return to dashboard
+    const returnToDashboard = () => {
+        if (user?.role === "haunter") {
+            navigate('/Dashboard-Haunter');
+        } else {
+            navigate('/Dashboard-Agent');
+        }
+        
     }
     return (
         <div className="chat-message-page">
             <div className="chat-messages-heading">
-
-                {selectedChat ? `Chat with ${selectedChat.participant.username}` : 'Loading Chat...'}
+                {/* Back button is not working */}
+                <IoArrowBackOutline onClick={() => returnToDashboard()} />
+                <p>{selectedChat ? `Chat with ${selectedChat.participant.username}` : 'Loading Chat...'}</p>
             </div>
 
             <div className="chat-messages">

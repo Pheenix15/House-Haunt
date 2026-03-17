@@ -7,6 +7,7 @@ import { useAuth } from "../Context/AuthContext";
 import { formatNumber, getInitials } from "../utilities/formatDate";
 import { IoLocation } from "react-icons/io5";
 import { IoClose } from "react-icons/io5";
+import { IoStar } from "react-icons/io5";
 import { IoNewspaper } from "react-icons/io5";
 import axios from "axios";
 import { contactAgent } from "../Api/Contact-Agent";
@@ -17,9 +18,14 @@ import './House-Details.css'
 function HouseDetails() {
     const { houseId } = useParams();
     const [houseDetail, setHouseDetail] = useState(null);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false); //Loading states (Brings up loading screen)
+    const [sending, setSending] = useState(false); // Used instead of 'loading' to check loading states
     const [viewAllImage, setViewAllImage] = useState(false) //Opens all Images Modal
     const [thumbsSwiper, setThumbsSwiper] = useState(null);
+    const [reviewModal, setReviewModal] = useState(false) //Open Agent Review Modal
+    const [rating, setRating] = useState(0) //Stores agent rating
+    const [hover, setHover] = useState(0) //Stores hover state
+    const [agentsReview, setAgentsReview] = useState("") //Review text of agent
     const navigate = useNavigate()
     const {showSuccess, showFail} = useAlert()
 
@@ -63,7 +69,7 @@ function HouseDetails() {
 
     // Send Contact Request
     const sendContactRequest = async (houseId) => {
-        setLoading(true)
+        setSending(true)
         try {
             const contactRequestResponse = await contactAgent(houseId)
             
@@ -72,9 +78,30 @@ function HouseDetails() {
         } catch (error) {
             showFail(error)
         } finally {
-            setLoading(false)
+            setSending(false)
         }
         
+    }
+
+    // Review Agent
+    const reviewAgent = async () => {
+        setSending(true)
+        try {
+            const reviewResponse = await axios.post(`/api/review`, 
+                {
+                    rating: rating,
+                    agent_id: houseDetail.id,
+                    review: agentsReview
+                }
+            )
+
+            console.log("House Id:", houseDetail.id)
+            console.log(reviewResponse)
+        } catch(error) {
+            console.log(error)
+        } finally {
+            setSending(false)
+        }
     }
 
     if (loading) return (
@@ -183,13 +210,62 @@ function HouseDetails() {
                             <button 
                                 className="contact-agent-button"
                                 onClick={() => sendContactRequest(houseDetail.id)}
+                                disabled={sending}
                             >
-                                {loading ? 'Sending Request...' : 'Contact'}
+                                {sending ? 'Sending Request...' : 'Contact'}
+                            </button>
+
+                            <button 
+                                className="contact-agent-button"
+                                onClick={() => setReviewModal(true)}
+                            >
+                                Review Agent
                             </button>
                         </div>
                     </div>
                 )}
             </div>
+
+            {/* Review Agent Modal */}
+            {reviewModal && (
+                <div className="review-agent-modal modal">
+                    <div className="modal-heading">
+                        <p>Rate {houseDetail?.agent_name}</p>
+                        <button className="close-review-agent-modal button" onClick={() => setReviewModal(false)} role="button" >
+                            <IoClose/>
+                        </button>
+                    </div>
+
+                    <div className="review-agent-modal-body">
+                        <div className="rating-stars">
+                            <div className="stars">
+                                {[1, 2, 3, 4, 5].map((star) => (
+                                    <span
+                                        key={star}
+                                        className={
+                                            star <= (hover || rating) ? "star filled" : "star"
+                                        }
+                                        onClick={() => setRating(star)}
+                                        onMouseEnter={() => setHover(star)}
+                                        onMouseLeave={() => setHover(0)}
+                                    >
+                                        <IoStar />
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className="review-input">
+                            <p>write a review (optional)</p>
+                            <input type="text" name="review" onChange={(e) => setAgentsReview(e.target.value)} />
+                        </div>
+
+                        <button className="submit-review" type="submit" onClick={() => reviewAgent()} disabled={sending} >
+                            {sending ? "Sending Review..." : "Submit Review"}
+                        </button>
+                    </div>
+                </div>
+            )}
 
             {viewAllImage && (
                 <div className="all-images-modal">

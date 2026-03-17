@@ -1,17 +1,24 @@
 import { useNavigate } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../Context/AuthContext';
+import gsap from "gsap";
+import { useGSAP } from '@gsap/react';
+import {ScrollTrigger} from "gsap/all";
 import Nav from './Nav';
-import Loading from './Loading';
+import Loading from './Loading'; 
 import './Home.css'
 import Footer from './Footer';
 import EnableCookies from './Enable-Cookies';
+
+gsap.registerPlugin(ScrollTrigger) //Register scrollTrigger
+gsap.registerPlugin(useGSAP);
 
 function Home() {
     const [backgroundImagesIndex, setBackgroundImagesIndex] = useState(0);
     const[activeTestimonialIndex, setActiveTestimonialIndex] = useState(0)
     const [howItWorksState, setHowItWorksState] = useState("hunter") //STATE FOR HOW IT WORKS SECTION
-
+    const fadeRef = useRef(null)
+    const slidRef = useRef(null)
 
     // CHECK IF USER IS LOGGED IN
     const {user, loading} = useAuth();
@@ -82,6 +89,63 @@ function Home() {
     ]
 
     const activeReview = testimonials[activeTestimonialIndex]
+
+    // GSAP ANIMATIONS
+
+    // Fade in
+    useGSAP(() => {
+        const handler = () => {
+            // if (!fadeRef.current) return;
+            const boxes = gsap.utils.toArray(".how-it-works-card");
+
+            boxes.forEach((box) => {
+                // Set the opacity
+                // gsap.set(box, {
+                //     opacity: 0
+                // });
+                // sets the animation
+                gsap.from(box, {
+                    opacity: 0,
+                    borderRadius: "10px",
+                    duration: 0.6,
+                    scrollTrigger: {
+                        trigger: box,
+                        start: "top 85%",
+                        toggleActions: "play none none none",
+                        // end: "bottom bottom",
+                        scrub: true
+                    },
+                    ease: "power1.inOut"
+                })
+            })
+        }
+        // requestAnimationFrame(handler);
+    }, {scope: fadeRef})
+
+    // Slid In
+    useGSAP(() => {
+         // if (!slidRef.current) return;
+        const boxes = gsap.utils.toArray(".why-choose-us-card");
+
+        boxes.forEach((box) => {
+            
+            // sets the animation
+            gsap.from(box, {
+                x: "-120%",
+                // duration: 0.06,
+                // stagger: 0.02,
+                scrollTrigger: {
+                    trigger: box,
+                    start: "top bottom",
+                    toggleActions: "play none none none",
+                    once:true
+                },
+                ease: "power1.inOut"
+            })
+        })
+        // requestAnimationFrame(handler);
+    }, {scope: slidRef})
+    
 
     // LOADING PAGE
     if (loading) return (
@@ -174,7 +238,7 @@ function Home() {
                         </div>
 
                         {howItWorksState === "hunter" ? (
-                            <div className="how-it-works-cards">
+                            <div className="how-it-works-cards" ref={fadeRef}>
                                 <div className="how-it-works-card card" onClick={() => navigate('/Signup', {state: {role: 'haunter'}})}>
                                     <div className="how-it-works-icon card-icon">
                                         <img src="./img/icons/new-user.png" alt="sign up" />
@@ -231,7 +295,7 @@ function Home() {
                                 </div>
                             </div>
                         ) : (
-                            <div className="how-it-works-cards">
+                            <div className="how-it-works-cards" ref={fadeRef}>
                                 <div className="how-it-works-card card" onClick={() => navigate('/Signup', {state: {role: 'agent'}})} >
                                     <div className="how-it-works-icon card-icon">
                                         <img src="./img/icons/new-user.png" alt="sign up" />
@@ -300,7 +364,7 @@ function Home() {
                 </div>
                 <div className="why-choose-us">
 
-                    <div className="why-choose-us-list">
+                    <div className="why-choose-us-list" ref={slidRef}>
                         <div className="why-choose-us-card card">
                             <div className="why-choose-us-icon card-icon">
                                 <img src="./img/icons/transparency.png" alt="eye in the middle of a square" />

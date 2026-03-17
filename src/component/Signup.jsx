@@ -92,7 +92,9 @@ function Signup() {
                                 <form className='form' onSubmit={submitSignupForm} >
                                     <h2>Signup as a haunter</h2>
                                     <div className="fullname">
+                                        {/* <label htmlFor="First Name">First Name</label> */}
                                         <input 
+                                        name="First Name"
                                         type="text"
                                         placeholder='First Name'
                                         value={firstName}
@@ -100,7 +102,9 @@ function Signup() {
                                         required 
                                         />
 
+                                        {/* <label htmlFor="Last Name">Last Name</label> */}
                                         <input 
+                                        name="Last Name"
                                         type="text"
                                         placeholder='Last Name'
                                         value={lastName}

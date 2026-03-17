@@ -170,14 +170,14 @@ input, select {
   display: flex;
 }
 
-.password input {
+/* .password input {
   width: 100%;
-}
+} */
 
 .password-eye {
   position: absolute;
   right: 3%;
-  top: 30%;
+  top: 55%;
 }
 
 /* MODAL */

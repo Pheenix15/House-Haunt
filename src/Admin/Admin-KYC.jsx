@@ -15,6 +15,8 @@ function AdminKYC() {
     const [kycFileName, setKycFileName] = useState(null);
     const {showSuccess, showFail} = useAlert()
 
+    const token = localStorage.getItem('token');
+
     // Get KYC requests
     useEffect(() => {
         const fetchKycRequests = async () => {
@@ -42,8 +44,12 @@ function AdminKYC() {
 
             try {
                 // request response as a blob (binary)
-                const response = await axios.get(`/api/kyc/view/${selectedRecord.id}`, {
-                    responseType: 'blob'
+                const response = await axios.get(`/api/admin/kyc/view/${selectedRecord.id}`, {
+                    responseType: 'blob',
+                    withCredentials: true,
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
                 });
 
                 console.log('[KYC] Received response headers:', response.headers);
@@ -100,7 +106,7 @@ function AdminKYC() {
         if (!selectedRecord) return;
 
         try {
-            const noteResponse = await axios.post(`/api/kyc/review/${agentsId}`, {
+            const noteResponse = await axios.post(`/api/admin/kyc/review/${agentsId}`, {
                 agentsNote
             }); //Findout if there is route for Notes
 

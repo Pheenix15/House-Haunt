@@ -6,7 +6,7 @@
   height: 100vh;
   margin: 0;
   padding: 0 4%;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 .hero::before {
@@ -137,8 +137,11 @@
 
 /* HOW T WORKS */
 .how-it-works {
+    position: relative;
     display: flex;
     flex-direction: column;
+    background-color: var(--mainWhite);
+    z-index: 2;
 }
 
 .how-it-works-heading {
