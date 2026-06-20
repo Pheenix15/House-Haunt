@@ -137,18 +137,20 @@ function KYC() {
     return isMobileUA && !isDesktopPlatform;
     };
 
-    if (!isMobileDevice()) {
-        return (
-            <div className="kyc-blocked">
-                <h2>KYC Unavailable</h2>
+    // BLOCK KYC if not on mobile device
 
-                <p>
-                    Identity verification can only be completed on a mobile device.
-                    Please continue on your phone or tablet.
-                </p>
-            </div>
-        );
-    }
+    // if (!isMobileDevice()) {
+    //     return (
+    //         <div className="kyc-blocked">
+    //             <h2>KYC Unavailable</h2>
+
+    //             <p>
+    //                 Identity verification can only be completed on a mobile device.
+    //                 Please continue on your phone or tablet.
+    //             </p>
+    //         </div>
+    //     );
+    // }
 
 
 
